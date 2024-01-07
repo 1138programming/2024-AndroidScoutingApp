@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FRC Scouting App Frontend</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n
+        Volutpat lacus laoreet non curabitur gravida arcu. Congue quisque egestas diam in arcu cursus.\n
+        Morbi enim nunc faucibus a pellentesque.
+    </string>
+
+    <string name="default_submit_button_text">Submit</string>
+    <string name="default_submit_button_toast_text">Hello, This is a toast!!!</string>
+</resources>
