@@ -131,7 +131,7 @@ public class MainFragment extends Fragment {
 
         // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.main_fragment, );
+            getParentFragmentManager().beginTransaction().replace(R.id.main_fragment, new TeleopFragment()).commit();
         });
     }
 }
