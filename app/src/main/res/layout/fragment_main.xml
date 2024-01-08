@@ -13,42 +13,42 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/speakerMissedTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton9"
+            app:layout_constraintEnd_toStartOf="@+id/speakerScoredPlus"
             app:layout_constraintHorizontal_bias="0.478"
-            app:layout_constraintStart_toEndOf="@+id/imageButton10"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintStart_toEndOf="@+id/speakerScoredMinus"
+            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle" />
 
         <ImageButton
-            android:id="@+id/imageButton14"
+            android:id="@+id/speakerMissedMinus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/imageButton8"
+            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampMissedMinus"
             app:tint="@color/off_white" />
 
         <ImageButton
-            android:id="@+id/imageButton13"
+            android:id="@+id/speakerMissedPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/imageButton7"
+            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampMissedPlus"
             app:tint="@color/off_white" />
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/ampMissedPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="8dp"
@@ -57,34 +57,34 @@
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
             app:tint="@color/off_white" />
 
         <ImageButton
-            android:id="@+id/imageButton8"
+            android:id="@+id/ampMissedMinus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="@+id/ampTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
             app:tint="@color/off_white" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/ampMissedTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton7"
-            app:layout_constraintStart_toEndOf="@+id/imageButton8"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintEnd_toStartOf="@+id/ampMissedPlus"
+            app:layout_constraintStart_toEndOf="@+id/ampMissedMinus"
+            app:layout_constraintTop_toBottomOf="@+id/ampScoredTitle" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/auton_title"
@@ -96,20 +96,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/ampTitleTextBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:text="@string/amp_title_default"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView9"
+            app:layout_constraintEnd_toStartOf="@+id/speakerTitleTextBox"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/speakerTitleTextBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/speaker_title_default"
@@ -117,11 +117,11 @@
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintStart_toEndOf="@+id/ampTitleTextBox"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/scoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -129,10 +129,10 @@
             android:textColor="@color/off_white"
             android:textSize="34sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/ampTitleTextBox" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/missedTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -140,7 +140,7 @@
             android:textColor="@color/off_white"
             android:textSize="34sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/scoredTitle" />
 
         <View
             android:id="@+id/view"
@@ -148,11 +148,11 @@
             android:layout_height="350sp"
             android:layout_marginStart="90dp"
             android:background="@color/simple_light_grey"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintStart_toEndOf="@+id/ampTitleTextBox"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/ampScoredPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="10dp"
@@ -161,68 +161,68 @@
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
             app:tint="@color/off_white" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/ampScoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
-            app:layout_constraintStart_toEndOf="@+id/imageButton6"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintEnd_toStartOf="@+id/ampScoredPlus"
+            app:layout_constraintStart_toEndOf="@+id/ampScoredMinus"
+            app:layout_constraintTop_toBottomOf="@+id/ampTitleTextBox" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/ampScoredMinus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="@+id/ampTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
             app:tint="@color/off_white" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/speakerScoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton9"
-            app:layout_constraintStart_toEndOf="@+id/imageButton10"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintEnd_toStartOf="@+id/speakerScoredPlus"
+            app:layout_constraintStart_toEndOf="@+id/speakerScoredMinus"
+            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle" />
 
         <ImageButton
-            android:id="@+id/imageButton9"
+            android:id="@+id/speakerScoredPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/imageButton6"
+            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampScoredMinus"
             app:tint="@color/off_white" />
 
         <ImageButton
-            android:id="@+id/imageButton10"
+            android:id="@+id/speakerScoredMinus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/imageButton4"
+            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/ampScoredPlus"
             app:tint="@color/off_white" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/leaveQuestionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/leave_bonus_title_default"
@@ -230,48 +230,49 @@
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView3" />
+            app:layout_constraintTop_toTopOf="@+id/mainTitle" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/leaveQuestionCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleX="3.5"
             android:scaleY="3.5"
             android:text="@string/empty"
-            app:layout_constraintBottom_toBottomOf="@+id/textView11"
+            app:layout_constraintBottom_toBottomOf="@+id/leaveQuestionTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView11"
-            app:layout_constraintTop_toTopOf="@+id/textView11" />
+            app:layout_constraintStart_toEndOf="@+id/leaveQuestionTitle"
+            app:layout_constraintTop_toTopOf="@+id/leaveQuestionTitle" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/notesQuestionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:text="@string/notes_title_default"
             android:textColor="@color/off_white"
             android:textSize="48sp"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/leaveQuestionTitle" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/notesEditText"
             android:layout_width="400sp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/off_white"
             android:ems="10"
+            android:hint="notes"
             android:inputType="text"
             android:text="@string/empty"
             android:textColor="@color/simple_light_grey"
             android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView12"
+            app:layout_constraintBottom_toBottomOf="@+id/notesQuestionTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView12"
-            app:layout_constraintTop_toTopOf="@+id/textView12" />
+            app:layout_constraintStart_toEndOf="@+id/notesQuestionTitle"
+            app:layout_constraintTop_toTopOf="@+id/notesQuestionTitle" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/nextButton"
             android:layout_width="240sp"
             android:layout_height="120sp"
             android:backgroundTint="@color/dark_green_default"
