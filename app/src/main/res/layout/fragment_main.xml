@@ -2,9 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/cham_background_default"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cham_background_default"
+    android:foregroundTint="@color/black"
     tools:context=".MainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
+            android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/imageButton9"
             app:layout_constraintHorizontal_bias="0.478"
@@ -75,6 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="0"
+            android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/imageButton7"
             app:layout_constraintHorizontal_bias="0.0"
@@ -168,6 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="0"
+            android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/imageButton4"
             app:layout_constraintStart_toEndOf="@+id/imageButton6"
@@ -189,6 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
+            android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/imageButton9"
             app:layout_constraintStart_toEndOf="@+id/imageButton10"
@@ -216,6 +221,40 @@
             app:layout_constraintStart_toStartOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="@+id/imageButton4"
             app:tint="@color/off_white" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/leave_bonus_title_default"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="3.5"
+            android:scaleY="3.5"
+            android:text="@string/empty"
+            app:layout_constraintBottom_toBottomOf="@+id/textView11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView11"
+            app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:text="@string/notes_title_default"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            tools:layout_editor_absoluteX="0dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
