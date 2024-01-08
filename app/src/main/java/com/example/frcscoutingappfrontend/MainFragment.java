@@ -81,12 +81,5 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        Button mainSubmitButton = binding.submitButton;
-        mainSubmitButton.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
-            Toast progressBarLoadingToast = Toast.makeText(view1.getContext(), view1.getContext().getString(R.string.default_submit_button_toast_text), Toast.LENGTH_SHORT);
-            progressBarLoadingToast.show();
-        });
     }
 }

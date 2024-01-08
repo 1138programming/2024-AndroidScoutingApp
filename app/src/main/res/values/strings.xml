@@ -10,4 +10,14 @@
 
     <string name="default_submit_button_text">Submit</string>
     <string name="default_submit_button_toast_text">Hello, This is a toast!!!</string>
+
+    <string name="auton_title">Auton</string>
+    <string name="amp_title_default">Amp</string>
+    <string name="speaker_title_default">Speaker</string>
+    <string name="score_title_default">Scored:</string>
+    <string name="miss_title_default">Missed;</string>
+    <string name="leave_bonus_title_default">Did they leave?:</string>
+    <string name="notes_title_default">Notes:</string>
+    <string name="next_button_title_default">Next</string>
+
 </resources>
