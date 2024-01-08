@@ -11,6 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="plus"
+            android:cropToPadding="false"
+            android:src="@drawable/add_circle"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:tint="@color/off_white" />
+
+        <ImageButton
+            android:id="@+id/imageButton8"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="minus"
+            android:src="@drawable/remove_circle"
+            app:layout_constraintEnd_toStartOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:tint="@color/off_white" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="0"
+            android:textSize="60sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageButton6"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -63,7 +99,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="64dp"
             android:text="@string/miss_title_default"
             android:textColor="@color/off_white"
             android:textSize="34sp"
