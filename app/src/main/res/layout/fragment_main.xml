@@ -11,15 +11,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="60sp"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton9"
+            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintStart_toEndOf="@+id/imageButton10"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
+
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/imageButton14"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="minus"
+            android:src="@drawable/remove_circle"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/imageButton8"
+            app:tint="@color/off_white" />
+
+        <ImageButton
+            android:id="@+id/imageButton13"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/imageButton7"
+            app:tint="@color/off_white" />
+
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="plus"
+            android:cropToPadding="false"
+            android:src="@drawable/add_circle"
+            app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/textView5"
             app:tint="@color/off_white" />
 
@@ -27,12 +62,10 @@
             android:id="@+id/imageButton8"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="10dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintEnd_toStartOf="@+id/textView5"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toTopOf="@+id/textView5"
             app:tint="@color/off_white" />
 
@@ -43,9 +76,9 @@
             android:layout_marginTop="32dp"
             android:text="0"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton7"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageButton6"
+            app:layout_constraintStart_toEndOf="@+id/imageButton8"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
@@ -111,7 +144,7 @@
             android:id="@+id/view"
             android:layout_width="2sp"
             android:layout_height="350sp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="90dp"
             android:background="@color/simple_light_grey"
             app:layout_constraintStart_toEndOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -120,11 +153,12 @@
             android:id="@+id/imageButton4"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/textView4"
             app:tint="@color/off_white" />
 
@@ -143,12 +177,10 @@
             android:id="@+id/imageButton6"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="10dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintEnd_toStartOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toTopOf="@+id/textView4"
             app:tint="@color/off_white" />
 
@@ -156,12 +188,11 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:text="0"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/imageButton9"
             app:layout_constraintStart_toEndOf="@+id/imageButton10"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toTopOf="@+id/textView4" />
 
         <ImageButton
             android:id="@+id/imageButton9"
@@ -172,7 +203,7 @@
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/textView6"
+            app:layout_constraintTop_toTopOf="@+id/imageButton6"
             app:tint="@color/off_white" />
 
         <ImageButton
@@ -183,7 +214,7 @@
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
             app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/textView6"
+            app:layout_constraintTop_toTopOf="@+id/imageButton4"
             app:tint="@color/off_white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
