@@ -77,7 +77,6 @@ public class MainFragment extends Fragment {
         number.setText(Integer.toString(num));
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,8 +127,7 @@ public class MainFragment extends Fragment {
         binding.speakerScoredMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.speakerScoredTitle);
         });
-
-        // Fragment transaction on "Next" button
+                // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
             getParentFragmentManager().beginTransaction().replace(R.id.main_fragment, new TeleopFragment()).commit();
         });

@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/returnToAuton"
             android:layout_width="300sp"
             android:layout_height="120sp"
             android:text="@string/default_back_button_title"
