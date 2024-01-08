@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="off_white">#CCCCCC</color>
+    <color name="invisible">#00000000</color>
     <color name="simple_light_grey">#777777</color>
     <color name="cham_background_default">#002347</color>
     <color name="cham_button_default">#FF5003</color>
