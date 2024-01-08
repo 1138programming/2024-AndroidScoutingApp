@@ -83,9 +83,10 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
+            android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            android:tint="@color/off_white"
+            app:tint="@color/off_white"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -96,18 +97,19 @@
             android:layout_marginTop="32dp"
             android:text="0"
             android:textSize="60sp"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
-            tools:layout_editor_absoluteX="194dp" />
+            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintStart_toEndOf="@+id/imageButton6"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <ImageButton
             android:id="@+id/imageButton6"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
+            android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            android:tint="@color/off_white"
+            app:tint="@color/off_white"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
