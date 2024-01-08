@@ -27,6 +27,7 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:text="@string/amp_title_default"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
@@ -51,7 +52,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40sp"
+            android:layout_marginTop="50dp"
             android:text="@string/score_title_default"
             android:textColor="@color/off_white"
             android:textSize="34sp"
@@ -64,8 +65,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/miss_title_default"
+            android:textColor="@color/off_white"
+            android:textSize="34sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <View
+            android:layout_width="2sp"
+            android:layout_height="350sp"
+            android:layout_marginStart="60dp"
+            android:background="@color/simple_light_grey"
+            app:layout_constraintStart_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>
