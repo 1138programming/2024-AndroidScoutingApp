@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +131,12 @@ public class MainFragment extends Fragment {
         });
                 // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.main_fragment, new TeleopFragment()).commit();
+            Fragment self = getParentFragmentManager().findFragmentByTag("A");
+            Fragment secondary = getParentFragmentManager().findFragmentByTag("B");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(secondary);
+            ft.hide(self);
+            ft.commit();
         });
     }
 }

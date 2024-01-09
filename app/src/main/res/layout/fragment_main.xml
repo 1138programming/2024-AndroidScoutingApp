@@ -146,9 +146,8 @@
             android:id="@+id/view"
             android:layout_width="2sp"
             android:layout_height="350sp"
-            android:layout_marginStart="90dp"
             android:background="@color/simple_light_grey"
-            app:layout_constraintStart_toEndOf="@+id/ampTitleTextBox"
+            app:layout_constraintEnd_toStartOf="@+id/speakerTitleTextBox"
             app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <ImageButton
