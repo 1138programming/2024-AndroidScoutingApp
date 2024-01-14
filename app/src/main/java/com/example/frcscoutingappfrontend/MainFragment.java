@@ -2,6 +2,8 @@ package com.example.frcscoutingappfrontend;
 
 import static androidx.databinding.DataBindingUtil.setContentView;
 
+import android.app.ActionBar;
+import android.app.StatusBarManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -61,12 +63,12 @@ public class MainFragment extends Fragment {
         return fragment;
     }
 
-    private void incrementView(TextView number, boolean auton) {
+    private void incrementView(TextView number) {
         String text = number.getText().toString();
         int num = Integer.parseInt(text);
         num++;
-        if (auton && num > 11) {
-            num = 11;
+        if (num > 99) {
+            num = 99;
         }
         number.setText(Integer.toString(num));
     }
@@ -103,28 +105,28 @@ public class MainFragment extends Fragment {
 
         // __ Increment & decrement view functions
         binding.ampMissedPlus.setOnClickListener(view1 -> {
-            incrementView(binding.ampMissedTitle, true);
+            incrementView(binding.ampMissedTitle);
         });
         binding.ampMissedMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.ampMissedTitle);
         });
 
         binding.ampScoredPlus.setOnClickListener(view1 -> {
-            incrementView(binding.ampScoredTitle, true);
+            incrementView(binding.ampScoredTitle);
         });
         binding.ampScoredMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.ampScoredTitle);
         });
 
         binding.speakerMissedPlus.setOnClickListener(view1 -> {
-            incrementView(binding.speakerMissedTitle, true);
+            incrementView(binding.speakerMissedTitle);
         });
         binding.speakerMissedMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.speakerMissedTitle);
         });
 
         binding.speakerScoredPlus.setOnClickListener(view1 -> {
-            incrementView(binding.speakerScoredTitle, true);
+            incrementView(binding.speakerScoredTitle);
         });
         binding.speakerScoredMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.speakerScoredTitle);

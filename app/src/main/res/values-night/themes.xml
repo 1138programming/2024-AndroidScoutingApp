@@ -3,6 +3,11 @@
     <style name="Base.Theme.FRCScoutingAppFrontend" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorAccent">@color/checkbox_orange</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="cursorColor">@color/checkbox_orange</item>
+        <item name="colorAccent">@color/checkbox_orange</item>
     </style>
 
 </resources>

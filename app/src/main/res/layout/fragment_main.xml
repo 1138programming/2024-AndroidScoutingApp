@@ -19,9 +19,8 @@
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/speakerScoredPlus"
-            app:layout_constraintHorizontal_bias="0.478"
-            app:layout_constraintStart_toEndOf="@+id/speakerScoredMinus"
+            app:layout_constraintEnd_toEndOf="@+id/speakerScoredTitle"
+            app:layout_constraintStart_toStartOf="@+id/speakerScoredTitle"
             app:layout_constraintTop_toTopOf="@+id/ampMissedTitle" />
 
         <ImageButton
@@ -31,9 +30,9 @@
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toTopOf="@+id/ampMissedMinus"
-            app:tint="@color/off_white" />
+            app:layout_constraintStart_toStartOf="@+id/speakerScoredMinus"
+            app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
+            app:tint="@color/checkbox_orange" />
 
         <ImageButton
             android:id="@+id/speakerMissedPlus"
@@ -43,22 +42,35 @@
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toTopOf="@+id/ampMissedPlus"
-            app:tint="@color/off_white" />
+            app:layout_constraintEnd_toEndOf="@+id/speakerScoredPlus"
+            app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
+            app:tint="@color/checkbox_orange" />
+
+        <ImageButton
+            android:id="@+id/speakerScoredPlus"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="plus"
+            android:cropToPadding="false"
+            android:src="@drawable/add_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
+            app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
+            app:tint="@color/checkbox_orange" />
 
         <ImageButton
             android:id="@+id/ampMissedPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/ampScoredPlus"
             app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/off_white" />
+            app:tint="@color/checkbox_orange" />
 
         <ImageButton
             android:id="@+id/ampMissedMinus"
@@ -67,9 +79,9 @@
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/ampTitleTextBox"
+            app:layout_constraintStart_toStartOf="@+id/ampScoredMinus"
             app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/off_white" />
+            app:tint="@color/checkbox_orange" />
 
         <TextView
             android:id="@+id/ampMissedTitle"
@@ -79,8 +91,8 @@
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/ampMissedPlus"
-            app:layout_constraintStart_toEndOf="@+id/ampMissedMinus"
+            app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
+            app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/ampScoredTitle" />
 
         <TextView
@@ -99,13 +111,12 @@
             android:id="@+id/ampTitleTextBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
             android:text="@string/amp_title_default"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/speakerTitleTextBox"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
+            app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <TextView
@@ -115,15 +126,15 @@
             android:text="@string/speaker_title_default"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ampTitleTextBox"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/ampTitleTextBox"
-            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+            app:layout_constraintStart_toEndOf="@+id/view" />
 
         <TextView
             android:id="@+id/scoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:text="@string/score_title_default"
             android:textColor="@color/off_white"
@@ -139,7 +150,7 @@
             android:text="@string/miss_title_default"
             android:textColor="@color/off_white"
             android:textSize="34sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/scoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/scoredTitle" />
 
         <View
@@ -147,33 +158,37 @@
             android:layout_width="2sp"
             android:layout_height="350sp"
             android:background="@color/simple_light_grey"
-            app:layout_constraintEnd_toStartOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+            app:layout_constraintBottom_toBottomOf="@+id/ampMissedPlus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ampTitleTextBox" />
 
         <ImageButton
             android:id="@+id/ampScoredPlus"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="plus"
             android:cropToPadding="false"
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="@+id/mainTitle"
             app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/off_white" />
+            app:tint="@color/checkbox_orange" />
 
         <TextView
             android:id="@+id/ampScoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:text="0"
             android:textColor="@color/simple_light_grey"
             android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/scoredTitle"
             app:layout_constraintEnd_toStartOf="@+id/ampScoredPlus"
             app:layout_constraintStart_toEndOf="@+id/ampScoredMinus"
-            app:layout_constraintTop_toBottomOf="@+id/ampTitleTextBox" />
+            app:layout_constraintTop_toTopOf="@+id/scoredTitle" />
 
         <ImageButton
             android:id="@+id/ampScoredMinus"
@@ -182,9 +197,9 @@
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/ampTitleTextBox"
+            app:layout_constraintEnd_toStartOf="@+id/mainTitle"
             app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/off_white" />
+            app:tint="@color/checkbox_orange" />
 
         <TextView
             android:id="@+id/speakerScoredTitle"
@@ -198,46 +213,38 @@
             app:layout_constraintTop_toTopOf="@+id/ampScoredTitle" />
 
         <ImageButton
-            android:id="@+id/speakerScoredPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="plus"
-            android:cropToPadding="false"
-            android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toTopOf="@+id/ampScoredMinus"
-            app:tint="@color/off_white" />
-
-        <ImageButton
             android:id="@+id/speakerScoredMinus"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/invisible"
             android:contentDescription="minus"
             android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toTopOf="@+id/ampScoredPlus"
-            app:tint="@color/off_white" />
+            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
+            app:tint="@color/checkbox_orange" />
 
         <TextView
             android:id="@+id/leaveQuestionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@string/leave_bonus_title_default"
             android:textColor="@color/off_white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mainTitle" />
+            app:layout_constraintTop_toTopOf="@+id/mainTitle"
+            app:layout_constraintVertical_bias="0.556" />
 
         <CheckBox
             android:id="@+id/leaveQuestionCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="3.5"
-            android:scaleY="3.5"
-            android:text="@string/empty"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/checkbox_orange"
+            android:button="@null"
             app:layout_constraintBottom_toBottomOf="@+id/leaveQuestionTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/leaveQuestionTitle"
@@ -247,7 +254,8 @@
             android:id="@+id/notesQuestionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="140dp"
             android:text="@string/notes_title_default"
             android:textColor="@color/off_white"
             android:textSize="48sp"
@@ -260,7 +268,6 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/off_white"
             android:ems="10"
-            android:hint="notes"
             android:inputType="text"
             android:text="@string/empty"
             android:textColor="@color/simple_light_grey"
@@ -274,7 +281,7 @@
             android:id="@+id/nextButton"
             android:layout_width="240sp"
             android:layout_height="120sp"
-            android:backgroundTint="@color/dark_green_default"
+            android:backgroundTint="@color/checkbox_orange"
             android:text="@string/next_button_title_default"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
