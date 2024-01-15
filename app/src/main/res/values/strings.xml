@@ -23,6 +23,9 @@
     <string name="next_button_title_default">Next</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="plus_minus_default">0</string>
+    <string name="plus_button">plus</string>
+    <string name="minus_button">minus</string>
 
     <string name="default_back_button_title">&#60;--</string>
 
