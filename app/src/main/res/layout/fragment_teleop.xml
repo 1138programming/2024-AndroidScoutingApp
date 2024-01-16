@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/plus_minus_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="@+id/speakerScoredTitle"
             app:layout_constraintStart_toStartOf="@+id/speakerScoredTitle"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/plus_minus_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
             app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/amp_title_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
             app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/speaker_title_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintBottom_toBottomOf="@+id/ampTitleTextBox"
             app:layout_constraintEnd_toEndOf="parent"
@@ -151,11 +151,33 @@
             app:layout_constraintStart_toStartOf="@+id/scoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/scoredTitle" />
 
+        <CheckBox
+            android:id="@+id/hangQuestionCheckBox"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_marginStart="5dp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/checkbox_orange"
+            android:button="@null"
+            app:layout_constraintStart_toEndOf="@+id/hang_title"
+            app:layout_constraintTop_toBottomOf="@+id/endgame_title" />
+
+        <CheckBox
+            android:id="@+id/trapQuestionCheckBox"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_marginTop="10dp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/checkbox_orange"
+            android:button="@null"
+            app:layout_constraintEnd_toEndOf="@+id/hangQuestionCheckBox"
+            app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox" />
+
         <View
             android:id="@+id/view"
             android:layout_width="2sp"
             android:layout_height="350sp"
-            android:background="@color/simple_light_grey"
+            android:background="@color/off_white"
             app:layout_constraintBottom_toBottomOf="@+id/ampMissedPlus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.59"
@@ -181,7 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/plus_minus_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintBottom_toBottomOf="@+id/scoredTitle"
             app:layout_constraintEnd_toStartOf="@+id/ampScoredPlus"
@@ -206,7 +228,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/plus_minus_default"
-            android:textColor="@color/simple_light_grey"
+            android:textColor="@color/off_white"
             android:textSize="60sp"
             app:layout_constraintEnd_toStartOf="@+id/speakerScoredPlus"
             app:layout_constraintStart_toEndOf="@+id/speakerScoredMinus"
@@ -230,6 +252,7 @@
             android:layout_height="120sp"
             android:text="@string/default_back_button_title"
             android:textSize="48sp"
+            android:textColor="@color/cham_background_default"
             android:backgroundTint="@color/checkbox_orange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -240,9 +263,99 @@
             android:layout_height="120sp"
             android:text="@string/default_submit_button_text"
             android:textSize="48sp"
+            android:textColor="@color/cham_background_default"
             android:backgroundTint="@color/checkbox_orange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/endgame_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/endgame_title"
+            android:textColor="@color/off_white"
+            android:textSize="80sp"
+            app:layout_constraintStart_toStartOf="@+id/missedTitle"
+            app:layout_constraintTop_toBottomOf="@+id/ampMissedMinus" />
+
+        <TextView
+            android:id="@+id/hang_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/hang_title"
+            android:textSize="48sp"
+            android:textColor="@color/off_white"
+            app:layout_constraintBottom_toBottomOf="@+id/hangQuestionCheckBox"
+            app:layout_constraintStart_toStartOf="@+id/endgame_title"
+            app:layout_constraintTop_toTopOf="@+id/hangQuestionCheckBox" />
+
+        <TextView
+            android:id="@+id/trap_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trap_title"
+            android:textSize="48sp"
+            android:textColor="@color/off_white"
+            app:layout_constraintBottom_toBottomOf="@+id/trapQuestionCheckBox"
+            app:layout_constraintStart_toStartOf="@+id/hang_title"
+            app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox" />
+
+        <TextView
+            android:id="@+id/startHangingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_hang_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="@+id/hang_title"
+            app:layout_constraintStart_toStartOf="@+id/ampMissedPlus" />
+
+        <TextView
+            android:id="@+id/startedHangingExplination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_hang_explination"
+            android:textColor="@color/off_white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/startHangingTitle"
+            app:layout_constraintTop_toBottomOf="@+id/startHangingTitle" />
+
+        <EditText
+            android:id="@+id/startedHangingInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:textSize="32sp"
+            android:maxLength="2"
+            android:textColor="@color/off_white"
+            app:layout_constraintStart_toStartOf="@+id/startedHangingExplination"
+            app:layout_constraintTop_toTopOf="@+id/trap_title" />
+
+        <TextView
+            android:id="@+id/robotBrokeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/robot_break_check"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="@+id/robotBreakCheckbox"
+            app:layout_constraintStart_toStartOf="@+id/trap_title"
+            app:layout_constraintTop_toTopOf="@+id/robotBreakCheckbox" />
+
+        <CheckBox
+            android:id="@+id/robotBreakCheckbox"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:layout_marginStart="5dp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/checkbox_orange"
+            android:button="@null"
+            app:layout_constraintStart_toEndOf="@+id/robotBrokeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/trapQuestionCheckBox" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

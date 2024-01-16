@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.view.inputmethod.InputBinding;
 
 
 public class MainActivity extends AppCompatActivity {
     MainFragment startingFragment = new MainFragment();
     TeleopFragment secondaryFragment = new TeleopFragment();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

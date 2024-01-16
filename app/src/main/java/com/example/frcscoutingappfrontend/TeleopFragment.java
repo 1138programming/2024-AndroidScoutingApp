@@ -70,6 +70,7 @@ public class TeleopFragment extends Fragment {
             num--;
         }
         number.setText(Integer.toString(num));
+        ;
     }
 
     @Override
@@ -94,6 +95,14 @@ public class TeleopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.returnToAuton.setOnClickListener(view1 -> {
+            Fragment self = getParentFragmentManager().findFragmentByTag("B");
+            Fragment primary = getParentFragmentManager().findFragmentByTag("A");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.hide(self);
+            ft.show(primary);
+            ft.commit();
+        });
+        binding.submitButton.setOnClickListener(view1 -> {
             Fragment self = getParentFragmentManager().findFragmentByTag("B");
             Fragment primary = getParentFragmentManager().findFragmentByTag("A");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();

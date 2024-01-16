@@ -18,7 +18,7 @@
     <string name="speaker_title_default">Speaker</string>
     <string name="score_title_default">Scored:</string>
     <string name="miss_title_default">Missed:</string>
-    <string name="leave_bonus_title_default">Did they leave? :</string>
+    <string name="leave_bonus_title_default">Did they leave? (Taxi):</string>
     <string name="notes_title_default">Notes:</string>
     <string name="next_button_title_default">Next</string>
     <string name="dummy_button">Dummy Button</string>
@@ -26,6 +26,12 @@
     <string name="plus_minus_default">0</string>
     <string name="plus_button">plus</string>
     <string name="minus_button">minus</string>
+    <string name="endgame_title">Endgame</string>
+    <string name="hang_title">Hang?</string>
+    <string name="trap_title">Trap?</string>
+    <string name="start_hang_title">Started to Hang?</string>
+    <string name="start_hang_explination">(How many seconds on the timer?)</string>
+    <string name="robot_break_check">Did the robot break?</string>
 
     <string name="default_back_button_title">&#60;--</string>
 

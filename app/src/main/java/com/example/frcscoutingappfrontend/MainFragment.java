@@ -102,7 +102,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // __ Increment & decrement view functions
         binding.ampMissedPlus.setOnClickListener(view1 -> {
             incrementView(binding.ampMissedTitle);
