@@ -63,6 +63,23 @@ public class MainFragment extends Fragment {
         return fragment;
     }
 
+    public String[] getDataAsArray() {
+        String[] data = new String[5];
+
+        //Speaker scoring and missing
+        data[0] = binding.speakerScoredTitle.getText().toString();
+        data[1] = binding.speakerMissedTitle.getText().toString();
+
+        //amp scoring and missing
+        data[2] = binding.ampScoredTitle.getText().toString();
+        data[3] = binding.ampMissedTitle.getText().toString();
+
+        //check box
+        data[4] = String.valueOf(binding.leaveQuestionCheckBox.isChecked());
+
+        return data;
+    }
+
     private void incrementView(TextView number) {
         String text = number.getText().toString();
         int num = Integer.parseInt(text);

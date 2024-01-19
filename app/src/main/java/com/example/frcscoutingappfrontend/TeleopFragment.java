@@ -11,8 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentTeleopBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOError;
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,11 +113,51 @@ public class TeleopFragment extends Fragment {
             ft.commit();
         });
         binding.submitButton.setOnClickListener(view1 -> {
-            Fragment self = getParentFragmentManager().findFragmentByTag("B");
-            Fragment primary = getParentFragmentManager().findFragmentByTag("A");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.hide(self);
+            TeleopFragment self = (TeleopFragment) getParentFragmentManager().findFragmentByTag("B");
+            MainFragment primary = (MainFragment) getParentFragmentManager().findFragmentByTag("A");
+            String[] autonData = primary.getDataAsArray();
+            Toast.makeText(getActivity(), (String)autonData[0]+", "+(String)autonData[1]+", "+(String)autonData[2]+", "+(String)autonData[3]+", "+(String)autonData[4], Toast.LENGTH_LONG).show();
+
+            try {
+                JSONObject jsonFile = new JSONObject();
+                jsonFile.put("autonSpeakerScored", autonData[0]);
+                jsonFile.put("autonSpeakerMissed", autonData[1]);
+                jsonFile.put("autonAmpScored", autonData[2]);
+                jsonFile.put("autonAmpMissed", autonData[3]);
+                jsonFile.put("robotLeft", autonData[4]);
+                jsonFile.put("teleopSpeakerScored", binding.ampScoredTitle.getText().toString());
+                jsonFile.put("teleopSpeakerMissed", binding.ampScoredTitle.getText().toString());
+                jsonFile.put("teleopAmpScored", binding.ampScoredTitle.getText().toString());
+                jsonFile.put("teleopAmpMissed", binding.ampScoredTitle.getText().toString());
+                jsonFile.put("robotHung", String.valueOf(binding.hangQuestionCheckBox.isChecked()));
+                jsonFile.put("trapScored", String.valueOf(binding.trapQuestionCheckBox.isChecked()));
+                jsonFile.put("robotBroke", String.valueOf(binding.robotBreakCheckbox.isChecked()));
+
+                String userString = jsonFile.toString();
+                File scoutingFile = new File(getContext().getFilesDir(), "user.json");
+                FileWriter fileWriter = new FileWriter(scoutingFile, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(userString);
+                bufferedWriter.close();
+
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ft.remove(self);
+            ft.remove(primary);
+
+            self = new TeleopFragment();
+            primary = new MainFragment();
+            ft.add(R.id.main_fragment, primary, "A");
+            ft.add(R.id.main_fragment, self, "B");
             ft.show(primary);
+            ft.hide(self);
             ft.commit();
         });
         // __ Increment & decrement view functions

@@ -247,6 +247,7 @@
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/checkbox_orange"
             android:button="@null"
+            android:checked= "false"
             app:layout_constraintBottom_toBottomOf="@+id/leaveQuestionTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/leaveQuestionTitle"
