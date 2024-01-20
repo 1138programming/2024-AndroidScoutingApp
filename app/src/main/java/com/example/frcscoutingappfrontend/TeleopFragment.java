@@ -21,7 +21,9 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOError;
+import java.net.URI;
+import java.util.Calendar;
+import java.util.Date;
 import java.io.IOException;
 
 /**
@@ -117,7 +119,6 @@ public class TeleopFragment extends Fragment {
             TeleopFragment self = (TeleopFragment) getParentFragmentManager().findFragmentByTag("B");
             MainFragment primary = (MainFragment) getParentFragmentManager().findFragmentByTag("A");
             String[] autonData = primary.getDataAsArray();
-            Toast.makeText(getActivity(), (String)autonData[0]+", "+(String)autonData[1]+", "+(String)autonData[2]+", "+(String)autonData[3]+", "+(String)autonData[4], Toast.LENGTH_LONG).show();
 
             try {
                 JSONObject jsonFile = new JSONObject();
@@ -134,9 +135,12 @@ public class TeleopFragment extends Fragment {
                 jsonFile.put("trapScored", String.valueOf(binding.trapQuestionCheckBox.isChecked()));
                 jsonFile.put("robotBroke", String.valueOf(binding.robotBreakCheckbox.isChecked()));
 
+//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
+
                 String userString = jsonFile.toString();
-                File scoutingFile = new File(getContext().getFilesDir(), "user.json");
-                FileWriter fileWriter = new FileWriter(scoutingFile, true);
+                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime().toString()+".json");
+                FileWriter fileWriter = new FileWriter(scoutingFile, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
                 bufferedWriter.close();

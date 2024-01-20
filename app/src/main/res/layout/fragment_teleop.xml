@@ -261,7 +261,7 @@
             android:id="@+id/submitButton"
             android:layout_width="300sp"
             android:layout_height="120sp"
-            android:text="@string/default_submit_button_text"
+            android:text="@string/submit_button_text"
             android:textSize="48sp"
             android:textColor="@color/cham_background_default"
             android:backgroundTint="@color/checkbox_orange"
