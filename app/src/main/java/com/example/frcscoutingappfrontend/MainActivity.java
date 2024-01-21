@@ -9,6 +9,11 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
     MainFragment startingFragment = new MainFragment();
     TeleopFragment secondaryFragment = new TeleopFragment();
+    ConfirmPopout popoutFragment = new ConfirmPopout();
+
+    public static void createPopupWindow() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
         // Replace the contents of the container with the new fragment
         ft.add(R.id.main_fragment, startingFragment, "A");
         ft.add(R.id.main_fragment, secondaryFragment, "B");
+        ft.add(R.id.main_fragment, popoutFragment, "C");
         ft.show(startingFragment);
         ft.hide(secondaryFragment);
+        ft.hide(popoutFragment);
         // or ft.add(R.id.your_placeholder, new FooFragment());
         // Complete the changes added above
         ft.commit();

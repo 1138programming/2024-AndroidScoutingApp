@@ -33,5 +33,9 @@
     <string name="start_hang_explination">(How many seconds on the timer?)</string>
 <!--Back arrow for back button-->
     <string name="default_back_button_title">&#60;--</string>
+<!--Buttons and text for submit confirmation-->
+    <string name="confirm_submit">Are you sure you want to submit?</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="confirm_button">Confirm</string>
 
 </resources>
