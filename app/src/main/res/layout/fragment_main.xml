@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cham_background_default"
     android:foregroundTint="@color/black"
-    tools:context=".MainFragment">
+    tools:context=".AutonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:src="@drawable/remove_circle"
             app:layout_constraintStart_toStartOf="@+id/speakerScoredMinus"
             app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <ImageButton
             android:id="@+id/speakerMissedPlus"
@@ -44,7 +44,7 @@
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toEndOf="@+id/speakerScoredPlus"
             app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <ImageButton
             android:id="@+id/speakerScoredPlus"
@@ -58,7 +58,7 @@
             app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
             app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <ImageButton
             android:id="@+id/ampMissedPlus"
@@ -70,7 +70,7 @@
             android:src="@drawable/add_circle"
             app:layout_constraintEnd_toEndOf="@+id/ampScoredPlus"
             app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <ImageButton
             android:id="@+id/ampMissedMinus"
@@ -81,7 +81,7 @@
             android:src="@drawable/remove_circle"
             app:layout_constraintStart_toStartOf="@+id/ampScoredMinus"
             app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <TextView
             android:id="@+id/ampMissedTitle"
@@ -176,7 +176,7 @@
             app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toEndOf="@+id/scoredTitle"
             app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <TextView
             android:id="@+id/ampScoredTitle"
@@ -201,7 +201,7 @@
             app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <TextView
             android:id="@+id/speakerScoredTitle"
@@ -225,7 +225,7 @@
             app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
-            app:tint="@color/checkbox_orange" />
+            app:tint="@color/chaminade_orange" />
 
         <TextView
             android:id="@+id/leaveQuestionTitle"
@@ -245,7 +245,7 @@
             android:layout_width="120sp"
             android:layout_height="120sp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
-            android:backgroundTint="@color/checkbox_orange"
+            android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
             android:checked= "false"
             app:layout_constraintBottom_toBottomOf="@+id/leaveQuestionTitle"
@@ -257,7 +257,7 @@
             android:id="@+id/nextButton"
             android:layout_width="240sp"
             android:layout_height="120sp"
-            android:backgroundTint="@color/checkbox_orange"
+            android:backgroundTint="@color/chaminade_orange"
             android:text="@string/next_button_title_default"
             android:textSize="48sp"
             android:textColor="@color/cham_background_default"

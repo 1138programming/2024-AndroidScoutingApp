@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 
 public class MainActivity extends AppCompatActivity {
-    MainFragment startingFragment = new MainFragment();
+    AutonFragment startingFragment = new AutonFragment();
     TeleopFragment secondaryFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
 

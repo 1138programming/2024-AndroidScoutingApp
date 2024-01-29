@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,7 +90,7 @@ public class ConfirmPopout extends Fragment{
         //submits and saves as json
         binding.submitButton.setOnClickListener(view1 -> {
             TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("B");
-            MainFragment auton = (MainFragment) getParentFragmentManager().findFragmentByTag("A");
+            AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("A");
             Fragment popout = getParentFragmentManager().findFragmentByTag("C");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             String[] autonData = auton.getDataAsArray();
@@ -133,7 +132,7 @@ public class ConfirmPopout extends Fragment{
             ft.remove(popout);
 
             teleop = new TeleopFragment();
-            auton = new MainFragment();
+            auton = new AutonFragment();
             ft.add(R.id.main_fragment, auton, "A");
             ft.add(R.id.main_fragment, teleop, "B");
             ft.add(R.id.main_fragment, popout, "C");

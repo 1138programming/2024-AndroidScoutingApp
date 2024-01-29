@@ -2,34 +2,26 @@ package com.example.frcscoutingappfrontend;
 
 import static androidx.databinding.DataBindingUtil.setContentView;
 
-import android.app.ActionBar;
-import android.app.StatusBarManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.service.autofill.OnClickAction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.frcscoutingappfrontend.databinding.ActivityMainBinding;
 import com.example.frcscoutingappfrontend.databinding.FragmentMainBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
+ * Use the {@link AutonFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class AutonFragment extends Fragment {
 
     FragmentMainBinding binding;
 
@@ -42,7 +34,7 @@ public class MainFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MainFragment() {
+    public AutonFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +47,8 @@ public class MainFragment extends Fragment {
      * @return A new instance of fragment MainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
+    public static AutonFragment newInstance(String param1, String param2) {
+        AutonFragment fragment = new AutonFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
