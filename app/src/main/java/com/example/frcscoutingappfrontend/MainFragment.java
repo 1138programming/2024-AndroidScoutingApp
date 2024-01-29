@@ -147,7 +147,7 @@ public class MainFragment extends Fragment {
         binding.speakerScoredMinus.setOnClickListener(view1 -> {
             decrementViewWithCheck(binding.speakerScoredTitle);
         });
-                // Fragment transaction on "Next" button
+        // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
             Fragment self = getParentFragmentManager().findFragmentByTag("A");
             Fragment secondary = getParentFragmentManager().findFragmentByTag("B");
@@ -155,6 +155,9 @@ public class MainFragment extends Fragment {
             ft.show(secondary);
             ft.hide(self);
             ft.commit();
+        });
+        binding.bluetoothButton.setOnClickListener(view1 -> {
+            ((MainActivity)getActivity()).enableConnectBT();
         });
     }
 }

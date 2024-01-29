@@ -9,7 +9,7 @@
     <string name="auton_title">Auton</string>
     <string name="teleop_title">Teleop</string>
 <!--Bluetooth Button Title-->
-    <string name="bluetooth_button">Enable Bluetooth</string>
+    <string name="bluetooth_button">Connect with Bluetooth</string>
 <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
     <string name="speaker_title_default">Speaker</string>

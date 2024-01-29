@@ -14,47 +14,21 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
     MainFragment startingFragment = new MainFragment();
     TeleopFragment secondaryFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
+    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 
-    BluetoothAdapter bluetoothAdapter;
-    BluetoothManager bluetoothManager;
-    private static final String TAG = "ScoutingApp";
     //Broadcast Receiver for Bluetooth
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals(bluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, bluetoothAdapter.ERROR);
-
-                switch(state) {
-                    case BluetoothAdapter.STATE_OFF:
-                        Log.d(TAG, "onReceive: STATE OFF");
-                        break;
-                    case BluetoothAdapter.STATE_ON:
-                        Log.d(TAG, "onReceive: STATE ON");
-                        break;
-                    case BluetoothAdapter.STATE_TURNING_OFF:
-                        Log.d(TAG, "onReceive: STATE TURNING OFF");
-                        break;
-                    case BluetoothAdapter.STATE_TURNING_ON:
-                        Log.d(TAG, "onReceive: STATE TURNING ON");
-                        break;
-                }
-            }
-        }
-    };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(broadcastReceiver);
-    }
+    private static final int REQUEST_ENABLE_BLUETOOTH = 2;
+    Set<BluetoothDevice> ad;
+    StringBuilder sb = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,23 +48,34 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
 
         //Bluetooth Code
-        bluetoothAdapter = bluetoothManager.getAdapter();
-    }
 
-    public void enableDisableBT() {
-        if (bluetoothAdapter == null) {
-            Log.d(TAG, "enableDisableBT: Bluetooth is not working :(");
+        //makes sure bluetooth exists
+        if(adapter == null) {
+            Toast.makeText(this, "Bluetooth no workie :(", Toast.LENGTH_LONG).show();
         }
-        if (!bluetoothAdapter.isEnabled()) {
-            Log.d(TAG, "enableDisableBT: enabling BT");
-            Intent enableIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        else {
+            Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void enableConnectBT() {
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!adapter.isEnabled()) {
+            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
+            Toast.makeText(this, "Bluetooth enabled!", Toast.LENGTH_LONG).show();
+        } else {
+            ad = adapter.getBondedDevices();
+            if(ad == null) {
+                Toast.makeText(this, "No Devices to Connect To", Toast.LENGTH_LONG).show();
                 return;
             }
-            startActivity(enableIntent);
-
-            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(broadcastReceiver, BTIntent);
+            for (BluetoothDevice temp : ad) {
+                Toast.makeText(this, temp.getName(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 }
