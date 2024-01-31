@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
 
@@ -31,6 +32,7 @@ public class PreAuton extends Fragment {
 
     FragmentPreAutonBinding binding;
 
+    TextView textView;
     ArrayList<String> arrayList;
     Dialog dialog;
     // TODO: Rename parameter arguments, choose names that match
@@ -101,12 +103,12 @@ public class PreAuton extends Fragment {
 
         binding.scouterNameInput.setOnClickListener(view1 -> {
             dialog = new Dialog(this.getContext());
-            dialog.setContentView(R.layout.fragment_pre_auton);
-            dialog.getWindow().setLayout(400,600);
+            dialog.setContentView(R.layout.scouter_name_spinner);
+            dialog.getWindow().setLayout(650,800);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1,arrayList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(PreAuton.super.getContext(), android.R.layout.simple_list_item_1,arrayList);
             binding.scouterNameList.setAdapter(adapter);
             binding.scouterNameInput.addTextChangedListener(new TextWatcher() {
                 @Override

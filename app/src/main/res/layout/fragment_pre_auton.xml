@@ -37,24 +37,16 @@
             app:layout_constraintTop_toTopOf="@+id/mainTitle"
             app:layout_constraintVertical_bias="0.20" />
 
-        <EditText
+        <TextView
             android:id="@+id/scouterNameInput"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
-            android:ems="11"
             android:hint="@string/name_prompt_hint"
             android:textColor="@color/off_white"
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="@+id/scouterNameTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/scouterNameTitle" />
-
-        <ListView
-            android:id="@+id/scouterNameList"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/scouterNameInput"
-            app:layout_constraintTop_toTopOf="@+id/scouterNameInput" />
 
         <TextView
             android:id="@+id/teamNameTitle"

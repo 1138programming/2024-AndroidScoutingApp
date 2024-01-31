@@ -3,6 +3,7 @@ package com.example.frcscoutingappfrontend;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 
@@ -11,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
     AutonFragment autonFragment = new AutonFragment();
     TeleopFragment teleopFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
