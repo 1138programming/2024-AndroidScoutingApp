@@ -1,12 +1,26 @@
 package com.example.frcscoutingappfrontend;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +29,10 @@ import android.view.ViewGroup;
  */
 public class PreAuton extends Fragment {
 
+    FragmentPreAutonBinding binding;
+
+    ArrayList<String> arrayList;
+    Dialog dialog;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,10 +73,76 @@ public class PreAuton extends Fragment {
         }
     }
 
+    public String[] getDataAsArray() {
+        String[] data = new String[1];
+
+        data[0] = String.valueOf(binding.backupScoutCheckbox.isChecked());
+
+        return data;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pre_auton, container, false);
+        this.binding = FragmentPreAutonBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //creates dropdown for team member text box
+        arrayList = new ArrayList<>();
+
+        arrayList.add("Jonathan Klein");
+        arrayList.add("Jackson Wheatley");
+        arrayList.add("Thomas Gage Evans");
+        arrayList.add("Alyssa Bocanegra");
+
+        binding.scouterNameInput.setOnClickListener(view1 -> {
+            dialog = new Dialog(this.getContext());
+            dialog.setContentView(R.layout.fragment_pre_auton);
+            dialog.getWindow().setLayout(400,600);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1,arrayList);
+            binding.scouterNameList.setAdapter(adapter);
+            binding.scouterNameInput.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    adapter.getFilter().filter(s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            binding.scouterNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    binding.scouterNameInput.setText(adapter.getItem(position));
+
+                    dialog.dismiss();
+                }
+            });
+        });
+
+        // Fragment transaction on "Next" button
+        binding.nextButton.setOnClickListener(view1 -> {
+            Fragment self = getParentFragmentManager().findFragmentByTag("A");
+            Fragment secondary = getParentFragmentManager().findFragmentByTag("B");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(secondary);
+            ft.hide(self);
+            ft.commit();
+        });
     }
 }

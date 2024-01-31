@@ -321,16 +321,15 @@
 
         <TextView
             android:id="@+id/robotBrokeTitle"
-            android:layout_width="270sp"
-            android:layout_height="149dp"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
             android:text="@string/robot_break_check"
             android:textColor="@color/off_white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="@+id/trapQuestionCheckBox"
             app:layout_constraintStart_toEndOf="@+id/trapQuestionCheckBox"
-            app:layout_constraintTop_toBottomOf="@+id/startedHangingInput" />
+            app:layout_constraintTop_toTopOf="@+id/robotBreakCheckbox" />
 
         <CheckBox
             android:id="@+id/robotBreakCheckbox"
@@ -339,10 +338,9 @@
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
-            app:layout_constraintBottom_toBottomOf="@+id/robotBrokeTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/robotBrokeTitle"
-            app:layout_constraintTop_toBottomOf="@+id/startedHangingInput" />
+            app:layout_constraintTop_toTopOf="@+id/trapQuestionCheckBox" />
 
         <Button
             android:id="@+id/defensive_action_button"
@@ -350,7 +348,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/defensive_action_text"
-            android:textColor="@color/black"
+            android:textColor="@color/cham_background_default"
             android:textSize="60sp"
             app:cornerRadius="0dp"
             app:layout_constraintBottom_toTopOf="@+id/returnToAuton"

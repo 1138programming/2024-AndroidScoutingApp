@@ -13,93 +13,10 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/speakerMissedTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plus_minus_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintEnd_toEndOf="@+id/speakerScoredTitle"
-            app:layout_constraintStart_toStartOf="@+id/speakerScoredTitle"
-            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle" />
-
-        <ImageButton
-            android:id="@+id/speakerMissedMinus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/minus_button"
-            android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/speakerScoredMinus"
-            app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <ImageButton
-            android:id="@+id/speakerMissedPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/plus_button"
-            android:cropToPadding="false"
-            android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/speakerScoredPlus"
-            app:layout_constraintTop_toTopOf="@+id/speakerMissedTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <ImageButton
-            android:id="@+id/speakerScoredPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/plus_button"
-            android:cropToPadding="false"
-            android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.85"
-            app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
-            app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <ImageButton
-            android:id="@+id/ampMissedPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/plus_button"
-            android:cropToPadding="false"
-            android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toEndOf="@+id/ampScoredPlus"
-            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <ImageButton
-            android:id="@+id/ampMissedMinus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/minus_button"
-            android:src="@drawable/remove_circle"
-            app:layout_constraintStart_toStartOf="@+id/ampScoredMinus"
-            app:layout_constraintTop_toTopOf="@+id/ampMissedTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <TextView
-            android:id="@+id/ampMissedTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/plus_minus_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
-            app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
-            app:layout_constraintTop_toBottomOf="@+id/ampScoredTitle" />
-
-        <TextView
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/auton_title"
+            android:text="@string/pre_auton_title"
             android:textColor="@color/off_white"
             android:textSize="96sp"
             android:textStyle="normal|bold"
@@ -108,150 +25,89 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/ampTitleTextBox"
+            android:id="@+id/scouterNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/amp_title_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintEnd_toEndOf="@+id/ampScoredTitle"
-            app:layout_constraintStart_toStartOf="@+id/ampScoredTitle"
-            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
-
-        <TextView
-            android:id="@+id/speakerTitleTextBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/speaker_title_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintBottom_toBottomOf="@+id/ampTitleTextBox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view" />
-
-        <TextView
-            android:id="@+id/scoredTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/score_title_default"
-            android:textColor="@color/off_white"
-            android:textSize="34sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ampTitleTextBox" />
-
-        <TextView
-            android:id="@+id/missedTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:text="@string/miss_title_default"
-            android:textColor="@color/off_white"
-            android:textSize="34sp"
-            app:layout_constraintStart_toStartOf="@+id/scoredTitle"
-            app:layout_constraintTop_toBottomOf="@+id/scoredTitle" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="2sp"
-            android:layout_height="350sp"
-            android:background="@color/off_white"
-            app:layout_constraintBottom_toBottomOf="@+id/ampMissedPlus"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.59"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ampTitleTextBox" />
-
-        <ImageButton
-            android:id="@+id/ampScoredPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/plus_button"
-            android:cropToPadding="false"
-            android:src="@drawable/add_circle"
-            app:layout_constraintEnd_toStartOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.85"
-            app:layout_constraintStart_toEndOf="@+id/scoredTitle"
-            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <TextView
-            android:id="@+id/ampScoredTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plus_minus_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintBottom_toBottomOf="@+id/scoredTitle"
-            app:layout_constraintEnd_toStartOf="@+id/ampScoredPlus"
-            app:layout_constraintStart_toEndOf="@+id/ampScoredMinus"
-            app:layout_constraintTop_toTopOf="@+id/scoredTitle" />
-
-        <ImageButton
-            android:id="@+id/ampScoredMinus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/minus_button"
-            android:src="@drawable/remove_circle"
-            app:layout_constraintEnd_toStartOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.45"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <TextView
-            android:id="@+id/speakerScoredTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/plus_minus_default"
-            android:textColor="@color/off_white"
-            android:textSize="60sp"
-            app:layout_constraintEnd_toStartOf="@+id/speakerScoredPlus"
-            app:layout_constraintStart_toEndOf="@+id/speakerScoredMinus"
-            app:layout_constraintTop_toTopOf="@+id/ampScoredTitle" />
-
-        <ImageButton
-            android:id="@+id/speakerScoredMinus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:backgroundTint="@color/invisible"
-            android:contentDescription="@string/minus_button"
-            android:src="@drawable/remove_circle"
-            app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toEndOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/speakerScoredTitle"
-            app:tint="@color/chaminade_orange" />
-
-        <TextView
-            android:id="@+id/leaveQuestionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/leave_bonus_title_default"
+            android:layout_marginStart="15dp"
+            android:text="@string/prompt_name_title"
             android:textColor="@color/off_white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/mainTitle"
-            app:layout_constraintVertical_bias="0.556" />
+            app:layout_constraintVertical_bias="0.20" />
+
+        <EditText
+            android:id="@+id/scouterNameInput"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:ems="11"
+            android:hint="@string/name_prompt_hint"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@+id/scouterNameTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/scouterNameTitle" />
+
+        <ListView
+            android:id="@+id/scouterNameList"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/scouterNameInput"
+            app:layout_constraintTop_toTopOf="@+id/scouterNameInput" />
+
+        <TextView
+            android:id="@+id/teamNameTitle"
+            android:layout_width="450sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/prompt_team_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/backupQuestionTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scouterNameTitle" />
+
+        <EditText
+            android:id="@+id/teamNumberInput"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:ems="11"
+            android:hint="@string/team_prompt_hint"
+            android:inputType="number"
+            android:maxLength="5"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@+id/teamNameTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamNameTitle"
+            app:layout_constraintTop_toTopOf="@+id/teamNameTitle" />
+
+        <TextView
+            android:id="@+id/backupQuestionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/is_backup_scout"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mainTitle"
+            app:layout_constraintVertical_bias="0.55" />
 
         <CheckBox
-            android:id="@+id/leaveQuestionCheckBox"
+            android:id="@+id/backupScoutCheckbox"
             android:layout_width="120sp"
             android:layout_height="120sp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
-            android:checked= "false"
-            app:layout_constraintBottom_toBottomOf="@+id/leaveQuestionTitle"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="@+id/backupQuestionTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/leaveQuestionTitle"
-            app:layout_constraintTop_toTopOf="@+id/leaveQuestionTitle" />
+            app:layout_constraintStart_toEndOf="@+id/backupQuestionTitle"
+            app:layout_constraintTop_toTopOf="@+id/backupQuestionTitle" />
 
         <Button
             android:id="@+id/nextButton"

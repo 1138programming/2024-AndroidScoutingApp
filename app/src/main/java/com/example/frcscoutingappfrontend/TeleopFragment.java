@@ -130,8 +130,8 @@ public class TeleopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.returnToAuton.setOnClickListener(view1 -> {
-            Fragment self = getParentFragmentManager().findFragmentByTag("B");
-            Fragment primary = getParentFragmentManager().findFragmentByTag("A");
+            Fragment self = getParentFragmentManager().findFragmentByTag("C");
+            Fragment primary = getParentFragmentManager().findFragmentByTag("B");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.hide(self);
             ft.show(primary);
@@ -139,7 +139,7 @@ public class TeleopFragment extends Fragment {
         });
         binding.submitButton.setOnClickListener(view1 -> {
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            Fragment popout = getParentFragmentManager().findFragmentByTag("C");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             ft.show(popout);
             ft.commit();
         });

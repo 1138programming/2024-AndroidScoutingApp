@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.frcscoutingappfrontend.databinding.FragmentMainBinding;
+import com.example.frcscoutingappfrontend.databinding.FragmentAutonBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +23,7 @@ import com.example.frcscoutingappfrontend.databinding.FragmentMainBinding;
  */
 public class AutonFragment extends Fragment {
 
-    FragmentMainBinding binding;
+    FragmentAutonBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -104,7 +104,7 @@ public class AutonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        this.binding = FragmentMainBinding.inflate(inflater, container, false);
+        this.binding = FragmentAutonBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -142,8 +142,17 @@ public class AutonFragment extends Fragment {
         });
                 // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
-            Fragment self = getParentFragmentManager().findFragmentByTag("A");
-            Fragment secondary = getParentFragmentManager().findFragmentByTag("B");
+            Fragment self = getParentFragmentManager().findFragmentByTag("B");
+            Fragment secondary = getParentFragmentManager().findFragmentByTag("C");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(secondary);
+            ft.hide(self);
+            ft.commit();
+        });
+
+        binding.returnToPreAuton.setOnClickListener(view1 -> {
+            Fragment self = getParentFragmentManager().findFragmentByTag("B");
+            Fragment secondary = getParentFragmentManager().findFragmentByTag("A");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.show(secondary);
             ft.hide(self);

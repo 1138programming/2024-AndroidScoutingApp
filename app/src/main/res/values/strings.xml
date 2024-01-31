@@ -6,8 +6,14 @@
     <string name="empty"></string>
 
 <!--Fragment Titles-->
+    <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
     <string name="teleop_title">Teleop</string>
+<!--Title for team and name prompts-->
+    <string name="prompt_name_title">Name of scouter</string>
+    <string name="name_prompt_hint">name</string>
+    <string name="prompt_team_title">Number of the team being scouted</string>
+    <string name="team_prompt_hint">team number</string>
 <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
     <string name="speaker_title_default">Speaker</string>
@@ -24,14 +30,15 @@
     <string name="hang_title">Hang?</string>
     <string name="trap_title">Trap?</string>
     <string name="robot_break_check">Did the robot break?</string>
+    <string name="is_backup_scout">Are you a backup scouter?</string>
 <!--Next and Submit Button Text-->
     <string name="submit_button_text">Submit</string>
     <string name="next_button_title_default">Next</string>
     <string name="endgame_title">Endgame / Misc.</string>
-<!--Titles for the started hanging text box-->
+<!--Title for the started hanging text box-->
     <string name="start_hang_explination">How many sec on timer?</string>
 <!--Back arrow for back button-->
-    <string name="default_back_button_title">&#60;--</string>
+    <string name="default_back_button_title">&#60;—</string>
 <!--Buttons and text for submit confirmation-->
     <string name="confirm_submit">Are you sure you want to submit?</string>
     <string name="cancel_button">Cancel</string>

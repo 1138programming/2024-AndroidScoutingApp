@@ -7,13 +7,10 @@ import android.os.Bundle;
 
 
 public class MainActivity extends AppCompatActivity {
-    AutonFragment startingFragment = new AutonFragment();
-    TeleopFragment secondaryFragment = new TeleopFragment();
+    PreAuton startingFragment = new PreAuton();
+    AutonFragment autonFragment = new AutonFragment();
+    TeleopFragment teleopFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
-
-    public static void createPopupWindow() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +20,12 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with the new fragment
         ft.add(R.id.main_fragment, startingFragment, "A");
-        ft.add(R.id.main_fragment, secondaryFragment, "B");
-        ft.add(R.id.main_fragment, popoutFragment, "C");
+        ft.add(R.id.main_fragment, autonFragment, "B");
+        ft.add(R.id.main_fragment, teleopFragment, "C");
+        ft.add(R.id.main_fragment, popoutFragment, "D");
         ft.show(startingFragment);
-        ft.hide(secondaryFragment);
+        ft.hide(autonFragment);
+        ft.hide(teleopFragment);
         ft.hide(popoutFragment);
         // or ft.add(R.id.your_placeholder, new FooFragment());
         // Complete the changes added above

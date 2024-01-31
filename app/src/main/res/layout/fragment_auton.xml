@@ -259,10 +259,20 @@
             android:layout_height="120sp"
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/next_button_title_default"
-            android:textSize="48sp"
             android:textColor="@color/cham_background_default"
+            android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/returnToPreAuton"
+            android:layout_width="240sp"
+            android:layout_height="120sp"
+            android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/default_back_button_title"
+            android:textColor="@color/cham_background_default"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,17 +82,18 @@ public class ConfirmPopout extends Fragment{
 
         // Hides the popout
         binding.cancelButton.setOnClickListener(view1 -> {
-            Fragment auton = getParentFragmentManager().findFragmentByTag("C");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.hide(auton);
+            ft.hide(popout);
             ft.commit();
         });
 
         //submits and saves as json
         binding.submitButton.setOnClickListener(view1 -> {
-            TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("B");
-            AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("A");
-            Fragment popout = getParentFragmentManager().findFragmentByTag("C");
+            PreAuton preAuton = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
+            AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
+            TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             String[] autonData = auton.getDataAsArray();
             String[] teleopData = teleop.getDataAsArray();
@@ -116,7 +118,13 @@ public class ConfirmPopout extends Fragment{
 
                 String userString = jsonFile.toString();
                 File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
-                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime().toString()+".json");
+                //creates the directory if it doesn't exist
+                if(!folderDir.isDirectory()) {
+                    if(!folderDir.mkdir()) {
+                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
+                    }
+                }
+                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
                 FileWriter fileWriter = new FileWriter(scoutingFile, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
@@ -125,18 +133,22 @@ public class ConfirmPopout extends Fragment{
             }
             catch (JSONException | IOException e) {
                 e.printStackTrace();
+                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
+            ft.remove(preAuton);
             ft.remove(auton);
             ft.remove(teleop);
             ft.remove(popout);
 
             teleop = new TeleopFragment();
             auton = new AutonFragment();
-            ft.add(R.id.main_fragment, auton, "A");
-            ft.add(R.id.main_fragment, teleop, "B");
-            ft.add(R.id.main_fragment, popout, "C");
-            ft.show(auton);
+            ft.add(R.id.main_fragment, preAuton, "A");
+            ft.add(R.id.main_fragment, auton, "B");
+            ft.add(R.id.main_fragment, teleop, "C");
+            ft.add(R.id.main_fragment, popout, "D");
+            ft.show(preAuton);
+            ft.hide(auton);
             ft.hide(teleop);
             ft.hide(popout);
             ft.commit();
