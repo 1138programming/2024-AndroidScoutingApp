@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.frcscoutingappfrontend.databinding.ConfirmPopoutBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -100,19 +101,29 @@ public class ConfirmPopout extends Fragment{
 
             try {
                 JSONObject jsonFile = new JSONObject();
-                jsonFile.put("autonSpeakerScored", autonData[0]);
-                jsonFile.put("autonSpeakerMissed", autonData[1]);
-                jsonFile.put("autonAmpScored", autonData[2]);
-                jsonFile.put("autonAmpMissed", autonData[3]);
-                jsonFile.put("robotLeft", autonData[4]);
-                jsonFile.put("teleopSpeakerScored", teleopData[0]);
-                jsonFile.put("teleopSpeakerMissed", teleopData[1]);
-                jsonFile.put("teleopAmpScored", teleopData[2]);
-                jsonFile.put("teleopAmpMissed", teleopData[3]);
-                jsonFile.put("robotHung", teleopData[4]);
-                jsonFile.put("teleopTimeHung", teleopData[7]);
-                jsonFile.put("trapScored", teleopData[5]);
-                jsonFile.put("robotBroke", teleopData[6]);
+                JSONObject tempJson = new JSONObject();
+                JSONArray jsonArr = new JSONArray();
+                //auton json
+                tempJson.put("autonSpeakerMissed", autonData[0]);
+                tempJson.put("autonSpeakerMissed", autonData[1]);
+                tempJson.put("autonAmpScored", autonData[2]);
+                tempJson.put("autonAmpMissed", autonData[3]);
+                tempJson.put("robotLeft", autonData[4]);
+                jsonArr.put(tempJson);
+                tempJson = new JSONObject();
+
+                //teleop json
+                tempJson.put("teleopSpeakerScored", teleopData[0]);
+                tempJson.put("teleopSpeakerMissed", teleopData[1]);
+                tempJson.put("teleopAmpScored", teleopData[2]);
+                tempJson.put("teleopAmpMissed", teleopData[3]);
+                tempJson.put("robotHung", teleopData[4]);
+                tempJson.put("teleopTimeHung", teleopData[7]);
+                tempJson.put("trapScored", teleopData[5]);
+                tempJson.put("robotBroke", teleopData[6]);
+                jsonArr.put(tempJson);
+
+                jsonFile.put("scoutingData", jsonArr);
 
 //                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
 

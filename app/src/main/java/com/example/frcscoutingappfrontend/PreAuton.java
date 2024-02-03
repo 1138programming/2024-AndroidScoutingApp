@@ -92,50 +92,50 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //creates dropdown for team member text box
-        arrayList = new ArrayList<>();
-
-        arrayList.add("Jonathan Klein");
-        arrayList.add("Jackson Wheatley");
-        arrayList.add("Thomas Gage Evans");
-        arrayList.add("Alyssa Bocanegra");
-
-        binding.scouterNameInput.setOnClickListener(view1 -> {
-            dialog = new Dialog(this.getContext());
-            dialog.setContentView(R.layout.scouter_name_spinner);
-            dialog.getWindow().setLayout(650,800);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(PreAuton.super.getContext(), android.R.layout.simple_list_item_1,arrayList);
-            binding.scouterNameList.setAdapter(adapter);
-            binding.scouterNameInput.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    adapter.getFilter().filter(s);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-
-            binding.scouterNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    binding.scouterNameInput.setText(adapter.getItem(position));
-
-                    dialog.dismiss();
-                }
-            });
-        });
+//
+//        //creates dropdown for team member text box
+//        arrayList = new ArrayList<>();
+//
+//        arrayList.add("Jonathan Klein");
+//        arrayList.add("Jackson Wheatley");
+//        arrayList.add("Thomas Gage Evans");
+//        arrayList.add("Alyssa Bocanegra");
+//
+//        binding.scouterNameInput.setOnClickListener(view1 -> {
+//            dialog = new Dialog(this.getContext());
+//            dialog.setContentView(R.layout.scouter_name_spinner);
+//            dialog.getWindow().setLayout(650,800);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            dialog.show();
+//
+//            ArrayAdapter<String> adapter = new ArrayAdapter<>(PreAuton.super.getContext(), android.R.layout.simple_list_item_1,arrayList);
+//            binding.scouterNameList.setAdapter(adapter);
+//            binding.scouterNameInput.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    adapter.getFilter().filter(s);
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//
+//                }
+//            });
+//
+//            binding.scouterNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    binding.scouterNameInput.setText(adapter.getItem(position));
+//
+//                    dialog.dismiss();
+//                }
+//            });
+//        });
 
         // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
