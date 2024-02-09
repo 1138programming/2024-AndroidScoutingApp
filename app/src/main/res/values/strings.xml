@@ -12,8 +12,12 @@
 <!--Title for team and name prompts-->
     <string name="prompt_name_title">Name of scouter</string>
     <string name="name_prompt_hint">name</string>
-    <string name="prompt_team_title">Number of the team being scouted</string>
+    <string name="prompt_team_title">Team Number</string>
     <string name="team_prompt_hint">team number</string>
+<!--Team Color Prompt-->
+    <string name="team_color_title">Team Color</string>
+    <string name="team_color_red">RED</string>
+    <string name="team_color_blue">BLUE</string>
 <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
     <string name="speaker_title_default">Speaker</string>
@@ -30,7 +34,7 @@
     <string name="hang_title">Hang?</string>
     <string name="trap_title">Trap?</string>
     <string name="robot_break_check">Did the robot break?</string>
-    <string name="is_backup_scout">Are you a backup scouter?</string>
+    <string name="is_team_noshow">Team didn\'t show up:</string>
 <!--Next and Submit Button Text-->
     <string name="submit_button_text">Submit</string>
     <string name="next_button_title_default">Next</string>

@@ -14,4 +14,8 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="chaminade_orange"> #FFA500</color>
+    <color name="red">#FF0000</color>
+    <color name="dark_red">#8b0000</color>
+    <color name="blue">#0000FF</color>
+    <color name="dark_blue">#00008b</color>
 </resources>

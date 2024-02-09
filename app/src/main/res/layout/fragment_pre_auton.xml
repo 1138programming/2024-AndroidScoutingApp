@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="@+id/mainTitle"
             app:layout_constraintVertical_bias="0.20" />
 
-        <TextView
+        <EditText
             android:id="@+id/scouterNameInput"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:textSize="48sp"
             app:layout_constraintBottom_toTopOf="@+id/backupQuestionTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scouterNameTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/teamColorTitle" />
 
         <EditText
             android:id="@+id/teamNumberInput"
@@ -80,13 +80,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="@string/is_backup_scout"
+            android:text="@string/is_team_noshow"
             android:textColor="@color/off_white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mainTitle"
-            app:layout_constraintVertical_bias="0.55" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.60" />
 
         <CheckBox
             android:id="@+id/backupScoutCheckbox"
@@ -100,6 +100,63 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/backupQuestionTitle"
             app:layout_constraintTop_toTopOf="@+id/backupQuestionTitle" />
+
+        <TextView
+            android:id="@+id/teamColorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/team_color_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/backupQuestionTitle"
+            app:layout_constraintStart_toStartOf="@+id/backupQuestionTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.63" />
+
+        <RadioGroup
+            android:id="@+id/toggle"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/toggle_background"
+            android:checkedButton="@+id/offer"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/teamColorTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamColorTitle"
+            app:layout_constraintTop_toTopOf="@+id/teamColorTitle">
+
+            <RadioButton
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_blue"
+                android:textSize="20dp"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/offer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_red"
+                android:textSize="20dp"
+                android:textColor="@color/white" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/nextButton"
