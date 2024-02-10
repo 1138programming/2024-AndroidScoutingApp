@@ -12,6 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/redoButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="@string/plus_button"
+            android:cropToPadding="false"
+            android:src="@drawable/arrow_redo_outline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/chaminade_orange" />
+
+        <ImageButton
+            android:id="@+id/undoButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="@string/minus_button"
+            android:src="@drawable/arrow_undo_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/chaminade_orange" />
+
         <TextView
             android:id="@+id/speakerMissedTitle"
             android:layout_width="wrap_content"

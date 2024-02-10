@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="remove_circle" />
-                            <entry key="sourceFile" value="C:\Users\duros\Documents\GitHub\help\images\remove-circle.svg" />
+                            <entry key="outputName" value="arrow_redo_outline" />
+                            <entry key="sourceFile" value="C:\Users\eeuser\Downloads\arrow-redo-outline.svg" />
                           </map>
                         </option>
                       </PersistentState>

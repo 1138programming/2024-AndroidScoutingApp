@@ -30,7 +30,8 @@
 <!--Default value for counters (0)-->
     <string name="plus_minus_default">0</string>
 <!--CheckBox titles-->
-    <string name="leave_bonus_title_default">Did they leave? (Taxi):</string>
+    <string name="leave_bonus_title">Did they leave? (Taxi):</string>
+    <string name="crossed_center_line_title">Did they cross center:</string>
     <string name="hang_title">Hang?</string>
     <string name="trap_title">Trap?</string>
     <string name="robot_break_check">Did the robot break?</string>

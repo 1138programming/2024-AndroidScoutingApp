@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentAutonBinding;
+
+import java.util.Stack;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,18 @@ public class AutonFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /*
+    * 0 = ampDec
+    * 1 = ampInc
+    * 2 = ampMissDec
+    * 3 = ampMissInc
+    * 4 = speakerDec
+    * 5 = speakerInc
+    * 6 = speakerMissDec
+    * 7 = speakerMissInc
+    * */
+    private Stack<Integer> inputStack = new Stack<Integer>();
+    private Stack<Integer> redoStack = new Stack<Integer>();
     public AutonFragment() {
         // Required empty public constructor
     }
@@ -73,22 +88,110 @@ public class AutonFragment extends Fragment {
         return data;
     }
 
-    private void incrementView(TextView number) {
+    public void undo() {
+        if(inputStack.empty()) return;
+        redoStack.push(inputStack.pop());
+        switch(redoStack.peek()) {
+            case 0:
+                Toast.makeText(getContext(), "Undid Amp decrease", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampScoredTitle);
+                break;
+            case 1:
+                Toast.makeText(getContext(), "Undid Amp increase", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.ampScoredTitle);
+                break;
+            case 2:
+                Toast.makeText(getContext(), "Undid Amp miss decrease", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampMissedTitle);
+                break;
+            case 3:
+                Toast.makeText(getContext(), "Undid Amp miss increase", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.ampMissedTitle);
+                break;
+            case 4:
+                Toast.makeText(getContext(), "Undid Speaker decrease", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerScoredTitle);
+                break;
+            case 5:
+                Toast.makeText(getContext(), "Undid Speaker increase", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.speakerScoredTitle);
+                break;
+            case 6:
+                Toast.makeText(getContext(), "Undid Speaker miss decrease", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerMissedTitle);
+                break;
+            case 7:
+                Toast.makeText(getContext(), "Undid Speaker miss increase", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.speakerMissedTitle);
+                break;
+            default:
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void redo() {
+        if(redoStack.empty()) return;
+        switch(redoStack.peek()) {
+            case 0:
+                Toast.makeText(getContext(), "Redid Amp decrease", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.ampScoredTitle);
+                break;
+            case 1:
+                Toast.makeText(getContext(), "Redid Amp increase", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampScoredTitle);
+                break;
+            case 2:
+                Toast.makeText(getContext(), "Redid Amp miss decrease", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.ampMissedTitle);
+                break;
+            case 3:
+                Toast.makeText(getContext(), "Redid Amp miss increase", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampMissedTitle);
+                break;
+            case 4:
+                Toast.makeText(getContext(), "Redid Speaker decrease", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.speakerScoredTitle);
+                break;
+            case 5:
+                Toast.makeText(getContext(), "Redid Speaker increase", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerScoredTitle);
+                break;
+            case 6:
+                Toast.makeText(getContext(), "Redid Speaker miss decrease", Toast.LENGTH_SHORT).show();
+                decrementViewWithCheck(binding.speakerMissedTitle);
+                break;
+            case 7:
+                Toast.makeText(getContext(), "Redid Speaker miss increase", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerMissedTitle);
+                break;
+            default:
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+        inputStack.push(redoStack.pop());
+    }
+
+    private boolean incrementView(TextView number) {
         String text = number.getText().toString();
         int num = Integer.parseInt(text);
+        boolean check = false;
         num++;
         if (num > 99) {
             num = 99;
+            check = true;
         }
         number.setText(Integer.toString(num));
+        return check;
     }
-    private void decrementViewWithCheck(TextView number) {
+    private boolean decrementViewWithCheck(TextView number) {
         String text = number.getText().toString();
         int num = Integer.parseInt(text);
+        boolean check = false;
         if (num > 0) {
             num--;
+            check = true;
         }
         number.setText(Integer.toString(num));
+        return check;
     }
 
     @Override
@@ -112,33 +215,64 @@ public class AutonFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // __ Increment & decrement view functions
-        binding.ampMissedPlus.setOnClickListener(view1 -> {
-            incrementView(binding.ampMissedTitle);
+        // undo and redo buttons
+        binding.undoButton.setOnClickListener(view1 -> {
+            undo();
+        });
+        binding.redoButton.setOnClickListener(view1 -> {
+            redo();
+        });
+
+        // Increment & decrement view functions
+        binding.ampScoredMinus.setOnClickListener(view1 -> {
+            if(decrementViewWithCheck(binding.ampScoredTitle)) {
+                inputStack.push(0);
+                redoStack = new Stack<Integer>();
+            }
+        });
+        binding.ampScoredPlus.setOnClickListener(view1 -> {
+            if(incrementView(binding.ampScoredTitle)) {
+                inputStack.push(1);
+                redoStack = new Stack<Integer>();
+            }
         });
         binding.ampMissedMinus.setOnClickListener(view1 -> {
-            decrementViewWithCheck(binding.ampMissedTitle);
+            if(decrementViewWithCheck(binding.ampMissedTitle)){
+                inputStack.push(2);
+                redoStack = new Stack<Integer>();
+            }
         });
 
-        binding.ampScoredPlus.setOnClickListener(view1 -> {
-            incrementView(binding.ampScoredTitle);
-        });
-        binding.ampScoredMinus.setOnClickListener(view1 -> {
-            decrementViewWithCheck(binding.ampScoredTitle);
+        binding.ampMissedPlus.setOnClickListener(view1 -> {
+            if(incrementView(binding.ampMissedTitle)){
+                inputStack.push(3);
+                redoStack = new Stack<Integer>();
+            }
         });
 
-        binding.speakerMissedPlus.setOnClickListener(view1 -> {
-            incrementView(binding.speakerMissedTitle);
+        binding.speakerScoredMinus.setOnClickListener(view1 -> {
+            if(decrementViewWithCheck(binding.speakerScoredTitle)){
+                inputStack.push(4);
+                redoStack = new Stack<Integer>();
+            }
+        });
+        binding.speakerScoredPlus.setOnClickListener(view1 -> {
+            if(incrementView(binding.speakerScoredTitle)) {
+                inputStack.push(5);
+                redoStack = new Stack<Integer>();
+            }
         });
         binding.speakerMissedMinus.setOnClickListener(view1 -> {
-            decrementViewWithCheck(binding.speakerMissedTitle);
+            if(decrementViewWithCheck(binding.speakerMissedTitle)) {
+                inputStack.push(6);
+                redoStack = new Stack<Integer>();
+            }
         });
-
-        binding.speakerScoredPlus.setOnClickListener(view1 -> {
-            incrementView(binding.speakerScoredTitle);
-        });
-        binding.speakerScoredMinus.setOnClickListener(view1 -> {
-            decrementViewWithCheck(binding.speakerScoredTitle);
+        binding.speakerMissedPlus.setOnClickListener(view1 -> {
+            if(incrementView(binding.speakerMissedTitle)) {
+                inputStack.push(7);
+                redoStack = new Stack<Integer>();
+            }
         });
                 // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
