@@ -157,7 +157,7 @@ public class MainFragment extends Fragment {
             ft.commit();
         });
         binding.bluetoothButton.setOnClickListener(view1 -> {
-            ((MainActivity)getActivity()).enableConnectBT();
+//            ((MainActivity)getActivity()).enableBT();
         });
     }
 }
