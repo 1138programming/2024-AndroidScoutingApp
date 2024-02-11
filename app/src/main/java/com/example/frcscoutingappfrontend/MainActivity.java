@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ConnectThread connectThread;
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAdress = "B9:10:56:21:66:90";
+    private static final String ExternalMACAdress = "14:4F:8A:90:90:9C";
     private static final UUID MY_UUID = UUID.fromString("756822d2-28b3-4bba-af41-49f76f14b186");
     private static final UUID MY2_UUID = new UUID(0,0);
     Set<BluetoothDevice> ad;
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             }
+            Toast.makeText(this, "Couldn't find tablet/incorrect MAC", Toast.LENGTH_LONG).show();
         }
     }
 
