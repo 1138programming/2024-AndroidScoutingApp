@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class ConfirmPopout extends Fragment{
@@ -37,7 +38,7 @@ public class ConfirmPopout extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    HashMap<Integer, String> jsonReference = new HashMap<>();
     public ConfirmPopout() {
         // Required empty public constructor
     }
@@ -80,6 +81,15 @@ public class ConfirmPopout extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //creates the references for creating json data
+        jsonReference.put(0,"autonAmpScore");
+        jsonReference.put(1,"autonAmpMiss");
+        jsonReference.put(2,"autonSpeakerScore");
+        jsonReference.put(3,"autonSpeakerMiss");
+        jsonReference.put(4,"teleopAmpScore");
+        jsonReference.put(5,"teleopAmpMiss");
+        jsonReference.put(6,"teleopSpeakerScore");
+        jsonReference.put(7,"teleopSpeakerMiss");
 
         // Hides the popout
         binding.cancelButton.setOnClickListener(view1 -> {
@@ -154,6 +164,7 @@ public class ConfirmPopout extends Fragment{
 
             teleop = new TeleopFragment();
             auton = new AutonFragment();
+            preAuton = new PreAuton();
             ft.add(R.id.main_fragment, preAuton, "A");
             ft.add(R.id.main_fragment, auton, "B");
             ft.add(R.id.main_fragment, teleop, "C");
