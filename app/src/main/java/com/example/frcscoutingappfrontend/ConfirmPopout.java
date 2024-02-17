@@ -106,6 +106,7 @@ public class ConfirmPopout extends Fragment{
             TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
             Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            String[] preAutonData = preAuton.getDataAsArray();
             String[] autonData = auton.getDataAsArray();
             String[] teleopData = teleop.getDataAsArray();
 
@@ -113,12 +114,21 @@ public class ConfirmPopout extends Fragment{
                 JSONObject jsonFile = new JSONObject();
                 JSONObject tempJson = new JSONObject();
                 JSONArray jsonArr = new JSONArray();
+                //pre-auton json
+                tempJson.put("scouterName", preAutonData[0]);
+                tempJson.put("teamColor", preAutonData[1]);
+                tempJson.put("teamNumber", preAutonData[2]);
+                tempJson.put("teamNoShow", preAutonData[3]);
+                jsonArr.put(tempJson);
+                tempJson = new JSONObject();
+
                 //auton json
-                tempJson.put("autonSpeakerMissed", autonData[0]);
+                tempJson.put("autonSpeakerScored", autonData[0]);
                 tempJson.put("autonSpeakerMissed", autonData[1]);
                 tempJson.put("autonAmpScored", autonData[2]);
                 tempJson.put("autonAmpMissed", autonData[3]);
                 tempJson.put("robotLeft", autonData[4]);
+                tempJson.put("robotCrossedCenter", autonData[5]);
                 jsonArr.put(tempJson);
                 tempJson = new JSONObject();
 

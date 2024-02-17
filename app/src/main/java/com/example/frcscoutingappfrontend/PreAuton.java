@@ -76,9 +76,13 @@ public class PreAuton extends Fragment {
     }
 
     public String[] getDataAsArray() {
-        String[] data = new String[1];
+        String[] data = new String[4];
 
-        data[0] = String.valueOf(binding.backupScoutCheckbox.isChecked());
+        data[0] = binding.scouterNameInput.getText().toString();
+        if(binding.teamBlue.isChecked()) data[1] = "blue";
+        else data[1] = "red";
+        data[2] = binding.teamNumberInput.getText().toString();
+        data[3] = String.valueOf(binding.backupScoutCheckbox.isChecked());
 
         return data;
     }
@@ -92,7 +96,14 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//
+
+        binding.teamBlue.setOnClickListener(view1 -> {
+            binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_blue));
+        });
+        binding.teamRed.setOnClickListener(view1 -> {
+            binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_red));
+        });
+
 //        //creates dropdown for team member text box
 //        arrayList = new ArrayList<>();
 //

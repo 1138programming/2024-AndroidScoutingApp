@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/mainTitle"
-            app:layout_constraintVertical_bias="0.20" />
+            app:layout_constraintVertical_bias=".15" />
 
         <EditText
             android:id="@+id/scouterNameInput"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/teamNameTitle"
-            android:layout_width="450sp"
+            android:layout_width="350sp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="@string/prompt_team_title"
@@ -62,7 +62,7 @@
 
         <EditText
             android:id="@+id/teamNumberInput"
-            android:layout_width="160dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:ems="11"
             android:hint="@string/team_prompt_hint"
@@ -86,7 +86,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.60" />
+            app:layout_constraintVertical_bias=".5" />
 
         <CheckBox
             android:id="@+id/backupScoutCheckbox"
@@ -111,16 +111,16 @@
             app:layout_constraintBottom_toTopOf="@+id/backupQuestionTitle"
             app:layout_constraintStart_toStartOf="@+id/backupQuestionTitle"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.63" />
+            app:layout_constraintVertical_bias=".6" />
 
         <RadioGroup
-            android:id="@+id/toggle"
+            android:id="@+id/team_color_switch"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_marginLeft="50dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/toggle_background"
-            android:checkedButton="@+id/offer"
+            android:checkedButton="@+id/team_red"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/teamColorTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +128,7 @@
             app:layout_constraintTop_toTopOf="@+id/teamColorTitle">
 
             <RadioButton
-                android:id="@+id/search"
+                android:id="@+id/team_blue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="1dp"
@@ -143,7 +143,7 @@
                 android:textColor="@color/white" />
 
             <RadioButton
-                android:id="@+id/offer"
+                android:id="@+id/team_red"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="1dp"
@@ -162,13 +162,24 @@
             android:id="@+id/nextButton"
             android:layout_width="240sp"
             android:layout_height="120sp"
+            android:layout_marginBottom="5dp"
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/next_button_title_default"
-            android:textSize="48sp"
             android:textColor="@color/cham_background_default"
+            android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/startingPosImage"
+            android:layout_width="430dp"
+            android:layout_height="330dp"
+            android:src="@drawable/frc_2024_field_red"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backupScoutCheckbox" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

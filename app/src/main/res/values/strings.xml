@@ -11,9 +11,9 @@
     <string name="teleop_title">Teleop</string>
 <!--Title for team and name prompts-->
     <string name="prompt_name_title">Name of scouter</string>
-    <string name="name_prompt_hint">name</string>
+    <string name="name_prompt_hint">Name</string>
     <string name="prompt_team_title">Team Number</string>
-    <string name="team_prompt_hint">team number</string>
+    <string name="team_prompt_hint">Team Number</string>
 <!--Team Color Prompt-->
     <string name="team_color_title">Team Color</string>
     <string name="team_color_red">RED</string>

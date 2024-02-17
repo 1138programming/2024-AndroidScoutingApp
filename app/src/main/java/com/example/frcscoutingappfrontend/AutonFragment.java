@@ -72,7 +72,7 @@ public class AutonFragment extends Fragment {
     }
 
     public String[] getDataAsArray() {
-        String[] data = new String[5];
+        String[] data = new String[6];
 
         //Speaker scoring and missing
         data[0] = binding.speakerScoredTitle.getText().toString();
@@ -82,8 +82,9 @@ public class AutonFragment extends Fragment {
         data[2] = binding.ampScoredTitle.getText().toString();
         data[3] = binding.ampMissedTitle.getText().toString();
 
-        //check box
+        //check boxes
         data[4] = String.valueOf(binding.leaveQuestionCheckBox.isChecked());
+        data[5] = String.valueOf(binding.centerLineCheckbox.isChecked());
 
         return data;
     }
