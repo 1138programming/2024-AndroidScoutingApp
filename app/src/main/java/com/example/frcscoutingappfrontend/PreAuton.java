@@ -131,6 +131,11 @@ public class PreAuton extends Fragment {
             binding.leftStart.setBackgroundResource(R.drawable.start_toggle_blue);
             binding.middleStart.setBackgroundResource(R.drawable.start_toggle_blue);
             binding.rightStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.rightStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
+            binding.middleStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
+            binding.leftStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
+            binding.leftStart.setText(getResources().getText(R.string.start_amp));
+            binding.rightStart.setText(getResources().getText(R.string.start_source));
             binding.leftStart.setLayoutParams(blueParamsL);
             binding.rightStart.setLayoutParams(blueParamsR);
         });
@@ -139,6 +144,11 @@ public class PreAuton extends Fragment {
             binding.leftStart.setBackgroundResource(R.drawable.start_toggle_red);
             binding.middleStart.setBackgroundResource(R.drawable.start_toggle_red);
             binding.rightStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.rightStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
+            binding.middleStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
+            binding.leftStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
+            binding.leftStart.setText(getResources().getText(R.string.start_source));
+            binding.rightStart.setText(getResources().getText(R.string.start_amp));
             binding.leftStart.setLayoutParams(redParamsL);
             binding.rightStart.setLayoutParams(redParamsR);
         });
