@@ -1,22 +1,28 @@
 package com.example.frcscoutingappfrontend;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
@@ -35,6 +41,14 @@ public class PreAuton extends Fragment {
     TextView textView;
     ArrayList<String> arrayList;
     Dialog dialog;
+    LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams redParamsR = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams redParamsL = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -75,6 +89,15 @@ public class PreAuton extends Fragment {
         }
     }
 
+    public int dpToPixel(int dp) {
+        Resources r = this.getContext().getResources();
+        return ((int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                (float)dp,
+                r.getDisplayMetrics()
+        ));
+
+    }
     public String[] getDataAsArray() {
         String[] data = new String[4];
 
@@ -96,14 +119,29 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //sets margins for
+        redParamsL.setMargins(dpToPixel(50),dpToPixel(1),dpToPixel(20),dpToPixel(1));
+        redParamsR.setMargins(dpToPixel(85),dpToPixel(1),0,dpToPixel(1));
+//        redParamsL.setMargins(50,1,20,1);
+//        redParamsR.setMargins(85,1,0,1);
+        blueParamsL.setMargins(dpToPixel(0),dpToPixel(1),dpToPixel(85),dpToPixel(1));
+        blueParamsR.setMargins(dpToPixel(20),dpToPixel(1),dpToPixel(50),dpToPixel(1));
         binding.teamBlue.setOnClickListener(view1 -> {
             binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_blue));
+            binding.leftStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.middleStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.rightStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.leftStart.setLayoutParams(blueParamsL);
+            binding.rightStart.setLayoutParams(blueParamsR);
         });
         binding.teamRed.setOnClickListener(view1 -> {
             binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_red));
+            binding.leftStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.middleStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.rightStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.leftStart.setLayoutParams(redParamsL);
+            binding.rightStart.setLayoutParams(redParamsR);
         });
-
 //        //creates dropdown for team member text box
 //        arrayList = new ArrayList<>();
 //

@@ -21,6 +21,10 @@
     <string name="team_color_title">Team Color</string>
     <string name="team_color_red">RED</string>
     <string name="team_color_blue">BLUE</string>
+<!--Starting Position Titles-->
+    <string name="start_amp">Amp</string>
+    <string name="start_speaker">Speaker</string>
+    <string name="start_source">Source</string>
 <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
     <string name="speaker_title_default">Speaker</string>

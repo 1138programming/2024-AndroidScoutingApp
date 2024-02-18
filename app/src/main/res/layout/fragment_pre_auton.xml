@@ -158,11 +158,22 @@
                 android:textColor="@color/white" />
         </RadioGroup>
 
+        <ImageView
+            android:id="@+id/startingPosImage"
+            android:layout_width="430dp"
+            android:layout_height="330dp"
+            android:src="@drawable/frc_2024_field_red"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backupScoutCheckbox" />
+
         <RadioGroup
             android:id="@+id/startingLocation"
-            android:layout_width="350dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="375dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="40dp"
             android:background="@color/invisible"
             android:checkedButton="@+id/team_red"
             android:orientation="horizontal"
@@ -174,12 +185,12 @@
                 android:id="@+id/left_start"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:background="@drawable/toggle_background_blue"
+                android:background="@drawable/start_toggle_red"
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@color/white" />
@@ -192,20 +203,21 @@
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:background="@drawable/toggle_background_red"
+                android:text="@string/start_speaker"
+                android:textColor="@color/black"
+                android:background="@drawable/start_toggle_red"
                 android:button="@null"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
             <RadioButton
                 android:id="@+id/right_start"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="85dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:background="@drawable/toggle_background_blue"
+                android:background="@drawable/start_toggle_red"
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@color/white" />
@@ -223,15 +235,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-            android:id="@+id/startingPosImage"
-            android:layout_width="430dp"
-            android:layout_height="330dp"
-            android:src="@drawable/frc_2024_field_red"
-            app:layout_constraintBottom_toTopOf="@+id/nextButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backupScoutCheckbox" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

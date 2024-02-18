@@ -18,4 +18,5 @@
     <color name="dark_red">#8b0000</color>
     <color name="blue">#0000FF</color>
     <color name="dark_blue">#00008b</color>
+    <color name="dark_gray">#242526</color>
 </resources>
