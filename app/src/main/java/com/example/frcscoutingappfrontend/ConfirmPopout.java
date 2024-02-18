@@ -23,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -107,47 +108,64 @@ public class ConfirmPopout extends Fragment{
             Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             String[] preAutonData = preAuton.getDataAsArray();
-            String[] autonData = auton.getDataAsArray();
-            String[] teleopData = teleop.getDataAsArray();
-
+            ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
+            ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
             try {
                 JSONObject jsonFile = new JSONObject();
-                JSONObject tempJson = new JSONObject();
                 JSONArray jsonArr = new JSONArray();
+                JSONObject tempJson = new JSONObject();
+                JSONArray tempJsonArr = new JSONArray();
                 //pre-auton json
                 tempJson.put("scouterName", preAutonData[0]);
                 tempJson.put("teamColor", preAutonData[1]);
                 tempJson.put("teamNumber", preAutonData[2]);
                 tempJson.put("teamNoShow", preAutonData[3]);
+                tempJsonArr.put(tempJson);
+                tempJson = new JSONObject();
+                tempJson.put("preAuton", tempJsonArr);
                 jsonArr.put(tempJson);
+                tempJsonArr = new JSONArray();
                 tempJson = new JSONObject();
 
                 //auton json
-                tempJson.put("autonSpeakerScored", autonData[0]);
-                tempJson.put("autonSpeakerMissed", autonData[1]);
-                tempJson.put("autonAmpScored", autonData[2]);
-                tempJson.put("autonAmpMissed", autonData[3]);
-                tempJson.put("robotLeft", autonData[4]);
-                tempJson.put("robotCrossedCenter", autonData[5]);
+                for(int i = 0; i<4; i++) {
+                    for(String j : autonData.get(i)){
+                        tempJsonArr.put(j);
+                    }
+                    tempJson.put(String.valueOf(i),tempJsonArr);
+                    tempJsonArr = new JSONArray();
+                }
+                tempJson.put("taxi",autonData.get(4).get(0));
+                tempJson.put("centerLine",autonData.get(5).get(0));
+                tempJsonArr.put(tempJson);
+                tempJson = new JSONObject();
+                tempJson.put("auton", tempJsonArr);
                 jsonArr.put(tempJson);
+                tempJsonArr = new JSONArray();
                 tempJson = new JSONObject();
 
                 //teleop json
-                tempJson.put("teleopSpeakerScored", teleopData[0]);
-                tempJson.put("teleopSpeakerMissed", teleopData[1]);
-                tempJson.put("teleopAmpScored", teleopData[2]);
-                tempJson.put("teleopAmpMissed", teleopData[3]);
-                tempJson.put("robotHung", teleopData[4]);
-                tempJson.put("teleopTimeHung", teleopData[7]);
-                tempJson.put("trapScored", teleopData[5]);
-                tempJson.put("robotBroke", teleopData[6]);
+                for(int i = 0; i<4; i++) {
+                    for(String j : teleopData.get(i)){
+                        tempJsonArr.put(j);
+                    }
+                    tempJson.put(String.valueOf(i),tempJsonArr);
+                    tempJsonArr = new JSONArray();
+                }
+                tempJson.put("robotHung", teleopData.get(4).get(0));
+                tempJson.put("teleopTimeHung", teleopData.get(7).get(0));
+                tempJson.put("trapScored", teleopData.get(5).get(0));
+                tempJson.put("robotBroke", teleopData.get(6).get(0));
+                tempJsonArr.put(tempJson);
+                tempJson = new JSONObject();
+                tempJson.put("teleop", tempJsonArr);
                 jsonArr.put(tempJson);
 
                 jsonFile.put("scoutingData", jsonArr);
 
 //                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
 
-                String userString = jsonFile.toString();
+                String userString = jsonFile.toString(4);
                 File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
                 //creates the directory if it doesn't exist
                 if(!folderDir.isDirectory()) {

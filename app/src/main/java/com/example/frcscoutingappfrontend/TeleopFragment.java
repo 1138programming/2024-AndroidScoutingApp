@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.io.IOException;
@@ -46,17 +49,15 @@ public class TeleopFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     /*
-     * 0 = ampDec
-     * 1 = ampInc
-     * 2 = ampMissDec
-     * 3 = ampMissInc
-     * 4 = speakerDec
-     * 5 = speakerInc
-     * 6 = speakerMissDec
-     * 7 = speakerMissInc
+     * 0 = ampScore
+     * 1 = ampMiss
+     * 2 = speakerScore
+     * 3 = speakerMiss
      * */
     private Stack<Integer> inputStack = new Stack<Integer>();
+    private Stack<String> timestamps = new Stack<String>();
     private Stack<Integer> redoStack = new Stack<Integer>();
+    private Stack<String> redoTimestamps = new Stack<String>();
     public TeleopFragment() {
         // Required empty public constructor
     }
@@ -82,38 +83,23 @@ public class TeleopFragment extends Fragment {
     public void undo() {
         if(inputStack.empty()) return;
         redoStack.push(inputStack.pop());
+        redoTimestamps.push(timestamps.pop());
         switch(redoStack.peek()) {
             case 0:
-                Toast.makeText(getContext(), "Undid Amp decrease", Toast.LENGTH_SHORT).show();
-                incrementView(binding.ampScoredTitle, false);
+                Toast.makeText(getContext(), "Undid Amp Score", Toast.LENGTH_SHORT).show();
+                decrementView(binding.ampScored);
                 break;
             case 1:
-                Toast.makeText(getContext(), "Undid Amp increase", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.ampScoredTitle, false);
+                Toast.makeText(getContext(), "Undid Amp Miss", Toast.LENGTH_SHORT).show();
+                decrementView(binding.ampMissed);
                 break;
             case 2:
-                Toast.makeText(getContext(), "Undid Amp miss decrease", Toast.LENGTH_SHORT).show();
-                incrementView(binding.ampMissedTitle, false);
+                Toast.makeText(getContext(), "Undid Speaker Score", Toast.LENGTH_SHORT).show();
+                decrementView(binding.speakerScored);
                 break;
             case 3:
-                Toast.makeText(getContext(), "Undid Amp miss increase", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.ampMissedTitle, false);
-                break;
-            case 4:
-                Toast.makeText(getContext(), "Undid Speaker decrease", Toast.LENGTH_SHORT).show();
-                incrementView(binding.speakerScoredTitle, false);
-                break;
-            case 5:
-                Toast.makeText(getContext(), "Undid Speaker increase", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.speakerScoredTitle, false);
-                break;
-            case 6:
-                Toast.makeText(getContext(), "Undid Speaker miss decrease", Toast.LENGTH_SHORT).show();
-                incrementView(binding.speakerMissedTitle, false);
-                break;
-            case 7:
-                Toast.makeText(getContext(), "Undid Speaker miss increase", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.speakerMissedTitle, false);
+                Toast.makeText(getContext(), "Undid Speaker Miss", Toast.LENGTH_SHORT).show();
+                decrementView(binding.speakerMissed);
                 break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -124,82 +110,67 @@ public class TeleopFragment extends Fragment {
         if(redoStack.empty()) return;
         switch(redoStack.peek()) {
             case 0:
-                Toast.makeText(getContext(), "Redid Amp decrease", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.ampScoredTitle, false);
+                Toast.makeText(getContext(), "Redid Amp Score", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampScored, false);
                 break;
             case 1:
-                Toast.makeText(getContext(), "Redid Amp increase", Toast.LENGTH_SHORT).show();
-                incrementView(binding.ampScoredTitle, false);
+                Toast.makeText(getContext(), "Redid Amp Miss", Toast.LENGTH_SHORT).show();
+                incrementView(binding.ampMissed, false);
                 break;
             case 2:
-                Toast.makeText(getContext(), "Redid Amp miss decrease", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.ampMissedTitle, false);
+                Toast.makeText(getContext(), "Redid Speaker Score", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerScored, false);
                 break;
             case 3:
-                Toast.makeText(getContext(), "Redid Amp miss increase", Toast.LENGTH_SHORT).show();
-                incrementView(binding.ampMissedTitle, false);
-                break;
-            case 4:
-                Toast.makeText(getContext(), "Redid Speaker decrease", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.speakerScoredTitle, false);
-                break;
-            case 5:
-                Toast.makeText(getContext(), "Redid Speaker increase", Toast.LENGTH_SHORT).show();
-                incrementView(binding.speakerScoredTitle, false);
-                break;
-            case 6:
-                Toast.makeText(getContext(), "Redid Speaker miss decrease", Toast.LENGTH_SHORT).show();
-                decrementViewWithCheck(binding.speakerMissedTitle, false);
-                break;
-            case 7:
-                Toast.makeText(getContext(), "Redid Speaker miss increase", Toast.LENGTH_SHORT).show();
-                incrementView(binding.speakerMissedTitle, false);
+                Toast.makeText(getContext(), "Redid Speaker Miss", Toast.LENGTH_SHORT).show();
+                incrementView(binding.speakerMissed, false);
                 break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
         inputStack.push(redoStack.pop());
+        timestamps.push(redoTimestamps.pop());
     }
-    private boolean incrementView(TextView number, boolean undo) {
-        String text = number.getText().toString();
+    private boolean incrementView(Button button, boolean undo) {
+        String text = button.getText().toString();
         int num = Integer.parseInt(text);
         num++;
         if (num > 99) {
             num = 99;
             undo = false;
         }
-        number.setText(Integer.toString(num));
+        button.setText(String.valueOf(num));
         return undo;
     }
-    private boolean decrementViewWithCheck(TextView number, boolean undo) {
-        String text = number.getText().toString();
+    private void decrementView(Button button) {
+        String text = button.getText().toString();
         int num = Integer.parseInt(text);
         if (num > 0) {
             num--;
         }
-        else undo = false;
-        number.setText(Integer.toString(num));
-        return undo;
+        button.setText(String.valueOf(num));
     }
 
-    public String[] getDataAsArray() {
-        String[] data = new String[8];
-
-        //Speaker scoring and missing
-        data[0] = binding.speakerScoredTitle.getText().toString();
-        data[1] = binding.speakerMissedTitle.getText().toString();
-
-        //amp scoring and missing
-        data[2] = binding.ampScoredTitle.getText().toString();
-        data[3] = binding.ampMissedTitle.getText().toString();
-
+    public ArrayList<ArrayList<String>> getDataAsArray() {
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(8);
+        Stack<String> reversedTimestamps = new Stack<String>();
+        for(int i = 0; i<8; i++) {
+            data.add(i, new ArrayList<String>());
+        }
+        while(timestamps.size()>0){
+            reversedTimestamps.push(timestamps.pop());
+        }
+        //Speaker and amp timestamps
+        for(int i : inputStack) {
+            data.get(i).add(reversedTimestamps.pop());
+        }
         //check boxes
-        data[4] = String.valueOf(binding.hangQuestionCheckBox.isChecked());
-        data[5] = String.valueOf(binding.trapQuestionCheckBox.isChecked());
-        data[6] = String.valueOf(binding.robotBreakCheckbox.isChecked());
+        data.get(4).add(String.valueOf(binding.hangQuestionCheckBox.isChecked()));
+        data.get(5).add(String.valueOf(binding.trapQuestionCheckBox.isChecked()));
+        data.get(6).add(String.valueOf(binding.robotBreakCheckbox.isChecked()));
 
         //time on timer
-        data[7] = String.valueOf(binding.startedHangingInput.getText().toString());
+        data.get(7).add(binding.startedHangingInput.getText().toString());
 
         return data;
     }
@@ -247,53 +218,32 @@ public class TeleopFragment extends Fragment {
             ft.commit();
         });
         // Increment & decrement view functions
-        binding.ampScoredMinus.setOnClickListener(view1 -> {
-            if(decrementViewWithCheck(binding.ampScoredTitle, true)) {
+        binding.ampScored.setOnClickListener(view1 -> {
+            if(incrementView(binding.ampScored, true)) {
                 inputStack.push(0);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
-        binding.ampScoredPlus.setOnClickListener(view1 -> {
-            if(incrementView(binding.ampScoredTitle, true)) {
+        binding.ampMissed.setOnClickListener(view1 -> {
+            if(incrementView(binding.ampMissed, true)) {
                 inputStack.push(1);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
-        binding.ampMissedMinus.setOnClickListener(view1 -> {
-            if(decrementViewWithCheck(binding.ampMissedTitle, true)){
+
+        binding.speakerScored.setOnClickListener(view1 -> {
+            if(incrementView(binding.speakerScored, true)){
                 inputStack.push(2);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
-
-        binding.ampMissedPlus.setOnClickListener(view1 -> {
-            if(incrementView(binding.ampMissedTitle, true)){
+        binding.speakerMissed.setOnClickListener(view1 -> {
+            if(incrementView(binding.speakerMissed, true)) {
                 inputStack.push(3);
-                redoStack = new Stack<Integer>();
-            }
-        });
-
-        binding.speakerScoredMinus.setOnClickListener(view1 -> {
-            if(decrementViewWithCheck(binding.speakerScoredTitle, true)){
-                inputStack.push(4);
-                redoStack = new Stack<Integer>();
-            }
-        });
-        binding.speakerScoredPlus.setOnClickListener(view1 -> {
-            if(incrementView(binding.speakerScoredTitle, true)) {
-                inputStack.push(5);
-                redoStack = new Stack<Integer>();
-            }
-        });
-        binding.speakerMissedMinus.setOnClickListener(view1 -> {
-            if(decrementViewWithCheck(binding.speakerMissedTitle, true)) {
-                inputStack.push(6);
-                redoStack = new Stack<Integer>();
-            }
-        });
-        binding.speakerMissedPlus.setOnClickListener(view1 -> {
-            if(incrementView(binding.speakerMissedTitle, true)) {
-                inputStack.push(7);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });

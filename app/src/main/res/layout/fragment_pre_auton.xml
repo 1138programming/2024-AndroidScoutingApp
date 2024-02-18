@@ -158,6 +158,58 @@
                 android:textColor="@color/white" />
         </RadioGroup>
 
+        <RadioGroup
+            android:id="@+id/startingLocation"
+            android:layout_width="350dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="30dp"
+            android:background="@color/invisible"
+            android:checkedButton="@+id/team_red"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/startingPosImage"
+            app:layout_constraintEnd_toEndOf="@+id/startingPosImage"
+            app:layout_constraintStart_toStartOf="@+id/startingPosImage">
+
+            <RadioButton
+                android:id="@+id/left_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/middle_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_red"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/right_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@color/white" />
+        </RadioGroup>
         <Button
             android:id="@+id/nextButton"
             android:layout_width="240sp"

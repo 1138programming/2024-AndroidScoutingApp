@@ -9,6 +9,9 @@
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
     <string name="teleop_title">Teleop</string>
+<!--Titles for undo and redo buttons-->
+    <string name="undo_title">Undo</string>
+    <string name="redo_title">Redo</string>
 <!--Title for team and name prompts-->
     <string name="prompt_name_title">Name of scouter</string>
     <string name="name_prompt_hint">Name</string>
