@@ -1,17 +1,24 @@
 package com.example.frcscoutingappfrontend;
 
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
+import com.google.zxing.WriterException;
 
 import com.example.frcscoutingappfrontend.databinding.ConfirmPopoutBinding;
 
@@ -27,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-
 public class ConfirmPopout extends Fragment{
     ConfirmPopoutBinding binding;
 
@@ -40,6 +46,9 @@ public class ConfirmPopout extends Fragment{
     private String mParam1;
     private String mParam2;
     HashMap<Integer, String> jsonReference = new HashMap<>();
+    private ImageView qrCodeIV;
+    Bitmap bitmap;
+    QRGEncoder qrgEncoder;
     public ConfirmPopout() {
         // Required empty public constructor
     }
@@ -178,30 +187,56 @@ public class ConfirmPopout extends Fragment{
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
                 bufferedWriter.close();
+                WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
+                Display display = manager.getDefaultDisplay();
 
+                // creating a variable for point which
+                // is to be displayed in QR Code.
+                Point point = new Point();
+                display.getSize(point);
+
+                // getting width and
+                // height of a point
+                int width = point.x;
+                int height = point.y;
+
+                // generating dimension from width and height.
+                int dimen = width < height ? width : height;
+                dimen = dimen * 3 / 4;
+
+                // setting this dimensions inside our qr code
+                // encoder to generate our qr code.
+                qrgEncoder = new QRGEncoder(jsonFile.toString(), null, QRGContents.Type.TEXT, dimen);
+
+                qrgEncoder.setColorBlack(getResources().getColor(R.color.white));
+                qrgEncoder.setColorWhite(getResources().getColor(R.color.black));
+
+                // getting our qrcode in the form of bitmap.
+                bitmap = qrgEncoder.getBitmap();
+                binding.QRcode.setImageBitmap(bitmap);
             }
             catch (JSONException | IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
-            ft.remove(preAuton);
-            ft.remove(auton);
-            ft.remove(teleop);
-            ft.remove(popout);
-
-            teleop = new TeleopFragment();
-            auton = new AutonFragment();
-            preAuton = new PreAuton();
-            ft.add(R.id.main_fragment, preAuton, "A");
-            ft.add(R.id.main_fragment, auton, "B");
-            ft.add(R.id.main_fragment, teleop, "C");
-            ft.add(R.id.main_fragment, popout, "D");
-            ft.show(preAuton);
-            ft.hide(auton);
-            ft.hide(teleop);
-            ft.hide(popout);
-            ft.commit();
+//            ft.remove(preAuton);
+//            ft.remove(auton);
+//            ft.remove(teleop);
+//            ft.remove(popout);
+//
+//            teleop = new TeleopFragment();
+//            auton = new AutonFragment();
+//            preAuton = new PreAuton();
+//            ft.add(R.id.main_fragment, preAuton, "A");
+//            ft.add(R.id.main_fragment, auton, "B");
+//            ft.add(R.id.main_fragment, teleop, "C");
+//            ft.add(R.id.main_fragment, popout, "D");
+//            ft.show(preAuton);
+//            ft.hide(auton);
+//            ft.hide(teleop);
+//            ft.hide(popout);
+//            ft.commit();
         });
 
     }
