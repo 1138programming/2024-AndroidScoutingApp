@@ -2,27 +2,19 @@ package com.example.frcscoutingappfrontend;
 
 import android.app.Dialog;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
@@ -41,6 +33,8 @@ public class PreAuton extends Fragment {
     TextView textView;
     ArrayList<String> arrayList;
     Dialog dialog;
+    ArrayAdapter<CharSequence> matchNumberAdapter = ArrayAdapter.createFromResource(
+            this.getContext(), R.array.match_number_array, android.R.layout.simple_spinner_item);
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
@@ -119,6 +113,9 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //creates spinner for match number
+        matchNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.matchNumberSpinner.setAdapter(matchNumberAdapter);
         //sets margins for
         redParamsL.setMargins(dpToPixel(50),dpToPixel(1),dpToPixel(20),dpToPixel(1));
         redParamsR.setMargins(dpToPixel(85),dpToPixel(1),0,dpToPixel(1));

@@ -17,6 +17,14 @@
     <string name="name_prompt_hint">Name</string>
     <string name="prompt_team_title">Team Number</string>
     <string name="team_prompt_hint">Team Number</string>
+<!--Match number spinner-->
+    <string name="match_number_title">Match Number</string>
+    <string-array name="match_number_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 <!--Team Color Prompt-->
     <string name="team_color_title">Team Color</string>
     <string name="team_color_red">RED</string>

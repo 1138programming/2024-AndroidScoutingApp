@@ -102,6 +102,28 @@
             app:layout_constraintTop_toTopOf="@+id/backupQuestionTitle" />
 
         <TextView
+            android:id="@+id/matchNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/match_number_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/teamColorTitle"
+            app:layout_constraintStart_toStartOf="@+id/scouterNameTitle"
+            app:layout_constraintTop_toBottomOf="@+id/scouterNameTitle" />
+
+        <Spinner
+            android:id="@+id/match_number_spinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@+id/matchNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/matchNumber"
+            app:layout_constraintTop_toTopOf="@+id/matchNumber" />
+
+        <TextView
             android:id="@+id/teamColorTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,7 +133,7 @@
             app:layout_constraintBottom_toTopOf="@+id/backupQuestionTitle"
             app:layout_constraintStart_toStartOf="@+id/backupQuestionTitle"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".6" />
+            app:layout_constraintVertical_bias=".75" />
 
         <RadioGroup
             android:id="@+id/team_color_switch"
