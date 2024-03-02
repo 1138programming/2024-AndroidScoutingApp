@@ -1,5 +1,8 @@
 package com.example.frcscoutingappfrontend;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,6 +62,8 @@ public class TeleopFragment extends Fragment {
     private Stack<String> timestamps = new Stack<String>();
     private Stack<Integer> redoStack = new Stack<Integer>();
     private Stack<String> redoTimestamps = new Stack<String>();
+    private String teleopStart;
+    private ArrayList<TwoThings> defenseTimestamps = new ArrayList<>();
     public TeleopFragment() {
         // Required empty public constructor
     }
@@ -150,7 +156,19 @@ public class TeleopFragment extends Fragment {
         }
         button.setText(String.valueOf(num));
     }
-
+    public void startTeleop() {
+        if(teleopStart == null) {
+            teleopStart = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        }
+    }
+    public void openTeleop() {
+        if(teleopStart == null) {
+            Fragment popout = getParentFragmentManager().findFragmentByTag("E");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(popout);
+            ft.commit();
+        }
+    }
     public ArrayList<ArrayList<String>> getDataAsArray() {
         ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(8);
         Stack<String> reversedTimestamps = new Stack<String>();
@@ -166,11 +184,10 @@ public class TeleopFragment extends Fragment {
         }
         //check boxes
         data.get(4).add(String.valueOf(binding.hangQuestionCheckBox.isChecked()));
-        data.get(5).add(String.valueOf(binding.trapQuestionCheckBox.isChecked()));
         data.get(6).add(String.valueOf(binding.robotBreakCheckbox.isChecked()));
 
         //time on timer
-        data.get(7).add(binding.startedHangingInput.getText().toString());
+
 
         return data;
     }
@@ -247,17 +264,38 @@ public class TeleopFragment extends Fragment {
                 redoStack = new Stack<Integer>();
             }
         });
-        binding.defensiveActionButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
+        binding.pickupButton.setOnClickListener(view1 -> {
+            inputStack.push(4);
+            timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            redoStack = new Stack<Integer>();
         });
-//        new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
+        binding.amplifyButton.setOnClickListener(view1 -> {
+//            ColorDrawable buttonColor = (ColorDrawable) binding.amplifyButton.getBackground();
+//            if(buttonColor.getColor() != getResources().getColor(R.color.pressed_defense)) {
+                binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
+                inputStack.push(4);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                redoStack = new Stack<Integer>();
+                Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();
+                Handler handler = new Handler();
+                handler.postDelayed(() ->
+                        binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange)), 10000);
 //            }
-//        }
+        });
+        //Defense button that tracks timestamps
+        binding.defensiveActionButton.setOnTouchListener((view1, event) -> {
+            switch(event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    TwoThings timePeriod = new TwoThings();
+                    timePeriod.start = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                    defenseTimestamps.add(timePeriod);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    defenseTimestamps.set(defenseTimestamps.size()-1, new TwoThings(defenseTimestamps.get(defenseTimestamps.size()-1).start, new SimpleDateFormat("HH:mm:ss").format(new Date())));
+                    Toast.makeText(TeleopFragment.this.getContext(), "Start: "+defenseTimestamps.get(defenseTimestamps.size()-1).start+" End: "
+                            +defenseTimestamps.get(defenseTimestamps.size()-1).end, Toast.LENGTH_LONG).show();
+            }
+            return false;
+        });
     }
 }

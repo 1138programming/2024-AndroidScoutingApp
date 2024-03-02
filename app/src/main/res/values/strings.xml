@@ -2,68 +2,71 @@
     <string name="app_name">FRC Scouting App Frontend</string>
     <!-- TODO: Remove or change this placeholder text -->
 
-<!--empty string-->
+    <!--empty string-->
     <string name="empty"></string>
 
-<!--Fragment Titles-->
+    <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
     <string name="teleop_title">Teleop</string>
-<!--Titles for undo and redo buttons-->
+    <string name="post_match_title">Post-Match</string>
+    <!--Titles for undo and redo buttons-->
     <string name="undo_title">Undo</string>
     <string name="redo_title">Redo</string>
-<!--Title for team and name prompts-->
+    <!--Title for team and name prompts-->
     <string name="prompt_name_title">Name of scouter</string>
     <string name="name_prompt_hint">Name</string>
     <string name="prompt_team_title">Team Number</string>
     <string name="team_prompt_hint">Team Number</string>
-<!--Match number spinner-->
+    <!--Match number spinner-->
     <string name="match_number_title">Match Number</string>
-    <string-array name="match_number_array">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-<!--Team Color Prompt-->
+    <!--Team Color Prompt-->
     <string name="team_color_title">Team Color</string>
     <string name="team_color_red">RED</string>
     <string name="team_color_blue">BLUE</string>
-<!--Starting Position Titles-->
+    <!--Starting Position Titles-->
     <string name="start_amp">Amp</string>
     <string name="start_speaker">Speaker</string>
     <string name="start_source">Source</string>
-<!--Amp/Speaker counter titles-->
+    <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
     <string name="speaker_title_default">Speaker</string>
-<!--Scored and Missed titles-->
+    <!--Scored and Missed titles-->
     <string name="score_title_default">Scored:</string>
     <string name="miss_title_default">Missed:</string>
-<!--Names for plus and minus buttons-->
+    <!--Names for plus and minus buttons-->
     <string name="plus_button">plus</string>
     <string name="minus_button">minus</string>
-<!--Default value for counters (0)-->
+    <!--Default value for counters (0)-->
     <string name="plus_minus_default">0</string>
-<!--CheckBox titles-->
+    <!--CheckBox titles-->
     <string name="leave_bonus_title">Did they leave? (Taxi):</string>
     <string name="crossed_center_line_title">Did they cross center:</string>
-    <string name="hang_title">Hang?</string>
+    <string name="hang_title">Started Hang</string>
     <string name="trap_title">Trap?</string>
-    <string name="robot_break_check">Did the robot break?</string>
+    <string name="robot_break_check">Break?</string>
     <string name="is_team_noshow">Team didn\'t show up:</string>
-<!--Next and Submit Button Text-->
+    <!--Next and Submit Button Text-->
     <string name="submit_button_text">Submit</string>
     <string name="next_button_title_default">Next</string>
     <string name="endgame_title">Endgame / Misc.</string>
-<!--Title for the started hanging text box-->
-    <string name="start_hang_explination">How many sec on timer?</string>
-<!--Back arrow for back button-->
+    <!--Title for pickup and amplify-->
+    <string name="pickup_note_title">Pickup</string>
+    <string name="amplify_button_title">Amplify</string>
+    <!--Back arrow for back button-->
     <string name="default_back_button_title">&#60;—</string>
-<!--Buttons and text for submit confirmation-->
+    <!--Buttons and text for submit confirmation-->
     <string name="confirm_submit">Are you sure you want to submit?</string>
     <string name="cancel_button">Cancel</string>
     <string name="confirm_button">Confirm</string>
-<!--Defense Button-->
+    <!--Start auton and teleop popups-->
+    <string name="auton_start_prompt">Press when Auton starts</string>
+    <string name="teleop_start_prompt">Press when Teleop starts</string>
+    <string name="back_button">Back</string>
+    <string name="start_button">Start</string>
+    <!--Defense Button-->
     <string name="defensive_action_text">Defensive Action (Hold)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

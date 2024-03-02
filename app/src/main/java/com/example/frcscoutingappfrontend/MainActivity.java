@@ -10,6 +10,7 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
     PreAuton startingFragment = new PreAuton();
     AutonFragment autonFragment = new AutonFragment();
+    ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
     TeleopFragment teleopFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
     @Override
@@ -23,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, autonFragment, "B");
         ft.add(R.id.main_fragment, teleopFragment, "C");
         ft.add(R.id.main_fragment, popoutFragment, "D");
+        ft.add(R.id.main_fragment, confirmAutonStart, "E");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
         ft.hide(popoutFragment);
+        ft.hide(confirmAutonStart);
         // or ft.add(R.id.your_placeholder, new FooFragment());
         // Complete the changes added above
         ft.commit();

@@ -14,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +32,9 @@ import java.util.ArrayList;
 public class PreAuton extends Fragment {
 
     FragmentPreAutonBinding binding;
-
-    TextView textView;
-    ArrayList<String> arrayList;
-    Dialog dialog;
-    ArrayAdapter<CharSequence> matchNumberAdapter = ArrayAdapter.createFromResource(
-            this.getContext(), R.array.match_number_array, android.R.layout.simple_spinner_item);
+    ArrayList<CharSequence> matchNumbers = new ArrayList<>();
+    int numberOfMatches = 66;
+    ArrayAdapter<CharSequence> matchNumberAdapter;
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
@@ -96,10 +96,22 @@ public class PreAuton extends Fragment {
         String[] data = new String[4];
 
         data[0] = binding.scouterNameInput.getText().toString();
-        if(binding.teamBlue.isChecked()) data[1] = "blue";
-        else data[1] = "red";
+        data[1] = binding.matchNumberSpinner.getSelectedItem().toString();
+
+        if(binding.leftStart.isChecked()){
+            data[2] = binding.leftStart.getText().toString();
+        }
+        else if(binding.middleStart.isChecked()) {
+            data[2] = binding.middleStart.getText().toString();
+        }
+        else if(binding.rightStart.isChecked()){
+            data[2] = binding.rightStart.getText().toString();
+        }
+        else {
+            data[2] = "noShow";
+        }
+        Toast.makeText(this.getContext(), data[2], Toast.LENGTH_LONG).show();
         data[2] = binding.teamNumberInput.getText().toString();
-        data[3] = String.valueOf(binding.backupScoutCheckbox.isChecked());
 
         return data;
     }
@@ -114,13 +126,15 @@ public class PreAuton extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //creates spinner for match number
+        for(int i = 1; i<=numberOfMatches; i++) {
+            matchNumbers.add(Integer.toString(i));
+        }
+        matchNumberAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, matchNumbers);
         matchNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.matchNumberSpinner.setAdapter(matchNumberAdapter);
         //sets margins for
         redParamsL.setMargins(dpToPixel(50),dpToPixel(1),dpToPixel(20),dpToPixel(1));
         redParamsR.setMargins(dpToPixel(85),dpToPixel(1),0,dpToPixel(1));
-//        redParamsL.setMargins(50,1,20,1);
-//        redParamsR.setMargins(85,1,0,1);
         blueParamsL.setMargins(dpToPixel(0),dpToPixel(1),dpToPixel(85),dpToPixel(1));
         blueParamsR.setMargins(dpToPixel(20),dpToPixel(1),dpToPixel(50),dpToPixel(1));
         binding.teamBlue.setOnClickListener(view1 -> {
@@ -149,50 +163,15 @@ public class PreAuton extends Fragment {
             binding.leftStart.setLayoutParams(redParamsL);
             binding.rightStart.setLayoutParams(redParamsR);
         });
-//        //creates dropdown for team member text box
-//        arrayList = new ArrayList<>();
-//
-//        arrayList.add("Jonathan Klein");
-//        arrayList.add("Jackson Wheatley");
-//        arrayList.add("Thomas Gage Evans");
-//        arrayList.add("Alyssa Bocanegra");
-//
-//        binding.scouterNameInput.setOnClickListener(view1 -> {
-//            dialog = new Dialog(this.getContext());
-//            dialog.setContentView(R.layout.scouter_name_spinner);
-//            dialog.getWindow().setLayout(650,800);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            dialog.show();
-//
-//            ArrayAdapter<String> adapter = new ArrayAdapter<>(PreAuton.super.getContext(), android.R.layout.simple_list_item_1,arrayList);
-//            binding.scouterNameList.setAdapter(adapter);
-//            binding.scouterNameInput.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    adapter.getFilter().filter(s);
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable s) {
-//
-//                }
-//            });
-//
-//            binding.scouterNameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    binding.scouterNameInput.setText(adapter.getItem(position));
-//
-//                    dialog.dismiss();
-//                }
-//            });
-//        });
-
+        binding.startingLocation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.noShowCheckbox.setChecked(false);
+        });
+        binding.noShowCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(binding.noShowCheckbox.isChecked()) {
+                binding.startingLocation.clearCheck();
+                binding.noShowCheckbox.setChecked(true);
+            }
+        });
         // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
             Fragment self = getParentFragmentManager().findFragmentByTag("A");
@@ -201,6 +180,8 @@ public class PreAuton extends Fragment {
             ft.show(secondary);
             ft.hide(self);
             ft.commit();
+            AutonFragment autonFragment = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
+            autonFragment.openAuton();
         });
     }
 }

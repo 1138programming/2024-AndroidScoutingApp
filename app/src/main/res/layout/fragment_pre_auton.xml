@@ -89,7 +89,7 @@
             app:layout_constraintVertical_bias=".5" />
 
         <CheckBox
-            android:id="@+id/backupScoutCheckbox"
+            android:id="@+id/noShowCheckbox"
             android:layout_width="120sp"
             android:layout_height="120sp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
@@ -189,7 +189,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backupScoutCheckbox" />
+            app:layout_constraintTop_toBottomOf="@+id/noShowCheckbox" />
 
         <RadioGroup
             android:id="@+id/startingLocation"

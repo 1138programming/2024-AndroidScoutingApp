@@ -55,6 +55,7 @@ public class AutonFragment extends Fragment {
     private Stack<String> timestamps = new Stack<String>();
     private Stack<Integer> redoStack = new Stack<Integer>();
     private Stack<String> redoTimestamps = new Stack<String>();
+    private String autonStart;
     public AutonFragment() {
         // Required empty public constructor
     }
@@ -168,7 +169,19 @@ public class AutonFragment extends Fragment {
         }
         button.setText(String.valueOf(num));
     }
-
+    public void startAuton() {
+        if(autonStart == null) {
+            autonStart = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        }
+    }
+    public void openAuton() {
+        if(autonStart == null) {
+            Fragment popout = getParentFragmentManager().findFragmentByTag("E");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(popout);
+            ft.commit();
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

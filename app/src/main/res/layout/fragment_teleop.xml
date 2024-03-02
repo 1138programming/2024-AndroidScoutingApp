@@ -108,6 +108,33 @@
             app:layout_constraintBottom_toBottomOf="@+id/ampMissed"
             app:layout_constraintEnd_toEndOf="@+id/speakerScored" />
 
+        <Button
+            android:id="@+id/pickupButton"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/pickup_note_title"
+            android:textColor="@color/cham_background_default"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/defensive_action_button"
+            app:layout_constraintEnd_toStartOf="@+id/submitButton"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hang_title" />
+
+        <Button
+            android:id="@+id/amplifyButton"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/amplify_button_title"
+            android:textColor="@color/cham_background_default"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pickupButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.65"
+            app:layout_constraintStart_toEndOf="@+id/returnToAuton" />
         <TextView
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
@@ -171,22 +198,12 @@
             android:layout_width="120sp"
             android:layout_height="120sp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
             app:layout_constraintStart_toEndOf="@+id/hang_title"
             app:layout_constraintTop_toBottomOf="@+id/endgame_title" />
-
-        <CheckBox
-            android:id="@+id/trapQuestionCheckBox"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_marginTop="10dp"
-            android:background="?android:attr/listChoiceIndicatorMultiple"
-            android:backgroundTint="@color/chaminade_orange"
-            android:button="@null"
-            app:layout_constraintEnd_toEndOf="@+id/hangQuestionCheckBox"
-            app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox" />
 
         <View
             android:id="@+id/view"
@@ -238,77 +255,52 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/hang_title"
-            android:textSize="48sp"
             android:textColor="@color/off_white"
+            android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="@+id/hangQuestionCheckBox"
             app:layout_constraintStart_toStartOf="@+id/endgame_title"
             app:layout_constraintTop_toTopOf="@+id/hangQuestionCheckBox" />
 
         <TextView
-            android:id="@+id/trap_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trap_title"
-            android:textSize="48sp"
-            android:textColor="@color/off_white"
-            app:layout_constraintBottom_toBottomOf="@+id/trapQuestionCheckBox"
-            app:layout_constraintStart_toStartOf="@+id/hang_title"
-            app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox" />
-
-        <EditText
-            android:id="@+id/startedHangingInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:ems="11"
-            android:hint="@string/start_hang_explination"
-            android:inputType="number"
-            android:maxLength="3"
-            android:textColor="@color/off_white"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="@+id/hangQuestionCheckBox"
-            app:layout_constraintStart_toEndOf="@+id/hangQuestionCheckBox"
-            app:layout_constraintTop_toTopOf="@+id/hangQuestionCheckBox" />
-
-        <TextView
             android:id="@+id/robotBrokeTitle"
-            android:layout_width="300sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:text="@string/robot_break_check"
             android:textColor="@color/off_white"
-            android:textSize="48sp"
-            app:layout_constraintBottom_toBottomOf="@+id/trapQuestionCheckBox"
-            app:layout_constraintStart_toEndOf="@+id/trapQuestionCheckBox"
-            app:layout_constraintTop_toTopOf="@+id/robotBreakCheckbox" />
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/hang_title"
+            app:layout_constraintEnd_toStartOf="@+id/robotBreakCheckbox"
+            app:layout_constraintStart_toEndOf="@+id/hangQuestionCheckBox"
+            app:layout_constraintTop_toTopOf="@+id/hang_title"
+            app:layout_constraintVertical_bias="0.235" />
 
         <CheckBox
             android:id="@+id/robotBreakCheckbox"
             android:layout_width="120sp"
             android:layout_height="120sp"
+            android:layout_marginEnd="10dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/robotBrokeTitle"
-            app:layout_constraintTop_toTopOf="@+id/trapQuestionCheckBox" />
+            app:layout_constraintBottom_toBottomOf="@+id/hangQuestionCheckBox"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/defensive_action_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/chaminade_orange"
+            android:background="@drawable/defense_button"
             android:text="@string/defensive_action_text"
             android:textColor="@color/cham_background_default"
             android:textSize="60sp"
+            app:backgroundTint="@null"
             app:cornerRadius="0dp"
             app:layout_constraintBottom_toTopOf="@+id/returnToAuton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trapQuestionCheckBox"
-            app:layout_constraintVertical_bias="0.5" />
-
+            app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox"
+            app:layout_constraintVertical_bias="0.75" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

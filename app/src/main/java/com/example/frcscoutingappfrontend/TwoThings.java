@@ -1,10 +1,13 @@
 package com.example.frcscoutingappfrontend;
 
-public class TwoThings<Index,Timestamp> {
-    public Index index;
-    public Timestamp timestamp;
-    public TwoThings(Index index, Timestamp timestamp) {
-        this.index = index;
-        this.timestamp = timestamp;
+public class TwoThings<Start,End> {
+    public Start start;
+    public End end;
+    public TwoThings() {
+
+    }
+    public TwoThings(Start start, End end) {
+        this.start = start;
+        this.end = end;
     }
 }
