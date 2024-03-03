@@ -250,6 +250,8 @@ public class AutonFragment extends Fragment {
             ft.show(secondary);
             ft.hide(self);
             ft.commit();
+            TeleopFragment teleopFragment = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
+            teleopFragment.openTeleop();
         });
 
         binding.returnToPreAuton.setOnClickListener(view1 -> {

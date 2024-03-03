@@ -60,16 +60,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/teamColorTitle" />
 
-        <EditText
+        <Spinner
             android:id="@+id/teamNumberInput"
-            android:layout_width="250dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:ems="11"
-            android:hint="@string/team_prompt_hint"
             android:inputType="number"
             android:maxLength="5"
             android:textColor="@color/off_white"
-            android:textSize="32sp"
+            android:textSize="64sp"
             app:layout_constraintBottom_toBottomOf="@+id/teamNameTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/teamNameTitle"
@@ -117,7 +116,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="@+id/matchNumber"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/matchNumber"

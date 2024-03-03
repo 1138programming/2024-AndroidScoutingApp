@@ -1,12 +1,12 @@
 package com.example.frcscoutingappfrontend;
 
-public class TwoThings<Start,End> {
-    public Start start;
-    public End end;
+public class TwoThings {
+    public String start;
+    public String end;
     public TwoThings() {
 
     }
-    public TwoThings(Start start, End end) {
+    public TwoThings(String start, String end) {
         this.start = start;
         this.end = end;
     }

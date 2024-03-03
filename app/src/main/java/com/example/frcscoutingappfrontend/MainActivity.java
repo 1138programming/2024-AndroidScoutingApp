@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
     PreAuton startingFragment = new PreAuton();
     AutonFragment autonFragment = new AutonFragment();
     ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
+    ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
     TeleopFragment teleopFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
     @Override
@@ -25,12 +26,13 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, teleopFragment, "C");
         ft.add(R.id.main_fragment, popoutFragment, "D");
         ft.add(R.id.main_fragment, confirmAutonStart, "E");
+        ft.add(R.id.main_fragment, confirmTeleopStart, "F");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
         ft.hide(popoutFragment);
         ft.hide(confirmAutonStart);
-        // or ft.add(R.id.your_placeholder, new FooFragment());
+        ft.hide(confirmTeleopStart);
         // Complete the changes added above
         ft.commit();
     }

@@ -33,8 +33,10 @@ public class PreAuton extends Fragment {
 
     FragmentPreAutonBinding binding;
     ArrayList<CharSequence> matchNumbers = new ArrayList<>();
+    ArrayList<CharSequence> teamNumbers = new ArrayList<>();
     int numberOfMatches = 66;
     ArrayAdapter<CharSequence> matchNumberAdapter;
+    ArrayAdapter<CharSequence> teamNumberAdapter;
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
@@ -110,9 +112,8 @@ public class PreAuton extends Fragment {
         else {
             data[2] = "noShow";
         }
-        Toast.makeText(this.getContext(), data[2], Toast.LENGTH_LONG).show();
-        data[2] = binding.teamNumberInput.getText().toString();
-
+        data[3] = Integer.toString(teamNumbers.indexOf(binding.teamNumberInput.getSelectedItem().toString())+1);
+        Toast.makeText(this.getContext(), data[3], Toast.LENGTH_LONG).show();
         return data;
     }
     @Override
@@ -125,6 +126,59 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //adds teams to arraylist (sorry)
+        teamNumbers.add("8");
+        teamNumbers.add("115");
+        teamNumbers.add("399");
+        teamNumbers.add("589");
+        teamNumbers.add("687");
+        teamNumbers.add("691");
+        teamNumbers.add("696");
+        teamNumbers.add("1138");
+        teamNumbers.add("1388");
+        teamNumbers.add("1661");
+        teamNumbers.add("2375");
+        teamNumbers.add("3216");
+        teamNumbers.add("3328");
+        teamNumbers.add("3476");
+        teamNumbers.add("3749");
+        teamNumbers.add("3863");
+        teamNumbers.add("3881");
+        teamNumbers.add("3925");
+        teamNumbers.add("3970");
+        teamNumbers.add("4014");
+        teamNumbers.add("4019");
+        teamNumbers.add("4276");
+        teamNumbers.add("4414");
+        teamNumbers.add("4481");
+        teamNumbers.add("4711");
+        teamNumbers.add("4738");
+        teamNumbers.add("4817");
+        teamNumbers.add("5012");
+        teamNumbers.add("5136");
+        teamNumbers.add("5285");
+        teamNumbers.add("5817");
+        teamNumbers.add("5835");
+        teamNumbers.add("6060");
+        teamNumbers.add("6764");
+        teamNumbers.add("6885");
+        teamNumbers.add("6934");
+        teamNumbers.add("6995");
+        teamNumbers.add("7323");
+        teamNumbers.add("7327");
+        teamNumbers.add("8005");
+        teamNumbers.add("8060");
+        teamNumbers.add("8521");
+        teamNumbers.add("8533");
+        teamNumbers.add("8768");
+        teamNumbers.add("9084");
+        teamNumbers.add("9172");
+        teamNumbers.add("9421");
+        teamNumbers.add("9635");
+        teamNumberAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, teamNumbers);
+        teamNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.teamNumberInput.setAdapter(teamNumberAdapter);
+
         //creates spinner for match number
         for(int i = 1; i<=numberOfMatches; i++) {
             matchNumbers.add(Integer.toString(i));

@@ -69,24 +69,24 @@ public class ConfirmTeleopStart extends Fragment{
 
         // Hides the popout
         binding.backButton.setOnClickListener(view1 -> {
-            Fragment popout = getParentFragmentManager().findFragmentByTag("E");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("F");
             Fragment auton = getParentFragmentManager().findFragmentByTag("B");
-            Fragment preAuton = getParentFragmentManager().findFragmentByTag("A");
+            Fragment teleop = getParentFragmentManager().findFragmentByTag("C");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.hide(popout);
-            ft.hide(auton);
-            ft.show(preAuton);
+            ft.hide(teleop);
+            ft.show(auton);
             ft.commit();
         });
 
         //submits and saves as json
         binding.startButton.setOnClickListener(view1 -> {
-            Fragment popout = getParentFragmentManager().findFragmentByTag("E");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("F");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.hide(popout);
             ft.commit();
-            AutonFragment autonFragment = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
-            autonFragment.startAuton();
+            TeleopFragment teleopFragment = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
+            teleopFragment.startTeleop();
         });
 
     }

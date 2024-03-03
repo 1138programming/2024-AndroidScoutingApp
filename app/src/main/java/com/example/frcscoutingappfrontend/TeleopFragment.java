@@ -107,6 +107,11 @@ public class TeleopFragment extends Fragment {
                 Toast.makeText(getContext(), "Undid Speaker Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerMissed);
                 break;
+            case 5:
+                Toast.makeText(getContext(), "Undid Hang Start", Toast.LENGTH_SHORT).show();
+                binding.hangQuestionCheckBox.setEnabled(true);
+                binding.hangQuestionCheckBox.setChecked(false);
+                break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
@@ -130,6 +135,11 @@ public class TeleopFragment extends Fragment {
             case 3:
                 Toast.makeText(getContext(), "Redid Speaker Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerMissed, false);
+                break;
+            case 5:
+                Toast.makeText(getContext(), "Redid Hang Start", Toast.LENGTH_SHORT).show();
+                binding.hangQuestionCheckBox.setEnabled(false);
+                binding.hangQuestionCheckBox.setChecked(true);
                 break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -163,7 +173,7 @@ public class TeleopFragment extends Fragment {
     }
     public void openTeleop() {
         if(teleopStart == null) {
-            Fragment popout = getParentFragmentManager().findFragmentByTag("E");
+            Fragment popout = getParentFragmentManager().findFragmentByTag("F");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.show(popout);
             ft.commit();
@@ -172,22 +182,24 @@ public class TeleopFragment extends Fragment {
     public ArrayList<ArrayList<String>> getDataAsArray() {
         ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(8);
         Stack<String> reversedTimestamps = new Stack<String>();
-        for(int i = 0; i<8; i++) {
+        for(int i = 0; i<10; i++) {
             data.add(i, new ArrayList<String>());
         }
         while(timestamps.size()>0){
             reversedTimestamps.push(timestamps.pop());
         }
-        //Speaker and amp timestamps
+        //Speaker and amp timestamps as well as hang start
         for(int i : inputStack) {
             data.get(i).add(reversedTimestamps.pop());
         }
-        //check boxes
-        data.get(4).add(String.valueOf(binding.hangQuestionCheckBox.isChecked()));
-        data.get(6).add(String.valueOf(binding.robotBreakCheckbox.isChecked()));
+        //amplify box
+        data.get(7).add(String.valueOf(binding.robotBreakCheckbox.isChecked()));
 
-        //time on timer
-
+        //defense button timestamps
+        for(TwoThings timestampPair : defenseTimestamps) {
+            data.get(8).add(timestampPair.start);
+            data.get(9).add(timestampPair.end);
+        }
 
         return data;
     }
@@ -228,7 +240,7 @@ public class TeleopFragment extends Fragment {
             ft.show(primary);
             ft.commit();
         });
-        binding.submitButton.setOnClickListener(view1 -> {
+        binding.nextButton.setOnClickListener(view1 -> {
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             ft.show(popout);
@@ -264,23 +276,31 @@ public class TeleopFragment extends Fragment {
                 redoStack = new Stack<Integer>();
             }
         });
-        binding.pickupButton.setOnClickListener(view1 -> {
+        binding.hangQuestionCheckBox.setOnClickListener(view1 -> {
             inputStack.push(4);
+            timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            redoStack = new Stack<Integer>();
+            binding.hangQuestionCheckBox.setEnabled(false);
+        });
+        binding.pickupButton.setOnClickListener(view1 -> {
+            inputStack.push(5);
             timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
             redoStack = new Stack<Integer>();
         });
         binding.amplifyButton.setOnClickListener(view1 -> {
-//            ColorDrawable buttonColor = (ColorDrawable) binding.amplifyButton.getBackground();
-//            if(buttonColor.getColor() != getResources().getColor(R.color.pressed_defense)) {
-                binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
-                inputStack.push(4);
-                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-                redoStack = new Stack<Integer>();
-                Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();
-                Handler handler = new Handler();
-                handler.postDelayed(() ->
-                        binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange)), 10000);
-//            }
+            binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
+            binding.amplifyButton.setEnabled(false);
+            inputStack.push(6);
+            timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+            redoStack = new Stack<Integer>();
+            Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+                    binding.amplifyButton.setEnabled(true);
+                }
+            }, 10000);
         });
         //Defense button that tracks timestamps
         binding.defensiveActionButton.setOnTouchListener((view1, event) -> {

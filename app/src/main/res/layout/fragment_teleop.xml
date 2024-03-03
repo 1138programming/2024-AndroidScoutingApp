@@ -227,10 +227,10 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/submitButton"
+            android:id="@+id/nextButton"
             android:layout_width="300sp"
             android:layout_height="120sp"
-            android:text="@string/submit_button_text"
+            android:text="@string/next_button_title_default"
             android:textSize="48sp"
             android:textColor="@color/cham_background_default"
             android:backgroundTint="@color/chaminade_orange"

@@ -119,106 +119,106 @@ public class ConfirmPopout extends Fragment{
             String[] preAutonData = preAuton.getDataAsArray();
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
             ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
-            try {
-                JSONObject jsonFile = new JSONObject();
-                JSONArray jsonArr = new JSONArray();
-                JSONObject tempJson = new JSONObject();
-                JSONArray tempJsonArr = new JSONArray();
-                //pre-auton json
-                tempJson.put("scouterName", preAutonData[0]);
-                tempJson.put("teamColor", preAutonData[1]);
-                tempJson.put("teamNumber", preAutonData[2]);
-                tempJson.put("teamNoShow", preAutonData[3]);
-                tempJsonArr.put(tempJson);
-                tempJson = new JSONObject();
-                tempJson.put("preAuton", tempJsonArr);
-                jsonArr.put(tempJson);
-                tempJsonArr = new JSONArray();
-                tempJson = new JSONObject();
-
-                //auton json
-                for(int i = 0; i<4; i++) {
-                    for(String j : autonData.get(i)){
-                        tempJsonArr.put(j);
-                    }
-                    tempJson.put(String.valueOf(i),tempJsonArr);
-                    tempJsonArr = new JSONArray();
-                }
-                tempJson.put("taxi",autonData.get(4).get(0));
-                tempJson.put("centerLine",autonData.get(5).get(0));
-                tempJsonArr.put(tempJson);
-                tempJson = new JSONObject();
-                tempJson.put("auton", tempJsonArr);
-                jsonArr.put(tempJson);
-                tempJsonArr = new JSONArray();
-                tempJson = new JSONObject();
-
-                //teleop json
-                for(int i = 0; i<4; i++) {
-                    for(String j : teleopData.get(i)){
-                        tempJsonArr.put(j);
-                    }
-                    tempJson.put(String.valueOf(i),tempJsonArr);
-                    tempJsonArr = new JSONArray();
-                }
-                tempJson.put("robotHung", teleopData.get(4).get(0));
-                tempJson.put("teleopTimeHung", teleopData.get(7).get(0));
-                tempJson.put("trapScored", teleopData.get(5).get(0));
-                tempJson.put("robotBroke", teleopData.get(6).get(0));
-                tempJsonArr.put(tempJson);
-                tempJson = new JSONObject();
-                tempJson.put("teleop", tempJsonArr);
-                jsonArr.put(tempJson);
-
-                jsonFile.put("scoutingData", jsonArr);
-
-//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
-
-                String userString = jsonFile.toString(4);
-                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
-                //creates the directory if it doesn't exist
-                if(!folderDir.isDirectory()) {
-                    if(!folderDir.mkdir()) {
-                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
-                    }
-                }
-                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
-                FileWriter fileWriter = new FileWriter(scoutingFile, false);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(userString);
-                bufferedWriter.close();
-                WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-
-                // creating a variable for point which
-                // is to be displayed in QR Code.
-                Point point = new Point();
-                display.getSize(point);
-
-                // getting width and
-                // height of a point
-                int width = point.x;
-                int height = point.y;
-
-                // generating dimension from width and height.
-                int dimen = width < height ? width : height;
-                dimen = dimen * 3 / 4;
-
-                // setting this dimensions inside our qr code
-                // encoder to generate our qr code.
-                qrgEncoder = new QRGEncoder(jsonFile.toString(), null, QRGContents.Type.TEXT, dimen);
-
-                qrgEncoder.setColorBlack(getResources().getColor(R.color.white));
-                qrgEncoder.setColorWhite(getResources().getColor(R.color.black));
-
-                // getting our qrcode in the form of bitmap.
-                bitmap = qrgEncoder.getBitmap();
-                binding.QRcode.setImageBitmap(bitmap);
-            }
-            catch (JSONException | IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+//            try {
+//                JSONObject jsonFile = new JSONObject();
+//                JSONArray jsonArr = new JSONArray();
+//                JSONObject tempJson = new JSONObject();
+//                JSONArray tempJsonArr = new JSONArray();
+//                //pre-auton json
+//                tempJson.put("scouterName", preAutonData[0]);
+//                tempJson.put("teamColor", preAutonData[1]);
+//                tempJson.put("teamNumber", preAutonData[2]);
+//                tempJson.put("teamNoShow", preAutonData[3]);
+//                tempJsonArr.put(tempJson);
+//                tempJson = new JSONObject();
+//                tempJson.put("preAuton", tempJsonArr);
+//                jsonArr.put(tempJson);
+//                tempJsonArr = new JSONArray();
+//                tempJson = new JSONObject();
+//
+//                //auton json
+//                for(int i = 0; i<4; i++) {
+//                    for(String j : autonData.get(i)){
+//                        tempJsonArr.put(j);
+//                    }
+//                    tempJson.put(String.valueOf(i),tempJsonArr);
+//                    tempJsonArr = new JSONArray();
+//                }
+//                tempJson.put("taxi",autonData.get(4).get(0));
+//                tempJson.put("centerLine",autonData.get(5).get(0));
+//                tempJsonArr.put(tempJson);
+//                tempJson = new JSONObject();
+//                tempJson.put("auton", tempJsonArr);
+//                jsonArr.put(tempJson);
+//                tempJsonArr = new JSONArray();
+//                tempJson = new JSONObject();
+//
+//                //teleop json
+//                for(int i = 0; i<4; i++) {
+//                    for(String j : teleopData.get(i)){
+//                        tempJsonArr.put(j);
+//                    }
+//                    tempJson.put(String.valueOf(i),tempJsonArr);
+//                    tempJsonArr = new JSONArray();
+//                }
+//                tempJson.put("robotHung", teleopData.get(4).get(0));
+//                tempJson.put("teleopTimeHung", teleopData.get(7).get(0));
+//                tempJson.put("trapScored", teleopData.get(5).get(0));
+//                tempJson.put("robotBroke", teleopData.get(6).get(0));
+//                tempJsonArr.put(tempJson);
+//                tempJson = new JSONObject();
+//                tempJson.put("teleop", tempJsonArr);
+//                jsonArr.put(tempJson);
+//
+//                jsonFile.put("scoutingData", jsonArr);
+//
+////                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
+//
+//                String userString = jsonFile.toString(4);
+//                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+//                //creates the directory if it doesn't exist
+//                if(!folderDir.isDirectory()) {
+//                    if(!folderDir.mkdir()) {
+//                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
+//                FileWriter fileWriter = new FileWriter(scoutingFile, false);
+//                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//                bufferedWriter.write(userString);
+//                bufferedWriter.close();
+//                WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
+//                Display display = manager.getDefaultDisplay();
+//
+//                // creating a variable for point which
+//                // is to be displayed in QR Code.
+//                Point point = new Point();
+//                display.getSize(point);
+//
+//                // getting width and
+//                // height of a point
+//                int width = point.x;
+//                int height = point.y;
+//
+//                // generating dimension from width and height.
+//                int dimen = width < height ? width : height;
+//                dimen = dimen * 3 / 4;
+//
+//                // setting this dimensions inside our qr code
+//                // encoder to generate our qr code.
+//                qrgEncoder = new QRGEncoder(jsonFile.toString(), null, QRGContents.Type.TEXT, dimen);
+//
+//                qrgEncoder.setColorBlack(getResources().getColor(R.color.white));
+//                qrgEncoder.setColorWhite(getResources().getColor(R.color.black));
+//
+//                // getting our qrcode in the form of bitmap.
+//                bitmap = qrgEncoder.getBitmap();
+//                binding.QRcode.setImageBitmap(bitmap);
+//            }
+//            catch (JSONException | IOException e) {
+//                e.printStackTrace();
+//                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
 
 //            ft.remove(preAuton);
 //            ft.remove(auton);
