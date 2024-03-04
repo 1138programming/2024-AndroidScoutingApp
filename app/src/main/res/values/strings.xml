@@ -43,12 +43,14 @@
     <string name="leave_bonus_title">Did they leave? (Taxi):</string>
     <string name="crossed_center_line_title">Did they cross center:</string>
     <string name="hang_title">Started Hang</string>
-    <string name="trap_title">Trap?</string>
+    <string name="successful_hang_title">Successful Hang?</string>
+    <string name="trap_title">Trap Scored?</string>
     <string name="robot_break_check">Break?</string>
     <string name="is_team_noshow">Team didn\'t show up:</string>
     <!--Next and Submit Button Text-->
     <string name="submit_button_text">Submit</string>
     <string name="next_button_title_default">Next</string>
+    <string name="reset_form_title">Reset</string>
     <string name="endgame_title">Endgame / Misc.</string>
     <!--Title for pickup and amplify-->
     <string name="pickup_note_title">Pickup</string>
@@ -57,8 +59,9 @@
     <string name="default_back_button_title">&#60;—</string>
     <!--Buttons and text for submit confirmation-->
     <string name="confirm_submit">Are you sure you want to submit?</string>
+    <string name="reset_title">Are you sure you want to reset?</string>
     <string name="cancel_button">Cancel</string>
-    <string name="confirm_button">Confirm</string>
+    <string name="confirm_reset_button">Reset</string>
     <!--Start auton and teleop popups-->
     <string name="auton_start_prompt">Press when Auton starts</string>
     <string name="teleop_start_prompt">Press when Teleop starts</string>
@@ -66,7 +69,5 @@
     <string name="start_button">Start</string>
     <!--Defense Button-->
     <string name="defensive_action_text">Defensive Action (Hold)</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -79,9 +79,9 @@ public class AutonFragment extends Fragment {
     }
 
     public ArrayList<ArrayList<String>> getDataAsArray() {
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(6);
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(7);
         Stack<String> reversedTimestamps = new Stack<String>();
-        for(int i = 0; i<6; i++) {
+        for(int i = 0; i<7; i++) {
             data.add(i, new ArrayList<String>());
         }
         while(timestamps.size()>0){
@@ -95,6 +95,7 @@ public class AutonFragment extends Fragment {
         //check boxes
         data.get(4).add(String.valueOf(binding.leaveQuestionCheckBox.isChecked()));
         data.get(5).add(String.valueOf(binding.centerLineCheckbox.isChecked()));
+        data.get(6).add(autonStart);
 
         return data;
     }

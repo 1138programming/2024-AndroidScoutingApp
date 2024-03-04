@@ -117,7 +117,7 @@
             android:textColor="@color/cham_background_default"
             android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/defensive_action_button"
-            app:layout_constraintEnd_toStartOf="@+id/submitButton"
+            app:layout_constraintEnd_toStartOf="@+id/nextButton"
             app:layout_constraintHorizontal_bias="0.35"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hang_title" />
@@ -262,7 +262,7 @@
             app:layout_constraintTop_toTopOf="@+id/hangQuestionCheckBox" />
 
         <TextView
-            android:id="@+id/robotBrokeTitle"
+            android:id="@+id/trapScoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/robot_break_check"

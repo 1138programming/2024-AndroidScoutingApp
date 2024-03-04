@@ -64,6 +64,7 @@ public class TeleopFragment extends Fragment {
     private Stack<String> redoTimestamps = new Stack<String>();
     private String teleopStart;
     private ArrayList<TwoThings> defenseTimestamps = new ArrayList<>();
+    private boolean currentlyAmplified = false;
     public TeleopFragment() {
         // Required empty public constructor
     }
@@ -107,10 +108,20 @@ public class TeleopFragment extends Fragment {
                 Toast.makeText(getContext(), "Undid Speaker Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerMissed);
                 break;
-            case 5:
+            case 4:
                 Toast.makeText(getContext(), "Undid Hang Start", Toast.LENGTH_SHORT).show();
                 binding.hangQuestionCheckBox.setEnabled(true);
                 binding.hangQuestionCheckBox.setChecked(false);
+                break;
+            case 5:
+                Toast.makeText(getContext(), "Undid Pickup", Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
+                Toast.makeText(getContext(), "Undid Amplification", Toast.LENGTH_SHORT).show();
+                if(currentlyAmplified) {
+                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+                    binding.amplifyButton.setEnabled(true);
+                }
                 break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -136,10 +147,20 @@ public class TeleopFragment extends Fragment {
                 Toast.makeText(getContext(), "Redid Speaker Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerMissed, false);
                 break;
-            case 5:
+            case 4:
                 Toast.makeText(getContext(), "Redid Hang Start", Toast.LENGTH_SHORT).show();
                 binding.hangQuestionCheckBox.setEnabled(false);
                 binding.hangQuestionCheckBox.setChecked(true);
+                break;
+            case 5:
+                Toast.makeText(getContext(), "Redid Pickup", Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
+                Toast.makeText(getContext(), "Redid Amplification", Toast.LENGTH_SHORT).show();
+                if(currentlyAmplified) {
+                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
+                    binding.amplifyButton.setEnabled(false);
+                }
                 break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -180,9 +201,9 @@ public class TeleopFragment extends Fragment {
         }
     }
     public ArrayList<ArrayList<String>> getDataAsArray() {
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(8);
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(11);
         Stack<String> reversedTimestamps = new Stack<String>();
-        for(int i = 0; i<10; i++) {
+        for(int i = 0; i<11; i++) {
             data.add(i, new ArrayList<String>());
         }
         while(timestamps.size()>0){
@@ -200,7 +221,7 @@ public class TeleopFragment extends Fragment {
             data.get(8).add(timestampPair.start);
             data.get(9).add(timestampPair.end);
         }
-
+        data.get(10).add(teleopStart);
         return data;
     }
 
@@ -242,8 +263,10 @@ public class TeleopFragment extends Fragment {
         });
         binding.nextButton.setOnClickListener(view1 -> {
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            Fragment popout = getParentFragmentManager().findFragmentByTag("D");
-            ft.show(popout);
+            Fragment self = getParentFragmentManager().findFragmentByTag("C");
+            Fragment postMatch = getParentFragmentManager().findFragmentByTag("G");
+            ft.show(postMatch);
+            ft.hide(self);
             ft.commit();
         });
         // Increment & decrement view functions
@@ -288,6 +311,7 @@ public class TeleopFragment extends Fragment {
             redoStack = new Stack<Integer>();
         });
         binding.amplifyButton.setOnClickListener(view1 -> {
+            currentlyAmplified = true;
             binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
             binding.amplifyButton.setEnabled(false);
             inputStack.push(6);
@@ -299,6 +323,7 @@ public class TeleopFragment extends Fragment {
                 public void run() {
                     binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
                     binding.amplifyButton.setEnabled(true);
+                    currentlyAmplified = false;
                 }
             }, 10000);
         });

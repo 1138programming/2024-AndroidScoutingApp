@@ -99,21 +99,19 @@ public class PreAuton extends Fragment {
 
         data[0] = binding.scouterNameInput.getText().toString();
         data[1] = binding.matchNumberSpinner.getSelectedItem().toString();
-
+        data[2] = Integer.toString(teamNumbers.indexOf(binding.teamNumberInput.getSelectedItem().toString())+1);
         if(binding.leftStart.isChecked()){
-            data[2] = binding.leftStart.getText().toString();
+            data[3] = binding.leftStart.getText().toString();
         }
         else if(binding.middleStart.isChecked()) {
-            data[2] = binding.middleStart.getText().toString();
+            data[3] = binding.middleStart.getText().toString();
         }
         else if(binding.rightStart.isChecked()){
-            data[2] = binding.rightStart.getText().toString();
+            data[3] = binding.rightStart.getText().toString();
         }
         else {
-            data[2] = "noShow";
+            data[3] = "noShow";
         }
-        data[3] = Integer.toString(teamNumbers.indexOf(binding.teamNumberInput.getSelectedItem().toString())+1);
-        Toast.makeText(this.getContext(), data[3], Toast.LENGTH_LONG).show();
         return data;
     }
     @Override

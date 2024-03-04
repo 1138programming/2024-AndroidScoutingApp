@@ -46,9 +46,6 @@ public class ConfirmPopout extends Fragment{
     private String mParam1;
     private String mParam2;
     HashMap<Integer, String> jsonReference = new HashMap<>();
-    private ImageView qrCodeIV;
-    Bitmap bitmap;
-    QRGEncoder qrgEncoder;
     public ConfirmPopout() {
         // Required empty public constructor
     }
@@ -70,7 +67,15 @@ public class ConfirmPopout extends Fragment{
         fragment.setArguments(args);
         return fragment;
     }
+    private JSONObject newJsonTemplate(String[] preAutonData) throws JSONException {
+        JSONObject datapointTemplate = new JSONObject();
 
+        //creates template for all datapoints
+        datapointTemplate.put("scouterName", preAutonData[0]);
+        datapointTemplate.put("matchNumber", preAutonData[1]);
+        datapointTemplate.put("teamID", preAutonData[2]);
+        return datapointTemplate;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,36 +119,43 @@ public class ConfirmPopout extends Fragment{
             PreAuton preAuton = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
             AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
             TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
+            PostMatch postMatch = (PostMatch) getParentFragmentManager().findFragmentByTag("G");
             Fragment popout = getParentFragmentManager().findFragmentByTag("D");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            //gets data from various fragments
             String[] preAutonData = preAuton.getDataAsArray();
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
             ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
-//            try {
-//                JSONObject jsonFile = new JSONObject();
-//                JSONArray jsonArr = new JSONArray();
-//                JSONObject tempJson = new JSONObject();
-//                JSONArray tempJsonArr = new JSONArray();
-//                //pre-auton json
-//                tempJson.put("scouterName", preAutonData[0]);
-//                tempJson.put("teamColor", preAutonData[1]);
-//                tempJson.put("teamNumber", preAutonData[2]);
-//                tempJson.put("teamNoShow", preAutonData[3]);
-//                tempJsonArr.put(tempJson);
-//                tempJson = new JSONObject();
-//                tempJson.put("preAuton", tempJsonArr);
-//                jsonArr.put(tempJson);
-//                tempJsonArr = new JSONArray();
-//                tempJson = new JSONObject();
-//
-//                //auton json
-//                for(int i = 0; i<4; i++) {
-//                    for(String j : autonData.get(i)){
-//                        tempJsonArr.put(j);
-//                    }
-//                    tempJson.put(String.valueOf(i),tempJsonArr);
-//                    tempJsonArr = new JSONArray();
-//                }
+            String[] postMatchData = postMatch.getDataAsArray();
+            try {
+                JSONObject jsonFile = new JSONObject();
+                JSONArray jsonArr = new JSONArray();
+                JSONObject tempJson = new JSONObject();
+
+                //pre-auton json
+                tempJson = newJsonTemplate(preAutonData);
+                tempJson.put("datapointID", 0);
+                tempJson.put("datapointType", "String");
+                tempJson.put("datapointValue", preAutonData[3]);
+                jsonArr.put(tempJson);
+                tempJson = newJsonTemplate(preAutonData);
+
+                //auton json
+                tempJson.put("datapointID", 1);
+                tempJson.put("datapointType", "String");
+                tempJson.put("datapointValue", autonData.get(6).get(0));
+                jsonArr.put(tempJson);
+                tempJson = newJsonTemplate(preAutonData);
+
+                for(int i = 0; i<4; i++) {
+                    for(String j : autonData.get(i)){
+                        tempJson.put("datapointID", i+2);
+                        tempJson.put("datapointType", "String");
+                        tempJson.put("datapointValue", j);
+                        jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
+                    }
+                }
 //                tempJson.put("taxi",autonData.get(4).get(0));
 //                tempJson.put("centerLine",autonData.get(5).get(0));
 //                tempJsonArr.put(tempJson);
@@ -169,74 +181,33 @@ public class ConfirmPopout extends Fragment{
 //                tempJson = new JSONObject();
 //                tempJson.put("teleop", tempJsonArr);
 //                jsonArr.put(tempJson);
-//
-//                jsonFile.put("scoutingData", jsonArr);
-//
-////                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
-//
-//                String userString = jsonFile.toString(4);
-//                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
-//                //creates the directory if it doesn't exist
-//                if(!folderDir.isDirectory()) {
-//                    if(!folderDir.mkdir()) {
-//                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
-//                FileWriter fileWriter = new FileWriter(scoutingFile, false);
-//                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-//                bufferedWriter.write(userString);
-//                bufferedWriter.close();
-//                WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
-//                Display display = manager.getDefaultDisplay();
-//
-//                // creating a variable for point which
-//                // is to be displayed in QR Code.
-//                Point point = new Point();
-//                display.getSize(point);
-//
-//                // getting width and
-//                // height of a point
-//                int width = point.x;
-//                int height = point.y;
-//
-//                // generating dimension from width and height.
-//                int dimen = width < height ? width : height;
-//                dimen = dimen * 3 / 4;
-//
-//                // setting this dimensions inside our qr code
-//                // encoder to generate our qr code.
-//                qrgEncoder = new QRGEncoder(jsonFile.toString(), null, QRGContents.Type.TEXT, dimen);
-//
-//                qrgEncoder.setColorBlack(getResources().getColor(R.color.white));
-//                qrgEncoder.setColorWhite(getResources().getColor(R.color.black));
-//
-//                // getting our qrcode in the form of bitmap.
-//                bitmap = qrgEncoder.getBitmap();
-//                binding.QRcode.setImageBitmap(bitmap);
-//            }
-//            catch (JSONException | IOException e) {
-//                e.printStackTrace();
-//                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
 
-//            ft.remove(preAuton);
-//            ft.remove(auton);
-//            ft.remove(teleop);
-//            ft.remove(popout);
-//
-//            teleop = new TeleopFragment();
-//            auton = new AutonFragment();
-//            preAuton = new PreAuton();
-//            ft.add(R.id.main_fragment, preAuton, "A");
-//            ft.add(R.id.main_fragment, auton, "B");
-//            ft.add(R.id.main_fragment, teleop, "C");
-//            ft.add(R.id.main_fragment, popout, "D");
-//            ft.show(preAuton);
-//            ft.hide(auton);
-//            ft.hide(teleop);
-//            ft.hide(popout);
-//            ft.commit();
+                jsonFile.put("scoutingData", jsonArr);
+
+//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
+
+                String userString = jsonFile.toString(4);
+                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+                //creates the directory if it doesn't exist
+                if(!folderDir.isDirectory()) {
+                    if(!folderDir.mkdir()) {
+                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
+                    }
+                }
+                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
+                FileWriter fileWriter = new FileWriter(scoutingFile, false);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(userString);
+                bufferedWriter.close();
+                postMatch.generateQRCode(jsonFile);
+            }
+            catch (JSONException | IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            ft.hide(popout);
+            ft.commit();
         });
 
     }
