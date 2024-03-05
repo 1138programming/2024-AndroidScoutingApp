@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPostMatchBinding;
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -34,9 +37,9 @@ public class PostMatch extends Fragment {
     FragmentPostMatchBinding binding;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Bitmap bitmap;
-    private QRGEncoder qrgEncoder;
     private boolean submitted = false;
+    ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
+    private int currQRIndex = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,6 +91,10 @@ public class PostMatch extends Fragment {
         return data;
     }
     public void generateQRCode(JSONObject jsonFile) {
+        ArrayList<QRGEncoder> qrgEncoder = new ArrayList<QRGEncoder>();
+        ArrayList<String> segmentedJson = new ArrayList<String>();
+        int qrSize = 2550;
+        int borderSize = 25;
         submitted = true;
         binding.returnToTeleop.setEnabled(false);
         binding.successfulHangCheckbox.setEnabled(false);
@@ -110,20 +117,61 @@ public class PostMatch extends Fragment {
         int dimen = width < height ? width : height;
         dimen = dimen * 3 / 4;
 
-        // setting this dimensions inside our qr code
-        // encoder to generate our qr code.
-        qrgEncoder = new QRGEncoder(jsonFile.toString(), null, QRGContents.Type.TEXT, dimen);
-
-        qrgEncoder.setColorBlack(getResources().getColor(R.color.white));
-        qrgEncoder.setColorWhite(getResources().getColor(R.color.black));
-
+        for(int i = 0; i<((double)jsonFile.toString().length())/qrSize; i++) {
+            if(jsonFile.toString().length() > qrSize*(i+1)) {
+                segmentedJson.add(jsonFile.toString().substring(qrSize * i, qrSize * (i + 1)));
+            }
+            else {
+                segmentedJson.add(jsonFile.toString().substring(qrSize * i));
+            }
+        }
+        for(int i = 0; i<segmentedJson.size(); i++) {
+            qrgEncoder.add(new QRGEncoder(segmentedJson.get(i),null, QRGContents.Type.TEXT, dimen));
+        }
+        for(QRGEncoder qrEncoder : qrgEncoder) {
+            qrEncoder.setColorBlack(getResources().getColor(R.color.white));
+            qrEncoder.setColorWhite(getResources().getColor(R.color.black));
+            bitmap.add(Bitmap.createBitmap(qrEncoder.getBitmap(), borderSize,borderSize,
+                    dimen-borderSize*2, dimen-borderSize*2));
+        }
         // getting our qrcode in the form of bitmap.
-        bitmap = qrgEncoder.getBitmap();
-        binding.QRcode.setImageBitmap(bitmap);
+        binding.QRcode.setImageBitmap(bitmap.get(currQRIndex));
+        if(bitmap.size() > 1) {
+            binding.nextButton.setEnabled(true);
+            binding.nextButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+        }
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.backButton.setOnClickListener(view1 -> {
+            if(currQRIndex > 0) {
+                currQRIndex--;
+                binding.QRcode.setImageBitmap(bitmap.get(currQRIndex));
+                if (currQRIndex == 0) {
+                    binding.backButton.setEnabled(false);
+                    binding.backButton.setBackgroundColor(getResources().getColor(R.color.simple_light_grey));
+                }
+                if(currQRIndex == bitmap.size()-2) {
+                    binding.nextButton.setEnabled(true);
+                    binding.nextButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+                }
+            }
+        });
+        binding.nextButton.setOnClickListener(view1 -> {
+            if(bitmap.size() > currQRIndex+1) {
+                currQRIndex++;
+                binding.QRcode.setImageBitmap(bitmap.get(currQRIndex));
+                if(bitmap.size() == currQRIndex+1) {
+                    binding.nextButton.setEnabled(false);
+                    binding.nextButton.setBackgroundColor(getResources().getColor(R.color.simple_light_grey));
+                }
+                if(currQRIndex == 1) {
+                    binding.backButton.setEnabled(true);
+                    binding.backButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+                }
+            }
+        });
         binding.returnToTeleop.setOnClickListener(view1 -> {
             Fragment self = getParentFragmentManager().findFragmentByTag("G");
             Fragment teleop = getParentFragmentManager().findFragmentByTag("C");
