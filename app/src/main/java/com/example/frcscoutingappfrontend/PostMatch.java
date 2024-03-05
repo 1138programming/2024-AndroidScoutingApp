@@ -22,7 +22,9 @@ import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -37,6 +39,8 @@ public class PostMatch extends Fragment {
     FragmentPostMatchBinding binding;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String trapScored = "00:00:00";
+    private String successfulHang = "00:00:00";
     private boolean submitted = false;
     ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
     private int currQRIndex = 0;
@@ -85,8 +89,8 @@ public class PostMatch extends Fragment {
     public String[] getDataAsArray() {
         String[] data = new String[2];
 
-        data[0] = String.valueOf(binding.successfulHangCheckbox.isChecked());
-        data[1] = String.valueOf(binding.trapCheckbox.isChecked());
+        data[0] = String.valueOf(successfulHang);
+        data[1] = String.valueOf(trapScored);
 
         return data;
     }
@@ -144,6 +148,22 @@ public class PostMatch extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.trapCheckbox.setOnClickListener(view1 ->{
+            if(binding.trapCheckbox.isChecked()) {
+                trapScored = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            }
+            else {
+                successfulHang = "00:00:00";
+            }
+        });
+        binding.successfulHangCheckbox.setOnClickListener(view1 ->{
+            if(binding.successfulHangCheckbox.isChecked()) {
+                successfulHang = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            }
+            else {
+                successfulHang = "00:00:00";
+            }
+        });
         binding.backButton.setOnClickListener(view1 -> {
             if(currQRIndex > 0) {
                 currQRIndex--;

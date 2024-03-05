@@ -71,8 +71,8 @@ public class ConfirmPopout extends Fragment{
         JSONObject datapointTemplate = new JSONObject();
 
         //creates template for all datapoints
-        datapointTemplate.put("scouterName", preAutonData[0]);
-        datapointTemplate.put("matchNumber", preAutonData[1]);
+        datapointTemplate.put("scouterID", preAutonData[0]);
+        datapointTemplate.put("matchID", preAutonData[1]);
         datapointTemplate.put("teamID", preAutonData[2]);
         return datapointTemplate;
     }
@@ -127,6 +127,7 @@ public class ConfirmPopout extends Fragment{
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
             ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
             String[] postMatchData = postMatch.getDataAsArray();
+            String booleanFalse = "00:00:00";
             try {
                 JSONObject jsonFile = new JSONObject();
                 JSONArray jsonArr = new JSONArray();
@@ -135,67 +136,82 @@ public class ConfirmPopout extends Fragment{
                 //pre-auton json
                 tempJson = newJsonTemplate(preAutonData);
                 tempJson.put("datapointID", 0);
-                tempJson.put("datapointType", "String");
-                tempJson.put("datapointValue", preAutonData[3]);
+                tempJson.put("datapointValue", "true");
+                tempJson.put("DCTimestamp", preAutonData[3]);
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 //auton json
                 tempJson.put("datapointID", 1);
-                tempJson.put("datapointType", "String");
-                tempJson.put("datapointValue", autonData.get(6).get(0));
+                tempJson.put("datapointValue", "true");
+                tempJson.put("DCTimestamp", autonData.get(6).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 for(int i = 0; i<4; i++) {
                     for(String j : autonData.get(i)){
                         tempJson.put("datapointID", i+2);
-                        tempJson.put("datapointType", "String");
-                        tempJson.put("datapointValue", j);
+                        tempJson.put("datapointValue", "true");
+                        tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
                         tempJson = newJsonTemplate(preAutonData);
                     }
                 }
 
                 tempJson.put("datapointID", 6);
-                tempJson.put("datapointType", "boolean");
-                tempJson.put("datapointValue", autonData.get(4).get(0));
+                if(autonData.get(4).get(0).equals(booleanFalse)) {
+                    tempJson.put("datapointValue", "false");
+                }
+                else {
+                    tempJson.put("datapointValue", "true");
+                }
+                tempJson.put("DCTimestamp", autonData.get(4).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 tempJson.put("datapointID", 7);
-                tempJson.put("datapointType", "boolean");
-                tempJson.put("datapointValue", autonData.get(5).get(0));
+                if(autonData.get(5).get(0).equals(booleanFalse)) {
+                    tempJson.put("datapointValue", "false");
+                }
+                else {
+                    tempJson.put("datapointValue", "true");
+                }
+                tempJson.put("DCTimestamp", autonData.get(5).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 //teleop json
                 tempJson.put("datapointID", 8);
-                tempJson.put("datapointType", "String");
-                tempJson.put("datapointValue", teleopData.get(10).get(0));
+                tempJson.put("datapointValue", "true");
+                tempJson.put("DCTimestamp", teleopData.get(10).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 for(int i = 0; i<7; i++) {
                     for(String j : teleopData.get(i)){
                         tempJson.put("datapointID", i+9);
-                        tempJson.put("datapointType", "String");
-                        tempJson.put("datapointValue", j);
+                        tempJson.put("datapointValue", "true");
+                        tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
                         tempJson = newJsonTemplate(preAutonData);
                     }
                 }
                 tempJson.put("datapointID", 16);
-                tempJson.put("datapointType", "boolean");
-                tempJson.put("datapointValue", teleopData.get(7).get(0));
+                if(teleopData.get(7).get(0).equals(booleanFalse)) {
+                    tempJson.put("datapointValue", "false");
+                }
+                else {
+                    tempJson.put("datapointValue", "true");
+                }
+                tempJson.put("DCTimestamp", teleopData.get(7).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 for(int i = 8; i<10; i++) {
                     for(String j : teleopData.get(i)){
                         tempJson.put("datapointID", i+9);
-                        tempJson.put("datapointType", "String");
-                        tempJson.put("datapointValue", j);
+                        tempJson.put("datapointValue", "true");
+                        tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
                         tempJson = newJsonTemplate(preAutonData);
                     }
@@ -203,14 +219,24 @@ public class ConfirmPopout extends Fragment{
 
                 //post match
                 tempJson.put("datapointID", 19);
-                tempJson.put("datapointType", "boolean");
-                tempJson.put("datapointValue", postMatchData[0]);
+                if(postMatchData[0].equals(booleanFalse)) {
+                    tempJson.put("datapointValue", "false");
+                }
+                else {
+                    tempJson.put("datapointValue", "true");
+                }
+                tempJson.put("DCTimestamp", postMatchData[0]);
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 tempJson.put("datapointID", 20);
-                tempJson.put("datapointType", "boolean");
-                tempJson.put("datapointValue", postMatchData[1]);
+                if(postMatchData[1].equals(booleanFalse)) {
+                    tempJson.put("datapointValue", "false");
+                }
+                else {
+                    tempJson.put("datapointValue", "true");
+                }
+                tempJson.put("DCTimestamp", postMatchData[1]);
                 jsonArr.put(tempJson);
 
                 jsonFile.put("scoutingData", jsonArr);

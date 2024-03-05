@@ -56,6 +56,8 @@ public class AutonFragment extends Fragment {
     private Stack<Integer> redoStack = new Stack<Integer>();
     private Stack<String> redoTimestamps = new Stack<String>();
     private String autonStart;
+    private String taxi = "00:00:00";
+    private String crossCenter = "00:00:00";
     public AutonFragment() {
         // Required empty public constructor
     }
@@ -242,8 +244,23 @@ public class AutonFragment extends Fragment {
                 redoStack = new Stack<Integer>();
             }
         });
-
-                // Fragment transaction on "Next" button
+        binding.leaveQuestionCheckBox.setOnClickListener(view1 ->{
+            if(binding.leaveQuestionCheckBox.isChecked()) {
+                taxi = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            }
+            else {
+                taxi = "00:00:00";
+            }
+        });
+        binding.crossedCenterTitle.setOnClickListener(view1 ->{
+            if(binding.centerLineCheckbox.isChecked()) {
+                crossCenter = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            }
+            else {
+                crossCenter = "00:00:00";
+            }
+        });
+        // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
             Fragment self = getParentFragmentManager().findFragmentByTag("B");
             Fragment secondary = getParentFragmentManager().findFragmentByTag("C");
