@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ConfirmPopout extends Fragment{
     ConfirmPopoutBinding binding;
@@ -251,7 +252,20 @@ public class ConfirmPopout extends Fragment{
                         Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
                     }
                 }
-                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime()+".json");
+                boolean fileExists = true;
+                String temp = preAuton.getFileTitle();
+                File scoutingFile = new File(folderDir, temp+".json");
+                for(int i = 1; fileExists; i++) {
+
+                    fileExists = false;
+                    for(File j : Objects.requireNonNull(folderDir.listFiles())) {
+                        if(scoutingFile.getName().equals(j.getName())) {
+                            fileExists = true;
+                        }
+                    }
+                    if(fileExists)
+                        scoutingFile = new File(folderDir, temp+"("+i+").json");
+                }
                 FileWriter fileWriter = new FileWriter(scoutingFile, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);

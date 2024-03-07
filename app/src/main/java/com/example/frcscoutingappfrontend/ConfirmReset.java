@@ -78,13 +78,6 @@ public class ConfirmReset extends Fragment{
         //submits and saves as json
         binding.confirmButton.setOnClickListener(view1 -> {
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-//            PreAuton startingFragment = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
-//            AutonFragment autonFragment = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
-//            TeleopFragment teleopFragment = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
-//            ConfirmPopout popoutFragment = (ConfirmPopout) getParentFragmentManager().findFragmentByTag("D");
-//            ConfirmAutonStart confirmAutonStart = (ConfirmAutonStart) getParentFragmentManager().findFragmentByTag("E");
-//            ConfirmTeleopStart confirmTeleopStart = (ConfirmTeleopStart) getParentFragmentManager().findFragmentByTag("F");
-//            PostMatch postMatch = (PostMatch) getParentFragmentManager().findFragmentByTag("G");
 
             PreAuton startingFragment = new PreAuton();
             AutonFragment autonFragment = new  AutonFragment();
@@ -94,6 +87,7 @@ public class ConfirmReset extends Fragment{
             ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
             PostMatch postMatch = new  PostMatch();
             ConfirmReset confirmReset = new ConfirmReset();
+            ArchiveFragment archiveFragment = new ArchiveFragment();
 
             ft.remove(startingFragment);
             ft.remove(autonFragment);
@@ -103,6 +97,7 @@ public class ConfirmReset extends Fragment{
             ft.remove(confirmTeleopStart);
             ft.remove(postMatch);
             ft.remove(confirmReset);
+            ft.remove(archiveFragment);
 
             ft.add(R.id.main_fragment, startingFragment, "A");
             ft.add(R.id.main_fragment, autonFragment, "B");
@@ -112,6 +107,7 @@ public class ConfirmReset extends Fragment{
             ft.add(R.id.main_fragment, confirmAutonStart, "E");
             ft.add(R.id.main_fragment, confirmTeleopStart, "F");
             ft.add(R.id.main_fragment, confirmReset, "H");
+            ft.add(R.id.main_fragment, archiveFragment, "I");
             ft.show(startingFragment);
             ft.hide(autonFragment);
             ft.hide(teleopFragment);
@@ -120,6 +116,7 @@ public class ConfirmReset extends Fragment{
             ft.hide(confirmTeleopStart);
             ft.hide(postMatch);
             ft.hide(confirmReset);
+            ft.hide(archiveFragment);
             ft.commit();
         });
 

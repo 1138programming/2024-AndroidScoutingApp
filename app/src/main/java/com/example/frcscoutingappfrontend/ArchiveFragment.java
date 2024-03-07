@@ -1,0 +1,104 @@
+package com.example.frcscoutingappfrontend;
+
+import android.content.res.AssetManager;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import com.example.frcscoutingappfrontend.databinding.FragmentArchiveBinding;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ArchiveFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ArchiveFragment extends Fragment {
+
+    FragmentArchiveBinding binding;
+    private final File filePath = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public ArchiveFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment ArchiveFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static ArchiveFragment newInstance(String param1, String param2) {
+        ArchiveFragment fragment = new ArchiveFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+    private void openQRCode(String fileName) {
+        Toast.makeText(this.getContext(), "Opening: "+fileName, Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+         this.binding = FragmentArchiveBinding.inflate(inflater, container, false);
+         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //creates content for list
+        File[] files = filePath.listFiles();
+        assert files != null;
+        String[] fileNames = new String[files.length];
+        for(int i = 0; i< files.length; i++) {
+            fileNames[i] = files[i].getName();
+//            Toast.makeText(this.getContext(), fileNames[i], Toast.LENGTH_SHORT).show();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, fileNames);
+        binding.submissionList.setAdapter(adapter);
+        binding.submissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+
+                openQRCode(binding.submissionList.getItemAtPosition(position).toString());
+            }
+        });
+    }
+}

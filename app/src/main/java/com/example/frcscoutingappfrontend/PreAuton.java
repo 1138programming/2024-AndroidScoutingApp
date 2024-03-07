@@ -34,9 +34,11 @@ public class PreAuton extends Fragment {
     FragmentPreAutonBinding binding;
     ArrayList<CharSequence> matchNumbers = new ArrayList<>();
     ArrayList<CharSequence> teamNumbers = new ArrayList<>();
+    ArrayList<CharSequence> scouterNames = new ArrayList<>();
     int numberOfMatches = 66;
     ArrayAdapter<CharSequence> matchNumberAdapter;
     ArrayAdapter<CharSequence> teamNumberAdapter;
+    ArrayAdapter<CharSequence> scouterAdapter;
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
@@ -97,7 +99,7 @@ public class PreAuton extends Fragment {
     public String[] getDataAsArray() {
         String[] data = new String[4];
 
-        data[0] = binding.scouterNameInput.getText().toString();
+        data[0] = Integer.toString(scouterNames.indexOf(binding.scouterNameSpinner.getSelectedItem().toString())+1);
         data[1] = binding.matchNumberSpinner.getSelectedItem().toString();
         data[2] = Integer.toString(teamNumbers.indexOf(binding.teamNumberInput.getSelectedItem().toString())+1);
         if(binding.leftStart.isChecked()){
@@ -114,6 +116,11 @@ public class PreAuton extends Fragment {
         }
         return data;
     }
+    public String getFileTitle() {
+        String title = binding.scouterNameSpinner.getSelectedItem().toString()
+            + " Match #"+binding.matchNumberSpinner.getSelectedItem().toString();
+        return title;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,6 +131,21 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //adds scouter names to arrayList (sorry)
+        scouterNames.add("Abhinav Kandhakumar");
+        scouterNames.add("Katie Tracton");
+        scouterNames.add("Leo Ke");
+        scouterNames.add("Luci Lovequist");
+        scouterNames.add("Robert Badelt");
+        scouterNames.add("Seumas Rawlinson");
+        scouterNames.add("Thomas Gage Evans");
+        scouterNames.add("Viren Sharma");
+        scouterNames.add("Marcus Chow");
+        scouterNames.add("Luke Beausang");
+        scouterAdapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, scouterNames);
+        scouterAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        binding.scouterNameSpinner.setAdapter(scouterAdapter);
+
         //adds teams to arraylist (sorry)
         teamNumbers.add("8");
         teamNumbers.add("115");
@@ -173,18 +195,18 @@ public class PreAuton extends Fragment {
         teamNumbers.add("9172");
         teamNumbers.add("9421");
         teamNumbers.add("9635");
-        teamNumberAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, teamNumbers);
-        teamNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        teamNumberAdapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, teamNumbers);
+        teamNumberAdapter.setDropDownViewResource(R.layout.spinner_layout);
         binding.teamNumberInput.setAdapter(teamNumberAdapter);
 
         //creates spinner for match number
         for(int i = 1; i<=numberOfMatches; i++) {
             matchNumbers.add(Integer.toString(i));
         }
-        matchNumberAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, matchNumbers);
-        matchNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        matchNumberAdapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, matchNumbers);
+        matchNumberAdapter.setDropDownViewResource(R.layout.spinner_layout);
         binding.matchNumberSpinner.setAdapter(matchNumberAdapter);
-        //sets margins for
+        //sets dynamic movement for starting position
         redParamsL.setMargins(dpToPixel(50),dpToPixel(1),dpToPixel(20),dpToPixel(1));
         redParamsR.setMargins(dpToPixel(85),dpToPixel(1),0,dpToPixel(1));
         blueParamsL.setMargins(dpToPixel(0),dpToPixel(1),dpToPixel(85),dpToPixel(1));
@@ -223,6 +245,13 @@ public class PreAuton extends Fragment {
                 binding.startingLocation.clearCheck();
                 binding.noShowCheckbox.setChecked(true);
             }
+        });
+        //qr code button
+        binding.archiveButton.setOnClickListener(view1 -> {
+            Fragment popup = getParentFragmentManager().findFragmentByTag("I");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(popup);
+            ft.commit();
         });
         // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {

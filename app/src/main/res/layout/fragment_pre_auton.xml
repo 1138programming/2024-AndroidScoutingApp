@@ -24,6 +24,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/archiveButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="@string/plus_button"
+            android:cropToPadding="false"
+            android:src="@drawable/qr_code_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/chaminade_orange" />
+
         <TextView
             android:id="@+id/scouterNameTitle"
             android:layout_width="wrap_content"
@@ -37,16 +49,17 @@
             app:layout_constraintTop_toTopOf="@+id/mainTitle"
             app:layout_constraintVertical_bias=".15" />
 
-        <EditText
-            android:id="@+id/scouterNameInput"
-            android:layout_width="300sp"
+        <Spinner
+            android:id="@+id/scouterNameSpinner"
+            android:layout_width="350sp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:hint="@string/name_prompt_hint"
             android:textColor="@color/off_white"
-            android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="@+id/scouterNameTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scouterNameTitle" />
+            app:layout_constraintStart_toEndOf="@+id/scouterNameTitle"
+            app:layout_constraintTop_toTopOf="@+id/scouterNameTitle"
+            app:layout_constraintVertical_bias="0.65999997" />
 
         <TextView
             android:id="@+id/teamNameTitle"
@@ -62,11 +75,8 @@
 
         <Spinner
             android:id="@+id/teamNumberInput"
-            android:layout_width="100dp"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
-            android:ems="11"
-            android:inputType="number"
-            android:maxLength="5"
             android:textColor="@color/off_white"
             android:textSize="64sp"
             app:layout_constraintBottom_toBottomOf="@+id/teamNameTitle"
@@ -113,7 +123,7 @@
 
         <Spinner
             android:id="@+id/match_number_spinner"
-            android:layout_width="100dp"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="48sp"

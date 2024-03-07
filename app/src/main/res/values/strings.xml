@@ -69,5 +69,9 @@
     <string name="start_button">Start</string>
     <!--Defense Button-->
     <string name="defensive_action_text">Defensive Action (Hold)</string>
+    <!--For json submission selection -->
+    <string name="archive_title">Select a submission to view:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
