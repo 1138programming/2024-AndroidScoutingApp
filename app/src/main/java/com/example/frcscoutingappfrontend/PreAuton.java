@@ -97,7 +97,7 @@ public class PreAuton extends Fragment {
 
     }
     public String[] getDataAsArray() {
-        String[] data = new String[4];
+        String[] data = new String[5];
 
         data[0] = Integer.toString(scouterNames.indexOf(binding.scouterNameSpinner.getSelectedItem().toString())+1);
         data[1] = binding.matchNumberSpinner.getSelectedItem().toString();
@@ -113,6 +113,12 @@ public class PreAuton extends Fragment {
         }
         else {
             data[3] = "noShow";
+        }
+        if(binding.teamRed.isChecked()) {
+            data[4] = "red";
+        }
+        else {
+            data[4] = "blue";
         }
         return data;
     }

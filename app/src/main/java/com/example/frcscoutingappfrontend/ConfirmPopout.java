@@ -75,6 +75,7 @@ public class ConfirmPopout extends Fragment{
         datapointTemplate.put("scouterID", preAutonData[0]);
         datapointTemplate.put("matchID", preAutonData[1]);
         datapointTemplate.put("teamID", preAutonData[2]);
+        datapointTemplate.put("allianceID", preAutonData[4]);
         return datapointTemplate;
     }
     @Override
