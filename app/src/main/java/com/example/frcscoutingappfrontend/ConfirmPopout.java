@@ -194,9 +194,9 @@ public class ConfirmPopout extends Fragment{
                         tempJson.put("datapointValue", "true");
                         tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
-                        tempJson = newJsonTemplate(preAutonData);
                     }
                 }
+                tempJson = newJsonTemplate(preAutonData);
                 tempJson.put("datapointID", 16);
                 if(teleopData.get(7).get(0).equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");

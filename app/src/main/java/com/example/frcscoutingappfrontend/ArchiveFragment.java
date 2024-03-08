@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.FileUtils;
+import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,16 @@ import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentArchiveBinding;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,7 +77,30 @@ public class ArchiveFragment extends Fragment {
     }
     private void openQRCode(String fileName) {
         Toast.makeText(this.getContext(), "Opening: "+fileName, Toast.LENGTH_SHORT).show();
-
+        File file = new File(filePath, fileName);
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            //double uhoh
+            return;
+        }
+        InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader((inputStreamReader))) {
+            String line = reader.readLine();
+            while(line != null) {
+                sb.append(line).append('\n');
+                line = reader.readLine();
+            }
+        }
+        catch (IOException e) {
+            //error :skull:
+        }
+        finally {
+            String contents = sb.toString();
+            Toast.makeText(this.getContext(), contents, Toast.LENGTH_LONG).show();
+        }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
