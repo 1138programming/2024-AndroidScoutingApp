@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     ConfirmReset confirmReset = new ConfirmReset();
     PostMatch postMatch = new PostMatch();
     ArchiveFragment archiveFragment = new ArchiveFragment();
+    ArchiveDisplayFragment archiveDisplayFragment = new ArchiveDisplayFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, confirmTeleopStart, "F");
         ft.add(R.id.main_fragment, confirmReset, "H");
         ft.add(R.id.main_fragment, archiveFragment, "I");
+        ft.add(R.id.main_fragment, archiveDisplayFragment, "J");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         ft.hide(postMatch);
         ft.hide(confirmReset);
         ft.hide(archiveFragment);
+        ft.hide(archiveDisplayFragment);
         // Complete the changes added above
         ft.commit();
     }

@@ -88,6 +88,7 @@ public class ConfirmReset extends Fragment{
             PostMatch postMatch = new  PostMatch();
             ConfirmReset confirmReset = new ConfirmReset();
             ArchiveFragment archiveFragment = new ArchiveFragment();
+            ArchiveDisplayFragment archiveDisplayFragment = new ArchiveDisplayFragment();
 
             ft.remove(startingFragment);
             ft.remove(autonFragment);
@@ -98,6 +99,7 @@ public class ConfirmReset extends Fragment{
             ft.remove(postMatch);
             ft.remove(confirmReset);
             ft.remove(archiveFragment);
+            ft.remove(archiveDisplayFragment);
 
             ft.add(R.id.main_fragment, startingFragment, "A");
             ft.add(R.id.main_fragment, autonFragment, "B");
@@ -108,6 +110,7 @@ public class ConfirmReset extends Fragment{
             ft.add(R.id.main_fragment, confirmTeleopStart, "F");
             ft.add(R.id.main_fragment, confirmReset, "H");
             ft.add(R.id.main_fragment, archiveFragment, "I");
+            ft.add(R.id.main_fragment, archiveDisplayFragment, "J");
             ft.show(startingFragment);
             ft.hide(autonFragment);
             ft.hide(teleopFragment);
@@ -117,6 +120,7 @@ public class ConfirmReset extends Fragment{
             ft.hide(postMatch);
             ft.hide(confirmReset);
             ft.hide(archiveFragment);
+            ft.hide(archiveDisplayFragment);
             ft.commit();
         });
 

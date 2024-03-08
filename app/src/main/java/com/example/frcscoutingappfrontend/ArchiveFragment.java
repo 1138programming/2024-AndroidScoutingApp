@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.FileUtils;
 import android.util.JsonReader;
@@ -99,7 +100,8 @@ public class ArchiveFragment extends Fragment {
         }
         finally {
             String contents = sb.toString();
-            Toast.makeText(this.getContext(), contents, Toast.LENGTH_LONG).show();
+            ArchiveDisplayFragment popup = (ArchiveDisplayFragment) getParentFragmentManager().findFragmentByTag("J");
+            popup.openWithQRCode(contents);
         }
     }
     @Override
@@ -131,6 +133,12 @@ public class ArchiveFragment extends Fragment {
 
                 openQRCode(binding.submissionList.getItemAtPosition(position).toString());
             }
+        });
+        binding.closeButton.setOnClickListener(view1 -> {
+            Fragment popup = getParentFragmentManager().findFragmentByTag("I");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.hide(popup);
+            ft.commit();
         });
     }
 }

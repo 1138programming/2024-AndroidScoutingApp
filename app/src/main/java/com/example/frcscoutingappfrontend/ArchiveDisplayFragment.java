@@ -14,41 +14,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.example.frcscoutingappfrontend.databinding.FragmentPostMatchBinding;
+import com.example.frcscoutingappfrontend.databinding.FragmentArchiveDisplayBinding;
 
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PostMatch#newInstance} factory method to
+ * Use the {@link ArchiveDisplayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PostMatch extends Fragment {
+public class ArchiveDisplayFragment extends Fragment {
 
-    FragmentPostMatchBinding binding;
+    FragmentArchiveDisplayBinding binding;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String trapScored = "00:00:00";
-    private String successfulHang = "00:00:00";
-    private boolean submitted = false;
-    ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
-    private int currQRIndex = 0;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    public PostMatch() {
+    private int currQRIndex = 0;
+    ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
+    public ArchiveDisplayFragment() {
         // Required empty public constructor
     }
 
@@ -58,11 +48,11 @@ public class PostMatch extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PostMatch.
+     * @return A new instance of fragment ArchiveDisplayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PostMatch newInstance(String param1, String param2) {
-        PostMatch fragment = new PostMatch();
+    public static ArchiveDisplayFragment newInstance(String param1, String param2) {
+        ArchiveDisplayFragment fragment = new ArchiveDisplayFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,27 +72,25 @@ public class PostMatch extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.binding = FragmentPostMatchBinding.inflate(inflater, container, false);
+        // Inflate the layout for this fragment
+        this.binding = FragmentArchiveDisplayBinding.inflate(inflater, container,false);
         return binding.getRoot();
     }
-    public String[] getDataAsArray() {
-        String[] data = new String[2];
+    public void openWithQRCode(String json) {
+        Fragment popup = getParentFragmentManager().findFragmentByTag("J");
+        Fragment archive =  getParentFragmentManager().findFragmentByTag("I");
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        ft.show(popup);
+        ft.hide(archive);
+        ft.commit();
 
-        data[0] = String.valueOf(successfulHang);
-        data[1] = String.valueOf(trapScored);
-
-        return data;
-    }
-    public void generateQRCode(JSONObject jsonFile) {
+        //create qrcode
         ArrayList<QRGEncoder> qrgEncoder = new ArrayList<QRGEncoder>();
         ArrayList<String> segmentedJson = new ArrayList<String>();
+        bitmap = new ArrayList<Bitmap>();
+        currQRIndex = 0;
         int qrSize = 2550;
         int borderSize = 25;
-        submitted = true;
-        binding.returnToTeleop.setEnabled(false);
-        binding.successfulHangCheckbox.setEnabled(false);
-        binding.trapCheckbox.setEnabled(false);
-        binding.submitButton.setText(getResources().getText(R.string.reset_form_title));
         WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
 
@@ -120,12 +108,12 @@ public class PostMatch extends Fragment {
         int dimen = width < height ? width : height;
         dimen = dimen * 3 / 4;
 
-        for(int i = 0; i<((double)jsonFile.toString().length())/qrSize; i++) {
-            if(jsonFile.toString().length() > qrSize*(i+1)) {
-                segmentedJson.add(jsonFile.toString().substring(qrSize * i, qrSize * (i + 1)));
+        for(int i = 0; i<((double)json.length())/qrSize; i++) {
+            if(json.length() > qrSize*(i+1)) {
+                segmentedJson.add(json.substring(qrSize * i, qrSize * (i + 1)));
             }
             else {
-                segmentedJson.add(jsonFile.toString().substring(qrSize * i));
+                segmentedJson.add(json.substring(qrSize * i));
             }
         }
         for(int i = 0; i<segmentedJson.size(); i++) {
@@ -139,29 +127,30 @@ public class PostMatch extends Fragment {
         }
         // getting our qrcode in the form of bitmap.
         binding.QRcode.setImageBitmap(bitmap.get(currQRIndex));
+
+        //resetting back and next buttons
+        binding.backButton.setEnabled(false);
+        binding.backButton.setBackgroundColor(getResources().getColor(R.color.simple_light_grey));
         if(bitmap.size() > 1) {
             binding.nextButton.setEnabled(true);
             binding.nextButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+        }
+        else {
+            binding.nextButton.setEnabled(false);
+            binding.nextButton.setBackgroundColor(getResources().getColor(R.color.simple_light_grey));
         }
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.trapCheckbox.setOnClickListener(view1 ->{
-            if(binding.trapCheckbox.isChecked()) {
-                trapScored = new SimpleDateFormat("HH:mm:ss").format(new Date());
-            }
-            else {
-                successfulHang = "00:00:00";
-            }
-        });
-        binding.successfulHangCheckbox.setOnClickListener(view1 ->{
-            if(binding.successfulHangCheckbox.isChecked()) {
-                successfulHang = new SimpleDateFormat("HH:mm:ss").format(new Date());
-            }
-            else {
-                successfulHang = "00:00:00";
-            }
+
+        binding.returnToArchiveButton.setOnClickListener(view1 -> {
+            Fragment popup = getParentFragmentManager().findFragmentByTag("J");
+            Fragment archive = getParentFragmentManager().findFragmentByTag("I");
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.show(archive);
+            ft.hide(popup);
+            ft.commit();
         });
         binding.backButton.setOnClickListener(view1 -> {
             if(currQRIndex > 0) {
@@ -190,26 +179,6 @@ public class PostMatch extends Fragment {
                     binding.backButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
                 }
             }
-        });
-        binding.returnToTeleop.setOnClickListener(view1 -> {
-            Fragment self = getParentFragmentManager().findFragmentByTag("G");
-            Fragment teleop = getParentFragmentManager().findFragmentByTag("C");
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.hide(self);
-            ft.show(teleop);
-            ft.commit();
-        });
-        binding.submitButton.setOnClickListener(view1 -> {
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            if(!submitted) {
-                Fragment popoutFragment = getParentFragmentManager().findFragmentByTag("D");
-                ft.show(popoutFragment);
-            }
-            else {
-                Fragment confirmReset = getParentFragmentManager().findFragmentByTag("H");
-                ft.show(confirmReset);
-            }
-            ft.commit();
         });
     }
 }

@@ -35,7 +35,7 @@ public class PreAuton extends Fragment {
     ArrayList<CharSequence> matchNumbers = new ArrayList<>();
     ArrayList<CharSequence> teamNumbers = new ArrayList<>();
     ArrayList<CharSequence> scouterNames = new ArrayList<>();
-    int numberOfMatches = 66;
+    int numberOfMatches = 200;
     ArrayAdapter<CharSequence> matchNumberAdapter;
     ArrayAdapter<CharSequence> teamNumberAdapter;
     ArrayAdapter<CharSequence> scouterAdapter;

@@ -136,14 +136,14 @@ public class ConfirmPopout extends Fragment{
 
                 //pre-auton json
                 tempJson = newJsonTemplate(preAutonData);
-                tempJson.put("datapointID", 0);
+                tempJson.put("datapointID", String.valueOf(0));
                 tempJson.put("datapointValue", "true");
                 tempJson.put("DCTimestamp", preAutonData[3]);
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
                 //auton json
-                tempJson.put("datapointID", 1);
+                tempJson.put("datapointID", String.valueOf(1));
                 tempJson.put("datapointValue", "true");
                 tempJson.put("DCTimestamp", autonData.get(6).get(0));
                 jsonArr.put(tempJson);
@@ -151,7 +151,7 @@ public class ConfirmPopout extends Fragment{
 
                 for(int i = 0; i<4; i++) {
                     for(String j : autonData.get(i)){
-                        tempJson.put("datapointID", i+2);
+                        tempJson.put("datapointID", String.valueOf(i+2));
                         tempJson.put("datapointValue", "true");
                         tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
@@ -159,7 +159,7 @@ public class ConfirmPopout extends Fragment{
                     }
                 }
 
-                tempJson.put("datapointID", 6);
+                tempJson.put("datapointID", String.valueOf(6));
                 if(autonData.get(4).get(0).equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");
                 }
@@ -170,7 +170,7 @@ public class ConfirmPopout extends Fragment{
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
-                tempJson.put("datapointID", 7);
+                tempJson.put("datapointID", String.valueOf(7));
                 if(autonData.get(5).get(0).equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");
                 }
@@ -182,7 +182,7 @@ public class ConfirmPopout extends Fragment{
                 tempJson = newJsonTemplate(preAutonData);
 
                 //teleop json
-                tempJson.put("datapointID", 8);
+                tempJson.put("datapointID", String.valueOf(8));
                 tempJson.put("datapointValue", "true");
                 tempJson.put("DCTimestamp", teleopData.get(10).get(0));
                 jsonArr.put(tempJson);
@@ -190,14 +190,14 @@ public class ConfirmPopout extends Fragment{
 
                 for(int i = 0; i<7; i++) {
                     for(String j : teleopData.get(i)){
-                        tempJson.put("datapointID", i+9);
+                        tempJson.put("datapointID", String.valueOf(i+9));
                         tempJson.put("datapointValue", "true");
                         tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
                     }
                 }
                 tempJson = newJsonTemplate(preAutonData);
-                tempJson.put("datapointID", 16);
+                tempJson.put("datapointID", String.valueOf(16));
                 if(teleopData.get(7).get(0).equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");
                 }
@@ -210,7 +210,7 @@ public class ConfirmPopout extends Fragment{
 
                 for(int i = 8; i<10; i++) {
                     for(String j : teleopData.get(i)){
-                        tempJson.put("datapointID", i+9);
+                        tempJson.put("datapointID", String.valueOf(i+9));
                         tempJson.put("datapointValue", "true");
                         tempJson.put("DCTimestamp", j);
                         jsonArr.put(tempJson);
@@ -219,7 +219,7 @@ public class ConfirmPopout extends Fragment{
                 }
 
                 //post match
-                tempJson.put("datapointID", 19);
+                tempJson.put("datapointID", String.valueOf(19));
                 if(postMatchData[0].equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");
                 }
@@ -230,7 +230,7 @@ public class ConfirmPopout extends Fragment{
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
-                tempJson.put("datapointID", 20);
+                tempJson.put("datapointID", String.valueOf(20));
                 if(postMatchData[1].equals(booleanFalse)) {
                     tempJson.put("datapointValue", "false");
                 }
@@ -244,7 +244,7 @@ public class ConfirmPopout extends Fragment{
 
 //                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
 
-                String userString = jsonFile.toString(4);
+                String userString = jsonFile.toString();
                 File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
                 //creates the directory if it doesn't exist
                 if(!folderDir.isDirectory()) {
