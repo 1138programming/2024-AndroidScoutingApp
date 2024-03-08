@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cham_background_default"
     android:foregroundTint="@color/black"
+    android:clickable="true"
     tools:context=".PostMatch">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -118,22 +118,23 @@ public class ArchiveFragment extends Fragment {
 
         //creates content for list
         File[] files = filePath.listFiles();
-        assert files != null;
-        String[] fileNames = new String[files.length];
-        for(int i = 0; i< files.length; i++) {
-            fileNames[i] = files[i].getName();
+        if(files != null) {
+            String[] fileNames = new String[files.length];
+            for (int i = 0; i < files.length; i++) {
+                fileNames[i] = files[i].getName();
 //            Toast.makeText(this.getContext(), fileNames[i], Toast.LENGTH_SHORT).show();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, fileNames);
-        binding.submissionList.setAdapter(adapter);
-        binding.submissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    final int position, long id) {
-
-                openQRCode(binding.submissionList.getItemAtPosition(position).toString());
             }
-        });
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.spinner_layout, fileNames);
+            binding.submissionList.setAdapter(adapter);
+            binding.submissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        final int position, long id) {
+
+                    openQRCode(binding.submissionList.getItemAtPosition(position).toString());
+                }
+            });
+        }
         binding.closeButton.setOnClickListener(view1 -> {
             Fragment popup = getParentFragmentManager().findFragmentByTag("I");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();

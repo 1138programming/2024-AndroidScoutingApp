@@ -116,6 +116,7 @@ public class TeleopFragment extends Fragment {
                 break;
             case 5:
                 Toast.makeText(getContext(), "Undid Pickup", Toast.LENGTH_SHORT).show();
+                decrementPickup(binding.pickupButton);
                 break;
             case 6:
                 Toast.makeText(getContext(), "Undid Amplification", Toast.LENGTH_SHORT).show();
@@ -155,6 +156,7 @@ public class TeleopFragment extends Fragment {
                 break;
             case 5:
                 Toast.makeText(getContext(), "Redid Pickup", Toast.LENGTH_SHORT).show();
+                incrementPickup(binding.pickupButton, false);
                 break;
             case 6:
                 Toast.makeText(getContext(), "Redid Amplification", Toast.LENGTH_SHORT).show();
@@ -168,6 +170,25 @@ public class TeleopFragment extends Fragment {
         }
         inputStack.push(redoStack.pop());
         timestamps.push(redoTimestamps.pop());
+    }
+    private boolean incrementPickup(Button button, boolean undo) {
+        String text = button.getText().toString().substring(8);
+        int num = Integer.parseInt(text);
+        num++;
+        if (num > 99) {
+            num = 99;
+            undo = false;
+        }
+        button.setText(button.getText().toString().substring(0,8)+String.valueOf(num));
+        return undo;
+    }
+    private void decrementPickup(Button button) {
+        String text = button.getText().toString().substring(8);
+        int num = Integer.parseInt(text);
+        if (num > 0) {
+            num--;
+        }
+        button.setText(button.getText().toString().substring(0,8)+String.valueOf(num));
     }
     private boolean incrementView(Button button, boolean undo) {
         String text = button.getText().toString();
@@ -315,9 +336,11 @@ public class TeleopFragment extends Fragment {
             binding.hangQuestionCheckBox.setEnabled(false);
         });
         binding.pickupButton.setOnClickListener(view1 -> {
-            inputStack.push(5);
-            timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-            redoStack = new Stack<Integer>();
+            if(incrementPickup(binding.pickupButton, true)) {
+                inputStack.push(5);
+                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                redoStack = new Stack<Integer>();
+            }
         });
         binding.amplifyButton.setOnClickListener(view1 -> {
             currentlyAmplified = true;

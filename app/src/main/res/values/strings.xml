@@ -53,7 +53,7 @@
     <string name="reset_form_title">Reset</string>
     <string name="endgame_title">Endgame / Misc.</string>
     <!--Title for pickup and amplify-->
-    <string name="pickup_note_title">Pickup</string>
+    <string name="pickup_note_title">Pickup: 0</string>
     <string name="amplify_button_title">Amplify</string>
     <!--Back arrow for back button-->
     <string name="default_back_button_title">&#60;—</string>
