@@ -40,6 +40,7 @@ public class PostMatch extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String trapScored = "00:00:00";
     private String successfulHang = "00:00:00";
+    private String park = "00:00:00";
     private boolean submitted = false;
     ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
     private int currQRIndex = 0;
@@ -86,22 +87,24 @@ public class PostMatch extends Fragment {
         return binding.getRoot();
     }
     public String[] getDataAsArray() {
-        String[] data = new String[2];
+        String[] data = new String[3];
 
-        data[0] = String.valueOf(successfulHang);
-        data[1] = String.valueOf(trapScored);
+        data[0] = successfulHang;
+        data[1] = trapScored;
+        data[2] = park;
 
         return data;
     }
     public void generateQRCode(JSONObject jsonFile) {
         ArrayList<QRGEncoder> qrgEncoder = new ArrayList<QRGEncoder>();
         ArrayList<String> segmentedJson = new ArrayList<String>();
-        int qrSize = 2550;
+        int qrSize = 2000;
         int borderSize = 25;
         submitted = true;
         binding.returnToTeleop.setEnabled(false);
         binding.successfulHangCheckbox.setEnabled(false);
         binding.trapCheckbox.setEnabled(false);
+        binding.parkCheckbox.setEnabled(false);
         binding.submitButton.setText(getResources().getText(R.string.reset_form_title));
         WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
@@ -161,6 +164,14 @@ public class PostMatch extends Fragment {
             }
             else {
                 successfulHang = "00:00:00";
+            }
+        });
+        binding.parkCheckbox.setOnClickListener(view1 ->{
+            if(binding.successfulHangCheckbox.isChecked()) {
+                park = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            }
+            else {
+                park = "00:00:00";
             }
         });
         binding.backButton.setOnClickListener(view1 -> {

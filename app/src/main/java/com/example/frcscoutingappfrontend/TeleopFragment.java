@@ -93,32 +93,32 @@ public class TeleopFragment extends Fragment {
         redoStack.push(inputStack.pop());
         redoTimestamps.push(timestamps.pop());
         switch(redoStack.peek()) {
-            case 0:
+            case 1:
                 Toast.makeText(getContext(), "Undid Amp Score", Toast.LENGTH_SHORT).show();
                 decrementView(binding.ampScored);
                 break;
-            case 1:
+            case 3:
                 Toast.makeText(getContext(), "Undid Amp Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.ampMissed);
                 break;
-            case 2:
+            case 0:
                 Toast.makeText(getContext(), "Undid Speaker Score", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerScored);
                 break;
-            case 3:
+            case 2:
                 Toast.makeText(getContext(), "Undid Speaker Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerMissed);
                 break;
-            case 4:
+            case 5:
                 Toast.makeText(getContext(), "Undid Hang Start", Toast.LENGTH_SHORT).show();
                 binding.hangQuestionCheckBox.setEnabled(true);
                 binding.hangQuestionCheckBox.setChecked(false);
                 break;
-            case 5:
+            case 6:
                 Toast.makeText(getContext(), "Undid Pickup", Toast.LENGTH_SHORT).show();
                 decrementPickup(binding.pickupButton);
                 break;
-            case 6:
+            case 4:
                 Toast.makeText(getContext(), "Undid Amplification", Toast.LENGTH_SHORT).show();
                 if(currentlyAmplified) {
                     binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
@@ -133,32 +133,32 @@ public class TeleopFragment extends Fragment {
     public void redo() {
         if(redoStack.empty()) return;
         switch(redoStack.peek()) {
-            case 0:
+            case 1:
                 Toast.makeText(getContext(), "Redid Amp Score", Toast.LENGTH_SHORT).show();
                 incrementView(binding.ampScored, false);
                 break;
-            case 1:
+            case 3:
                 Toast.makeText(getContext(), "Redid Amp Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.ampMissed, false);
                 break;
-            case 2:
+            case 0:
                 Toast.makeText(getContext(), "Redid Speaker Score", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerScored, false);
                 break;
-            case 3:
+            case 2:
                 Toast.makeText(getContext(), "Redid Speaker Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerMissed, false);
                 break;
-            case 4:
+            case 5:
                 Toast.makeText(getContext(), "Redid Hang Start", Toast.LENGTH_SHORT).show();
                 binding.hangQuestionCheckBox.setEnabled(false);
                 binding.hangQuestionCheckBox.setChecked(true);
                 break;
-            case 5:
+            case 6:
                 Toast.makeText(getContext(), "Redid Pickup", Toast.LENGTH_SHORT).show();
                 incrementPickup(binding.pickupButton, false);
                 break;
-            case 6:
+            case 4:
                 Toast.makeText(getContext(), "Redid Amplification", Toast.LENGTH_SHORT).show();
                 if(currentlyAmplified) {
                     binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
@@ -294,14 +294,14 @@ public class TeleopFragment extends Fragment {
         // Increment & decrement view functions
         binding.ampScored.setOnClickListener(view1 -> {
             if(incrementView(binding.ampScored, true)) {
-                inputStack.push(0);
+                inputStack.push(1);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.ampMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.ampMissed, true)) {
-                inputStack.push(1);
+                inputStack.push(3);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
@@ -309,14 +309,14 @@ public class TeleopFragment extends Fragment {
 
         binding.speakerScored.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerScored, true)){
-                inputStack.push(2);
+                inputStack.push(0);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.speakerMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerMissed, true)) {
-                inputStack.push(3);
+                inputStack.push(2);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
@@ -330,14 +330,14 @@ public class TeleopFragment extends Fragment {
             }
         });
         binding.hangQuestionCheckBox.setOnClickListener(view1 -> {
-            inputStack.push(4);
+            inputStack.push(5);
             timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
             redoStack = new Stack<Integer>();
             binding.hangQuestionCheckBox.setEnabled(false);
         });
         binding.pickupButton.setOnClickListener(view1 -> {
             if(incrementPickup(binding.pickupButton, true)) {
-                inputStack.push(5);
+                inputStack.push(6);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
@@ -346,7 +346,7 @@ public class TeleopFragment extends Fragment {
             currentlyAmplified = true;
             binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
             binding.amplifyButton.setEnabled(false);
-            inputStack.push(6);
+            inputStack.push(4);
             timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
             redoStack = new Stack<Integer>();
             Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();

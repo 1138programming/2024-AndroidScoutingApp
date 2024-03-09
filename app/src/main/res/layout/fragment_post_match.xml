@@ -34,22 +34,44 @@
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="@+id/trapCheckbox"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.35"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/trapCheckbox" />
 
         <CheckBox
             android:id="@+id/trapCheckbox"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="-6dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/trapScoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+
+        <TextView
+            android:id="@+id/parkTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/park_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="@+id/parkCheckbox"
+            app:layout_constraintEnd_toEndOf="@+id/trapScoredTitle"
+            app:layout_constraintTop_toTopOf="@+id/parkCheckbox" />
+
+        <CheckBox
+            android:id="@+id/parkCheckbox"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="-16dp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/chaminade_orange"
+            android:button="@null"
+            app:layout_constraintStart_toStartOf="@+id/trapCheckbox"
+            app:layout_constraintTop_toBottomOf="@+id/trapCheckbox" />
 
         <TextView
             android:id="@+id/successfulHangTitle"
@@ -59,28 +81,25 @@
             android:textColor="@color/off_white"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="@+id/successfulHangCheckbox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.131"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/parkTitle"
             app:layout_constraintTop_toTopOf="@+id/successfulHangCheckbox" />
 
         <CheckBox
             android:id="@+id/successfulHangCheckbox"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
-            android:layout_marginTop="10dp"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="-16dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/successfulHangTitle"
-            app:layout_constraintTop_toBottomOf="@+id/trapCheckbox" />
+            app:layout_constraintStart_toStartOf="@+id/parkCheckbox"
+            app:layout_constraintTop_toBottomOf="@+id/parkCheckbox" />
 
         <ImageView
             android:id="@+id/QRcode"
             android:layout_width="600sp"
             android:layout_height="600sp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/qrcode_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

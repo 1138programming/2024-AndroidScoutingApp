@@ -5,6 +5,8 @@
     <!--empty string-->
     <string name="empty"></string>
 
+    <!--App Version-->
+    <string name="app_version">Beta 1.1.5</string>
     <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
@@ -47,6 +49,7 @@
     <string name="trap_title">Trap Scored?</string>
     <string name="robot_break_check">Break?</string>
     <string name="is_team_noshow">Team didn\'t show up:</string>
+    <string name="park_title">Did they Park?</string>
     <!--Next and Submit Button Text-->
     <string name="submit_button_text">Submit</string>
     <string name="next_button_title_default">Next</string>

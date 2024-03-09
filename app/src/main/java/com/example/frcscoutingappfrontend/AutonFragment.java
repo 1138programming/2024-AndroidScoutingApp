@@ -95,8 +95,8 @@ public class AutonFragment extends Fragment {
         }
 
         //check boxes
-        data.get(4).add(String.valueOf(binding.leaveQuestionCheckBox.isChecked()));
-        data.get(5).add(String.valueOf(binding.centerLineCheckbox.isChecked()));
+        data.get(4).add(taxi);
+        data.get(5).add(crossCenter);
         data.get(6).add(autonStart);
 
         return data;
@@ -107,19 +107,19 @@ public class AutonFragment extends Fragment {
         redoStack.push(inputStack.pop());
         redoTimestamps.push(timestamps.pop());
         switch(redoStack.peek()) {
-            case 0:
+            case 1:
                 Toast.makeText(getContext(), "Undid Amp Score", Toast.LENGTH_SHORT).show();
                 decrementView(binding.ampScored);
                 break;
-            case 1:
+            case 3:
                 Toast.makeText(getContext(), "Undid Amp Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.ampMissed);
                 break;
-            case 2:
+            case 0:
                 Toast.makeText(getContext(), "Undid Speaker Score", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerScored);
                 break;
-            case 3:
+            case 2:
                 Toast.makeText(getContext(), "Undid Speaker Miss", Toast.LENGTH_SHORT).show();
                 decrementView(binding.speakerMissed);
                 break;
@@ -131,19 +131,19 @@ public class AutonFragment extends Fragment {
     public void redo() {
         if(redoStack.empty()) return;
         switch(redoStack.peek()) {
-            case 0:
+            case 1:
                 Toast.makeText(getContext(), "Redid Amp Score", Toast.LENGTH_SHORT).show();
                 incrementView(binding.ampScored, false);
                 break;
-            case 1:
+            case 3:
                 Toast.makeText(getContext(), "Redid Amp Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.ampMissed, false);
                 break;
-            case 2:
+            case 0:
                 Toast.makeText(getContext(), "Redid Speaker Score", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerScored, false);
                 break;
-            case 3:
+            case 2:
                 Toast.makeText(getContext(), "Redid Speaker Miss", Toast.LENGTH_SHORT).show();
                 incrementView(binding.speakerMissed, false);
                 break;
@@ -217,14 +217,14 @@ public class AutonFragment extends Fragment {
         // Increment & decrement view functions
         binding.ampScored.setOnClickListener(view1 -> {
             if(incrementView(binding.ampScored, true)) {
-                inputStack.push(0);
+                inputStack.push(1);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.ampMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.ampMissed, true)) {
-                inputStack.push(1);
+                inputStack.push(3);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
@@ -232,14 +232,14 @@ public class AutonFragment extends Fragment {
 
         binding.speakerScored.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerScored, true)){
-                inputStack.push(2);
+                inputStack.push(0);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.speakerMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerMissed, true)) {
-                inputStack.push(3);
+                inputStack.push(2);
                 timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }

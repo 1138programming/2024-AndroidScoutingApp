@@ -89,7 +89,7 @@ public class ArchiveDisplayFragment extends Fragment {
         ArrayList<String> segmentedJson = new ArrayList<String>();
         bitmap = new ArrayList<Bitmap>();
         currQRIndex = 0;
-        int qrSize = 2550;
+        int qrSize = 2000;
         int borderSize = 25;
         WindowManager manager = (WindowManager) this.getContext().getSystemService(this.getContext().WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
