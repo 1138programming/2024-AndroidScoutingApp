@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.MacAddress;
+import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     ConnectThread connectThread;
     ConnectedThread connectedThread;
+    public static final String TAG = "Team 1138 Scouting App: ";
     private Handler handler;
     private interface MessageConstants {
         public static final int MESSAGE_READ = 0;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAddress = "14:4F:8A:CF:71:F4";
+    private static final String ExternalMACAddress = "14:4F:8A:90:90:9C";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
             return;
         }
+
         if (!adapter.isEnabled()) {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             connectThread = new ConnectThread(adapter.getRemoteDevice(ExternalMACAddress));
             connectThread.start();
-            Toast.makeText(this, "Couldn't find tablet/incorrect MAC", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Might have worked???", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -112,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             this.context = getBaseContext();
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                    tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
                     Method method = this.device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
                     tmp = (BluetoothSocket) method.invoke(this.device, 1);
                     Toast.makeText(context, "???", Toast.LENGTH_LONG).show();
@@ -128,29 +132,32 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             // Cancel discovery because it otherwise slows down the connection.
-            if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
-                adapter.cancelDiscovery();
+            if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                Log.e(TAG, "Socket's create() method failed");
+                return;
             }
+            adapter.cancelDiscovery();
             try {
                 // Connect to the remote device through the socket. This call blocks
                 // until it succeeds or throws an exception.
-                if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(getBaseContext(), "HELLOWORLD", Toast.LENGTH_LONG).show();
-                    socket.connect();
-//                    Toast.makeText(getBaseContext(), "ROBERTBADLETTTT", Toast.LENGTH_LONG).show();
-                }
+                Log.e(TAG, "badlet?");
+                socket.connect();
+                Log.e(TAG, "ROBERTBADLETTTTT");
             } catch (IOException e) {
-//                Toast.makeText(context, "Flip dude: " + e, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Timed out/error");
                 // Unable to connect; close the socket and return.
                 try {
                     socket.close();
+                    Log.e(TAG, "socket closed");
                 } catch (IOException closeException) {
-                    Toast.makeText(getBaseContext(), closeException.toString(), Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "couldn't close", closeException);
                 }
+                return;
             }
 
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
+            Log.d(TAG, "Connecting");
             connectedThread = new ConnectedThread(socket);
         }
 
@@ -178,13 +185,13 @@ public class MainActivity extends AppCompatActivity {
                 tmpIn = socket.getInputStream();
             }
             catch(IOException e) {
-                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Socket error", e);
             }
             try {
                 tmpOut = socket.getOutputStream();
             }
             catch(IOException e) {
-                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Output stream error", e);
             }
 
             mmInStream = tmpIn;
