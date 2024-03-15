@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.example.frcscoutingappfrontend.databinding.ActivityMainBinding;
 import com.example.frcscoutingappfrontend.databinding.FragmentMainBinding;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFragment#newInstance} factory method to
@@ -158,6 +160,10 @@ public class MainFragment extends Fragment {
         });
         binding.bluetoothButton.setOnClickListener(view1 -> {
             ((MainActivity)getActivity()).enableConnectBT();
+        });
+        binding.sendData.setOnClickListener(view1 -> {
+            MainActivity activity = (MainActivity)(getActivity());
+            activity.writeBTCode("1138".getBytes(StandardCharsets.UTF_8));
         });
     }
 }

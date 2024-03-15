@@ -78,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     }
-
+    public void writeBTCode(byte[] bytes) {
+        connectedThread.write(bytes);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -117,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
-                    Method method = this.device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
-                    tmp = (BluetoothSocket) method.invoke(this.device, 1);
+                    Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
+                    tmp = (BluetoothSocket) method.invoke(this.device, 3);
                     Toast.makeText(context, "???", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
@@ -218,12 +220,13 @@ public class MainActivity extends AppCompatActivity {
         public void write(byte[] bytes) {
             try {
                 mmOutStream.write(bytes);
-                Message writtenMsg = handler.obtainMessage(
-                        MessageConstants.MESSAGE_WRITE, -1, -1, bytes);
-                writtenMsg.sendToTarget();
+//                Message writtenMsg = handler.obtainMessage(
+//                        MessageConstants.MESSAGE_WRITE, -1, -1, bytes);
+//                writtenMsg.sendToTarget();
+                mmOutStream.close();
             }
             catch(IOException e) {
-                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "IDK: ", e);
             }
         }
         public void cancel() {
