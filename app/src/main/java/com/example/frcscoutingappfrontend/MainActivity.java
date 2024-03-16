@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         }
         public void cancel() {
             try {
+                mmOutStream.flush();
                 mmSocket.close();
             }
             catch(IOException e) {
