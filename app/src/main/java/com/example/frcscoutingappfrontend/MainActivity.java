@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAddress = "14:4F:8A:90:90:9C";
+    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
                     Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
-                    tmp = (BluetoothSocket) method.invoke(this.device, 3);
+                    tmp = (BluetoothSocket) method.invoke(this.device, 4);
                     Toast.makeText(context, "???", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 //                Message writtenMsg = handler.obtainMessage(
 //                        MessageConstants.MESSAGE_WRITE, -1, -1, bytes);
 //                writtenMsg.sendToTarget();
-                mmOutStream.close();
+                mmOutStream.flush();
             }
             catch(IOException e) {
                 Log.e(TAG, "IDK: ", e);
