@@ -163,7 +163,9 @@ public class MainFragment extends Fragment {
         });
         binding.sendData.setOnClickListener(view1 -> {
             MainActivity activity = (MainActivity)(getActivity());
-            activity.writeBTCode("1138".getBytes(StandardCharsets.UTF_8));
+            byte[] arr = new byte[1];
+            arr[0] = 1;
+            activity.writeBTCode(arr);
         });
     }
 }
