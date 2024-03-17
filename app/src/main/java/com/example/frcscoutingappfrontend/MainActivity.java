@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
+    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -79,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     }
     public void writeBTCode(byte[] bytes) {
-        connectedThread.write(bytes);
+        connectedThread.writeToTablet(bytes);
+    }
+    public void sendToast(final String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
     @Override
     public void onDestroy() {
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 socket.close();
             } catch (IOException e) {
-                Toast.makeText(getBaseContext(),"couldn't close client BT socket, "+e.toString(),Toast.LENGTH_LONG).show();
+                sendToast("couldn't close client BT socket, "+e.toString());
             }
         }
     }
@@ -200,34 +204,57 @@ public class MainActivity extends AppCompatActivity {
             mmOutStream = tmpOut;
         }
 
-        public void run() {
+        private boolean read() {
             mmBuffer = new byte[1024];
-            int numBytes;
+            int numBytes = 0;
 
-            while (true) {
+            while (numBytes == 0) {
                 try {
                     numBytes = mmInStream.read(mmBuffer);
-
-                    Message writtenMsg = handler.obtainMessage(
-                            MessageConstants.MESSAGE_READ, numBytes, -1, mmBuffer);
-                    writtenMsg.sendToTarget();
                 } catch (IOException e) {
-                    Toast.makeText(getBaseContext(), "Input was disconnected", Toast.LENGTH_LONG).show();
+                    sendToast("IDK"+e);
                     break;
                 }
             }
+            String message = Arrays.toString(mmBuffer);
+            if(message.equals("👍")) {
+                return true;
+            }
+            else{
+                sendToast("Failed to respond (try again)");
+                return false;
+            }
         }
-        public void write(byte[] bytes) {
+        private boolean write(byte[] bytes) {
             try {
                 mmOutStream.write(bytes);
-//                Message writtenMsg = handler.obtainMessage(
-//                        MessageConstants.MESSAGE_WRITE, -1, -1, bytes);
-//                writtenMsg.sendToTarget();
                 mmOutStream.flush();
             }
             catch(IOException e) {
-                Log.e(TAG, "IDK: ", e);
+                sendToast("Error: "+e);
+                return false;
             }
+            return true;
+        }
+        public void writeToTablet(byte[] bytes) {
+            if(!write(new byte[]{1})) {
+                return;
+            }
+            sendToast("cp1");
+            if(!read()) {
+                return;
+            }
+            sendToast("cp2");
+            if(!write(ByteBuffer.allocate(4).putInt(bytes.length).array())) {
+                return;
+            }
+            sendToast("cp3");
+            if(!read()) {
+                return;
+            }
+            sendToast("cp4");
+            write(bytes);
+            sendToast("hopefully submitted");
         }
         public void cancel() {
             try {

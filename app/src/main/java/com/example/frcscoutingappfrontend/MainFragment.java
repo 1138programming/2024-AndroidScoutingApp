@@ -162,10 +162,10 @@ public class MainFragment extends Fragment {
             ((MainActivity)getActivity()).enableConnectBT();
         });
         binding.sendData.setOnClickListener(view1 -> {
-            MainActivity activity = (MainActivity)(getActivity());
-            byte[] arr = new byte[1];
-            arr[0] = 1;
-            activity.writeBTCode(arr);
+//            MainActivity activity = (MainActivity)(getActivity());
+//            byte[] arr = new byte[1];
+//            arr[0] = 1;
+//            activity.writeBTCode(arr);
         });
     }
 }

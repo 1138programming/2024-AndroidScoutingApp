@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
 
@@ -93,7 +95,7 @@ public class ConfirmPopout extends Fragment{
             TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("B");
             MainFragment auton = (MainFragment) getParentFragmentManager().findFragmentByTag("A");
             Fragment popout = getParentFragmentManager().findFragmentByTag("C");
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+//            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             String[] autonData = auton.getDataAsArray();
             String[] teleopData = teleop.getDataAsArray();
 
@@ -113,34 +115,34 @@ public class ConfirmPopout extends Fragment{
                 jsonFile.put("trapScored", teleopData[5]);
                 jsonFile.put("robotBroke", teleopData[6]);
 
-//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
 
                 String userString = jsonFile.toString();
-                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
-                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime().toString()+".json");
-                FileWriter fileWriter = new FileWriter(scoutingFile, false);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(userString);
-                bufferedWriter.close();
-
+//                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+//                File scoutingFile = new File(folderDir, Calendar.getInstance().getTime().toString()+".json");
+//                FileWriter fileWriter = new FileWriter(scoutingFile, false);
+//                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//                bufferedWriter.write(userString);
+//                bufferedWriter.close();
+                MainActivity mainActivity = (MainActivity)(getActivity());
+                mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
             }
-            catch (JSONException | IOException e) {
+            catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            ft.remove(auton);
-            ft.remove(teleop);
-            ft.remove(popout);
-
-            teleop = new TeleopFragment();
-            auton = new MainFragment();
-            ft.add(R.id.main_fragment, auton, "A");
-            ft.add(R.id.main_fragment, teleop, "B");
-            ft.add(R.id.main_fragment, popout, "C");
-            ft.show(auton);
-            ft.hide(teleop);
-            ft.hide(popout);
-            ft.commit();
+//            ft.remove(auton);
+//            ft.remove(teleop);
+//            ft.remove(popout);
+//
+//            teleop = new TeleopFragment();
+//            auton = new MainFragment();
+//            ft.add(R.id.main_fragment, auton, "A");
+//            ft.add(R.id.main_fragment, teleop, "B");
+//            ft.add(R.id.main_fragment, popout, "C");
+//            ft.show(auton);
+//            ft.hide(teleop);
+//            ft.hide(popout);
+//            ft.commit();
         });
 
     }
