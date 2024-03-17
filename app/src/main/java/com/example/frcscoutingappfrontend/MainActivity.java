@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
+    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -216,8 +217,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-            String message = Arrays.toString(mmBuffer);
-            if(message.equals("👍")) {
+            byte[] ack = new byte[4];
+            ack[0] = mmBuffer[0];
+            ack[1] = mmBuffer[1];
+            ack[2] = mmBuffer[2];
+            ack[3] = mmBuffer[3];
+            String message = new String(ack, StandardCharsets.UTF_8);
+            if(message.equals(new String("👍".getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8))) {
                 return true;
             }
             else{
@@ -228,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
         private boolean write(byte[] bytes) {
             try {
                 mmOutStream.write(bytes);
-                mmOutStream.flush();
             }
             catch(IOException e) {
                 sendToast("Error: "+e);
