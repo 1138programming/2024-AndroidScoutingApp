@@ -152,7 +152,7 @@ public class PostMatch extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.trapCheckbox.setOnClickListener(view1 ->{
             if(binding.trapCheckbox.isChecked()) {
-                trapScored = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                trapScored = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
                 successfulHang = "00:00:00";
@@ -160,7 +160,7 @@ public class PostMatch extends Fragment {
         });
         binding.successfulHangCheckbox.setOnClickListener(view1 ->{
             if(binding.successfulHangCheckbox.isChecked()) {
-                successfulHang = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                successfulHang = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
                 successfulHang = "00:00:00";
@@ -168,7 +168,7 @@ public class PostMatch extends Fragment {
         });
         binding.parkCheckbox.setOnClickListener(view1 ->{
             if(binding.successfulHangCheckbox.isChecked()) {
-                park = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                park = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
                 park = "00:00:00";

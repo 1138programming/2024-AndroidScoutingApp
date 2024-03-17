@@ -174,7 +174,7 @@ public class AutonFragment extends Fragment {
     }
     public void startAuton() {
         if(autonStart == null) {
-            autonStart = new SimpleDateFormat("HH:mm:ss").format(new Date());
+            autonStart = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
         }
     }
     public void openAuton() {
@@ -218,14 +218,14 @@ public class AutonFragment extends Fragment {
         binding.ampScored.setOnClickListener(view1 -> {
             if(incrementView(binding.ampScored, true)) {
                 inputStack.push(1);
-                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.ampMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.ampMissed, true)) {
                 inputStack.push(3);
-                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
@@ -233,20 +233,20 @@ public class AutonFragment extends Fragment {
         binding.speakerScored.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerScored, true)){
                 inputStack.push(0);
-                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.speakerMissed.setOnClickListener(view1 -> {
             if(incrementView(binding.speakerMissed, true)) {
                 inputStack.push(2);
-                timestamps.push(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
         binding.leaveQuestionCheckBox.setOnClickListener(view1 ->{
             if(binding.leaveQuestionCheckBox.isChecked()) {
-                taxi = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                taxi = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
                 taxi = "00:00:00";
@@ -254,7 +254,7 @@ public class AutonFragment extends Fragment {
         });
         binding.crossedCenterTitle.setOnClickListener(view1 ->{
             if(binding.centerLineCheckbox.isChecked()) {
-                crossCenter = new SimpleDateFormat("HH:mm:ss").format(new Date());
+                crossCenter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
                 crossCenter = "00:00:00";
