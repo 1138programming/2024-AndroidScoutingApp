@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!--App Version-->
-    <string name="app_version">Beta 1.2.3</string>
+    <string name="app_version">Pre Release 1.0.3</string>
     <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
@@ -75,6 +75,8 @@
     <!--For json submission selection -->
     <string name="archive_title">Select a submission to view:</string>
     <string name="close_button">Close</string>
+    <!--Bluetooth-->
+    <string name="bluetooth_connect_button">Connect</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

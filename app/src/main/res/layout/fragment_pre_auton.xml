@@ -32,7 +32,7 @@
             android:backgroundTint="@color/invisible"
             android:contentDescription="@string/plus_button"
             android:cropToPadding="false"
-            android:src="@drawable/qr_code_outline"
+            android:src="@drawable/bluetooth_outline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/chaminade_orange" />

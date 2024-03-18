@@ -254,7 +254,7 @@ public class PreAuton extends Fragment {
         });
         //qr code button
         binding.archiveButton.setOnClickListener(view1 -> {
-            Fragment popup = getParentFragmentManager().findFragmentByTag("I");
+            Fragment popup = getParentFragmentManager().findFragmentByTag("H");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.show(popup);
             ft.commit();

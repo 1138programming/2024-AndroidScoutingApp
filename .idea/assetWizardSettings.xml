@@ -343,8 +343,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="qr_code_outline" />
-                            <entry key="sourceFile" value="C:\Users\klein_6p28zkz\Downloads\qr-code-outline.svg" />
+                            <entry key="outputName" value="bluetooth_outline" />
+                            <entry key="sourceFile" value="C:\Users\klein_6p28zkz\Downloads\bluetooth-outline.svg" />
                           </map>
                         </option>
                       </PersistentState>

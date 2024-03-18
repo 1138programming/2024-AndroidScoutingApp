@@ -45,6 +45,7 @@ public class ArchiveFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public boolean btConnected = false;
 
     public ArchiveFragment() {
         // Required empty public constructor
@@ -76,7 +77,7 @@ public class ArchiveFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void openQRCode(String fileName) {
+    private void sendViaBT(String fileName) {
         Toast.makeText(this.getContext(), "Opening: "+fileName, Toast.LENGTH_SHORT).show();
         File file = new File(filePath, fileName);
         FileInputStream fis = null;
@@ -100,8 +101,7 @@ public class ArchiveFragment extends Fragment {
         }
         finally {
             String contents = sb.toString();
-            ArchiveDisplayFragment popup = (ArchiveDisplayFragment) getParentFragmentManager().findFragmentByTag("J");
-            popup.openWithQRCode(contents);
+            // do something ???
         }
     }
     @Override
@@ -131,15 +131,18 @@ public class ArchiveFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
 
-                    openQRCode(binding.submissionList.getItemAtPosition(position).toString());
+                    sendViaBT(binding.submissionList.getItemAtPosition(position).toString());
                 }
             });
         }
         binding.closeButton.setOnClickListener(view1 -> {
-            Fragment popup = getParentFragmentManager().findFragmentByTag("I");
+            Fragment popup = getParentFragmentManager().findFragmentByTag("H");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             ft.hide(popup);
             ft.commit();
+        });
+        binding.bluetoothConnect.setOnClickListener(view1 -> {
+            ((MainActivity)getActivity()).enableConnectBT();
         });
     }
 }

@@ -48,6 +48,7 @@ public class ConfirmPopout extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public boolean btConnected = false;
     HashMap<Integer, String> jsonReference = new HashMap<>();
     public ConfirmPopout() {
         // Required empty public constructor
@@ -80,8 +81,6 @@ public class ConfirmPopout extends Fragment{
         datapointTemplate.put("allianceID", preAutonData[4]);
         return datapointTemplate;
     }
-//     0123456789101112131415161718
-//    "00-00-0000  0 0 : 0 0 : 0 0 ";
     private String normalizeTimestamps(String start, String oldTimestamp) {
         String newTimestamp;
         StringBuilder sb = new StringBuilder();
@@ -97,7 +96,6 @@ public class ConfirmPopout extends Fragment{
     private String subtractStrings(String s1, String s2) {
         String returnString;
         int value = Integer.parseInt(s1)-Integer.parseInt(s2);
-        Toast.makeText(this.getContext(), s1+" - "+s2+" = "+String.valueOf(value), Toast.LENGTH_SHORT).show();
         if(value < 0) value = 0;
         if(value<10) returnString = "0"+String.valueOf(value);
         else returnString = String.valueOf(value);
@@ -144,12 +142,11 @@ public class ConfirmPopout extends Fragment{
 
         //submits and saves as json
         binding.submitButton.setOnClickListener(view1 -> {
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             PreAuton preAuton = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
             AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
             TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
             PostMatch postMatch = (PostMatch) getParentFragmentManager().findFragmentByTag("G");
-            Fragment popout = getParentFragmentManager().findFragmentByTag("D");
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
             //gets data from various fragments
             String[] preAutonData = preAuton.getDataAsArray();
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
@@ -375,25 +372,53 @@ public class ConfirmPopout extends Fragment{
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
                 bufferedWriter.close();
-                MainActivity mainActivity = (MainActivity)(getActivity());
-                mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
+                if(btConnected) {
+                    MainActivity mainActivity = (MainActivity) (getActivity());
+                    mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
+                }
+                else {
+                    Toast.makeText(this.getContext(), "data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
+                }
             }
             catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
 
+            preAuton = new PreAuton();
+            auton = new  AutonFragment();
+            teleop = new TeleopFragment();
+            postMatch = new PostMatch();
+            ConfirmPopout confirmPopout = new ConfirmPopout();
+            ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
+            ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
+            ArchiveFragment archiveFragment = new ArchiveFragment();
+
+            ft.remove(preAuton);
             ft.remove(auton);
             ft.remove(teleop);
-            ft.remove(popout);
+            ft.remove(confirmPopout);
+            ft.remove(confirmAutonStart);
+            ft.remove(confirmTeleopStart);
+            ft.remove(postMatch);
+            ft.remove(archiveFragment);
 
-            teleop = new TeleopFragment();
-            auton = new MainFragment();
-            ft.add(R.id.main_fragment, auton, "A");
-            ft.add(R.id.main_fragment, teleop, "B");
-            ft.add(R.id.main_fragment, popout, "C");
-            ft.show(auton);
+            ft.add(R.id.main_fragment, preAuton, "A");
+            ft.add(R.id.main_fragment, auton, "B");
+            ft.add(R.id.main_fragment, teleop, "C");
+            ft.add(R.id.main_fragment, postMatch, "G");
+            ft.add(R.id.main_fragment, confirmPopout, "D");
+            ft.add(R.id.main_fragment, confirmAutonStart, "E");
+            ft.add(R.id.main_fragment, confirmTeleopStart, "F");
+            ft.add(R.id.main_fragment, archiveFragment, "H");
+
+            ft.show(preAuton);
+            ft.hide(auton);
             ft.hide(teleop);
-            ft.hide(popout);
+            ft.hide(confirmPopout);
+            ft.hide(confirmAutonStart);
+            ft.hide(confirmTeleopStart);
+            ft.hide(postMatch);
+            ft.hide(archiveFragment);
             ft.commit();
         });
 

@@ -42,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
     ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
     TeleopFragment teleopFragment = new TeleopFragment();
     ConfirmPopout popoutFragment = new ConfirmPopout();
-    ConfirmReset confirmReset = new ConfirmReset();
     PostMatch postMatch = new PostMatch();
     ArchiveFragment archiveFragment = new ArchiveFragment();
-    ArchiveDisplayFragment archiveDisplayFragment = new ArchiveDisplayFragment();
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     ConnectThread connectThread;
     ConnectedThread connectedThread;
@@ -58,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
+//    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
+    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -75,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, popoutFragment, "D");
         ft.add(R.id.main_fragment, confirmAutonStart, "E");
         ft.add(R.id.main_fragment, confirmTeleopStart, "F");
-        ft.add(R.id.main_fragment, confirmReset, "H");
-        ft.add(R.id.main_fragment, archiveFragment, "I");
-        ft.add(R.id.main_fragment, archiveDisplayFragment, "J");
+        ft.add(R.id.main_fragment, archiveFragment, "H");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
@@ -85,13 +82,9 @@ public class MainActivity extends AppCompatActivity {
         ft.hide(confirmAutonStart);
         ft.hide(confirmTeleopStart);
         ft.hide(postMatch);
-        ft.hide(confirmReset);
         ft.hide(archiveFragment);
-        ft.hide(archiveDisplayFragment);
         // Complete the changes added above
         ft.commit();
-
-        //Bluetooth Code
 
         //makes sure bluetooth exists
         if (adapter == null) {
@@ -104,8 +97,12 @@ public class MainActivity extends AppCompatActivity {
     public void writeBTCode(byte[] bytes) {
         connectedThread.writeToTablet(bytes);
     }
-    public void sendToast(final String message) {
+    private void sendToast(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+    private void informBTConnChange(boolean btConnectivity) {
+        archiveFragment.btConnected = btConnectivity;
+        popoutFragment.btConnected = btConnectivity;
     }
     @Override
     public void onDestroy() {
@@ -205,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         private final OutputStream mmOutStream;
         private byte[] mmBuffer;
         public ConnectedThread(BluetoothSocket socket) {
+            informBTConnChange(true);
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
