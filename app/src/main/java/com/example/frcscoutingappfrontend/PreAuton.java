@@ -115,10 +115,10 @@ public class PreAuton extends Fragment {
             data[3] = "noShow";
         }
         if(binding.teamRed.isChecked()) {
-            data[4] = "red";
+            data[4] = "1";
         }
         else {
-            data[4] = "blue";
+            data[4] = "2";
         }
         return data;
     }

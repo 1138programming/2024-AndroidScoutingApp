@@ -65,7 +65,8 @@ public class TeleopFragment extends Fragment {
     private String teleopStart;
     private ArrayList<TwoThings> defenseTimestamps = new ArrayList<>();
     private boolean currentlyAmplified = false;
-    private String robotBroke = "00:00:00";
+    private final String booleanFalseTimestamp = "00-00-0000 00:00:00";
+    private String robotBroke = booleanFalseTimestamp;
     public TeleopFragment() {
         // Required empty public constructor
     }
@@ -231,11 +232,11 @@ public class TeleopFragment extends Fragment {
         while(timestamps.size()>0){
             reversedTimestamps.push(timestamps.pop());
         }
-        //Speaker and amp timestamps as well as hang start
+        //Speaker and amp timestamps as well as hang start (amplify not in use)
         for(int i : inputStack) {
             data.get(i).add(reversedTimestamps.pop());
         }
-        //amplify box
+        //robotBroke box
         data.get(7).add(robotBroke);
 
         //defense button timestamps
@@ -326,7 +327,7 @@ public class TeleopFragment extends Fragment {
                 robotBroke = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                robotBroke = "00:00:00";
+                robotBroke = booleanFalseTimestamp;
             }
         });
         binding.hangQuestionCheckBox.setOnClickListener(view1 -> {
@@ -342,23 +343,23 @@ public class TeleopFragment extends Fragment {
                 redoStack = new Stack<Integer>();
             }
         });
-        binding.amplifyButton.setOnClickListener(view1 -> {
-            currentlyAmplified = true;
-            binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
-            binding.amplifyButton.setEnabled(false);
-            inputStack.push(4);
-            timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
-            redoStack = new Stack<Integer>();
-            Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
-                    binding.amplifyButton.setEnabled(true);
-                    currentlyAmplified = false;
-                }
-            }, 10000);
-        });
+//        binding.amplifyButton.setOnClickListener(view1 -> {
+//            currentlyAmplified = true;
+//            binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
+//            binding.amplifyButton.setEnabled(false);
+//            inputStack.push(4);
+//            timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
+//            redoStack = new Stack<Integer>();
+//            Toast.makeText(TeleopFragment.this.getContext(), "Amplification Started", Toast.LENGTH_SHORT).show();
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                public void run() {
+//                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+//                    binding.amplifyButton.setEnabled(true);
+//                    currentlyAmplified = false;
+//                }
+//            }, 10000);
+//        });
         //Defense button that tracks timestamps
         binding.defensiveActionButton.setOnTouchListener((view1, event) -> {
             int defenseTime = 0;
@@ -370,8 +371,8 @@ public class TeleopFragment extends Fragment {
                     break;
                 case MotionEvent.ACTION_UP:
                     defenseTimestamps.set(defenseTimestamps.size()-1, new TwoThings(defenseTimestamps.get(defenseTimestamps.size()-1).start, new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date())));
-                    defenseTime = Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).end.substring(6)) - Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).start.substring(6));
-                    defenseTime+= 60*(Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).end.substring(3,5)) - Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).start.substring(3,5)));
+                    defenseTime = Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).end.substring(17)) - Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).start.substring(17));
+                    defenseTime+= 60*(Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).end.substring(14,16)) - Integer.valueOf(defenseTimestamps.get(defenseTimestamps.size()-1).start.substring(14,16)));
                     Toast.makeText(TeleopFragment.this.getContext(), "Defended for: "+defenseTime+" seconds", Toast.LENGTH_LONG).show();
             }
             return false;

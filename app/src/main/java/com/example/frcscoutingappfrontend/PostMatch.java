@@ -38,9 +38,10 @@ public class PostMatch extends Fragment {
     FragmentPostMatchBinding binding;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String trapScored = "00:00:00";
-    private String successfulHang = "00:00:00";
-    private String park = "00:00:00";
+    private final String booleanFalseTimestamp = "00-00-0000 00:00:00";
+    private String trapScored = booleanFalseTimestamp;
+    private String successfulHang = booleanFalseTimestamp;
+    private String park = booleanFalseTimestamp;
     private boolean submitted = false;
     ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
     private int currQRIndex = 0;
@@ -155,7 +156,7 @@ public class PostMatch extends Fragment {
                 trapScored = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                successfulHang = "00:00:00";
+                successfulHang = booleanFalseTimestamp;
             }
         });
         binding.successfulHangCheckbox.setOnClickListener(view1 ->{
@@ -163,7 +164,7 @@ public class PostMatch extends Fragment {
                 successfulHang = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                successfulHang = "00:00:00";
+                successfulHang = booleanFalseTimestamp;
             }
         });
         binding.parkCheckbox.setOnClickListener(view1 ->{
@@ -171,7 +172,7 @@ public class PostMatch extends Fragment {
                 park = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                park = "00:00:00";
+                park = booleanFalseTimestamp;
             }
         });
         binding.backButton.setOnClickListener(view1 -> {

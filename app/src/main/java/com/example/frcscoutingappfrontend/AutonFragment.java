@@ -56,8 +56,9 @@ public class AutonFragment extends Fragment {
     private Stack<Integer> redoStack = new Stack<Integer>();
     private Stack<String> redoTimestamps = new Stack<String>();
     private String autonStart;
-    private String taxi = "00:00:00";
-    private String crossCenter = "00:00:00";
+    private final String booleanFalseTimestamp = "00-00-0000 00:00:00";
+    private String taxi = booleanFalseTimestamp;
+    private String crossCenter = booleanFalseTimestamp;
     public AutonFragment() {
         // Required empty public constructor
     }
@@ -249,7 +250,7 @@ public class AutonFragment extends Fragment {
                 taxi = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                taxi = "00:00:00";
+                taxi = booleanFalseTimestamp;
             }
         });
         binding.crossedCenterTitle.setOnClickListener(view1 ->{
@@ -257,7 +258,7 @@ public class AutonFragment extends Fragment {
                 crossCenter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             }
             else {
-                crossCenter = "00:00:00";
+                crossCenter = booleanFalseTimestamp;
             }
         });
         // Fragment transaction on "Next" button
