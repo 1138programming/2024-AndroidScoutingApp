@@ -12,13 +12,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
-import com.google.zxing.WriterException;
+
+
 
 import com.example.frcscoutingappfrontend.databinding.ConfirmPopoutBinding;
 
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
@@ -373,13 +375,24 @@ public class ConfirmPopout extends Fragment{
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
                 bufferedWriter.close();
-                postMatch.generateQRCode(jsonFile);
+                MainActivity mainActivity = (MainActivity)(getActivity());
+                mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
             }
             catch (JSONException | IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
+            ft.remove(auton);
+            ft.remove(teleop);
+            ft.remove(popout);
+
+            teleop = new TeleopFragment();
+            auton = new MainFragment();
+            ft.add(R.id.main_fragment, auton, "A");
+            ft.add(R.id.main_fragment, teleop, "B");
+            ft.add(R.id.main_fragment, popout, "C");
+            ft.show(auton);
+            ft.hide(teleop);
             ft.hide(popout);
             ft.commit();
         });
