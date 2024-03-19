@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!--App Version-->
-    <string name="app_version">Pre Release 1.1.0</string>
+    <string name="app_version">Pre Release 1.1.1</string>
     <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>

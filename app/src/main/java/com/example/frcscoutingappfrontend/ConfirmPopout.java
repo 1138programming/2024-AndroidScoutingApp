@@ -286,8 +286,8 @@ public class ConfirmPopout extends Fragment{
                 // 18 = auton start
                 tempJson = newJsonTemplate(preAutonData);
                 tempJson.put("datapointID", String.valueOf(18));
-                tempJson.put("DCValue", autonData.get(6).get(0));
-                tempJson.put("DCTimestamp", booleanFalse);
+                tempJson.put("DCValue", "true");
+                tempJson.put("DCTimestamp", autonData.get(6).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
