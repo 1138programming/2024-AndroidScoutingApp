@@ -41,9 +41,17 @@ public class PreAuton extends Fragment {
     ArrayAdapter<CharSequence> scouterAdapter;
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams blueParamsMR = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams blueParamsML = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsR = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams redParamsMR = new LinearLayout.LayoutParams(
+            97,LinearLayout.LayoutParams.MATCH_PARENT);
+    LinearLayout.LayoutParams redParamsML = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsL = new LinearLayout.LayoutParams(
             97,LinearLayout.LayoutParams.MATCH_PARENT);
@@ -105,8 +113,11 @@ public class PreAuton extends Fragment {
         if(binding.leftStart.isChecked()){
             data[3] = binding.leftStart.getText().toString();
         }
-        else if(binding.middleStart.isChecked()) {
-            data[3] = binding.middleStart.getText().toString();
+        else if(binding.middleLeftStart.isChecked()) {
+            data[3] = binding.middleLeftStart.getText().toString();
+        }
+        else if(binding.middleRightStart.isChecked()) {
+            data[3] = binding.middleRightStart.getText().toString();
         }
         else if(binding.rightStart.isChecked()){
             data[3] = binding.rightStart.getText().toString();
@@ -213,34 +224,51 @@ public class PreAuton extends Fragment {
         matchNumberAdapter.setDropDownViewResource(R.layout.spinner_layout);
         binding.matchNumberSpinner.setAdapter(matchNumberAdapter);
         //sets dynamic movement for starting position
-        redParamsL.setMargins(dpToPixel(50),dpToPixel(1),dpToPixel(20),dpToPixel(1));
-        redParamsR.setMargins(dpToPixel(85),dpToPixel(1),0,dpToPixel(1));
-        blueParamsL.setMargins(dpToPixel(0),dpToPixel(1),dpToPixel(85),dpToPixel(1));
-        blueParamsR.setMargins(dpToPixel(20),dpToPixel(1),dpToPixel(50),dpToPixel(1));
+        redParamsL.setMargins(dpToPixel(40),dpToPixel(1),dpToPixel(20),dpToPixel(1));
+        redParamsML.setMargins(0,dpToPixel(1),dpToPixel(15),dpToPixel(1));
+        redParamsMR.setMargins(0,dpToPixel(1),dpToPixel(1),dpToPixel(1));
+        redParamsR.setMargins(dpToPixel(10),dpToPixel(1),0,dpToPixel(1));
+
+        blueParamsL.setMargins(0,dpToPixel(1),dpToPixel(10),dpToPixel(1));
+        blueParamsML.setMargins(dpToPixel(1),dpToPixel(1),0,dpToPixel(1));
+        blueParamsMR.setMargins(dpToPixel(15),dpToPixel(1),0,dpToPixel(1));
+        blueParamsR.setMargins(dpToPixel(20),dpToPixel(1),dpToPixel(40),dpToPixel(1));
         binding.teamBlue.setOnClickListener(view1 -> {
             binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_blue));
             binding.leftStart.setBackgroundResource(R.drawable.start_toggle_blue);
-            binding.middleStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.middleRightStart.setBackgroundResource(R.drawable.start_toggle_blue);
+            binding.middleLeftStart.setBackgroundResource(R.drawable.start_toggle_blue);
             binding.rightStart.setBackgroundResource(R.drawable.start_toggle_blue);
             binding.rightStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
-            binding.middleStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
+            binding.middleRightStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
+            binding.middleLeftStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
             binding.leftStart.setTextColor(getResources().getColorStateList(R.color.blue_text_toggle));
             binding.leftStart.setText(getResources().getText(R.string.start_amp));
+            binding.middleLeftStart.setText(getResources().getText(R.string.start_amp_speaker));
+            binding.middleRightStart.setText(getResources().getText(R.string.start_source_speaker));
             binding.rightStart.setText(getResources().getText(R.string.start_source));
             binding.leftStart.setLayoutParams(blueParamsL);
+            binding.middleLeftStart.setLayoutParams(blueParamsML);
+            binding.middleRightStart.setLayoutParams(blueParamsMR);
             binding.rightStart.setLayoutParams(blueParamsR);
         });
         binding.teamRed.setOnClickListener(view1 -> {
             binding.startingPosImage.setImageDrawable(getResources().getDrawable(R.drawable.frc_2024_field_red));
             binding.leftStart.setBackgroundResource(R.drawable.start_toggle_red);
-            binding.middleStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.middleLeftStart.setBackgroundResource(R.drawable.start_toggle_red);
+            binding.middleRightStart.setBackgroundResource(R.drawable.start_toggle_red);
             binding.rightStart.setBackgroundResource(R.drawable.start_toggle_red);
             binding.rightStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
-            binding.middleStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
+            binding.middleRightStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
+            binding.middleLeftStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
             binding.leftStart.setTextColor(getResources().getColorStateList(R.color.red_text_toggle));
             binding.leftStart.setText(getResources().getText(R.string.start_source));
+            binding.middleLeftStart.setText(getResources().getText(R.string.start_source_speaker));
+            binding.middleRightStart.setText(getResources().getText(R.string.start_amp_speaker));
             binding.rightStart.setText(getResources().getText(R.string.start_amp));
             binding.leftStart.setLayoutParams(redParamsL);
+            binding.middleLeftStart.setLayoutParams(redParamsML);
+            binding.middleRightStart.setLayoutParams(redParamsMR);
             binding.rightStart.setLayoutParams(redParamsR);
         });
         binding.startingLocation.setOnCheckedChangeListener((buttonView, isChecked) -> {

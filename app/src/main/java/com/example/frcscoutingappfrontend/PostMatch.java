@@ -39,7 +39,7 @@ public class PostMatch extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private final String booleanFalseTimestamp = "00-00-0000 00:00:00";
-    private String trapScored = booleanFalseTimestamp;
+    private ArrayList<String> trapScored = new ArrayList<String>();
     private String successfulHang = booleanFalseTimestamp;
     private String park = booleanFalseTimestamp;
     ArrayList<Bitmap> bitmap = new ArrayList<Bitmap>();
@@ -79,19 +79,39 @@ public class PostMatch extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private void incrementTrap() {
+        String text = binding.trapScoredButton.getText().toString();
+        int num = Integer.parseInt(text);
+        if (num < 100) {
+            num++;
+        }
+        binding.trapScoredButton.setText(String.valueOf(num));
+    }
+    private void decrementTrap() {
+        String text = binding.trapScoredButton.getText().toString();
+        int num = Integer.parseInt(text);
+        if (num > 0) {
+            num--;
+        }
+        binding.trapScoredButton.setText(String.valueOf(num));
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.binding = FragmentPostMatchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-    public String[] getDataAsArray() {
-        String[] data = new String[3];
+    public ArrayList<ArrayList<String>> getDataAsArray() {
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(3);
+        for(int i = 0; i<3; i++) {
+            data.add(i, new ArrayList<String>());
+        }
 
-        data[0] = successfulHang;
-        data[1] = trapScored;
-        data[2] = park;
+        data.get(0).add(successfulHang);
+        for(String i: trapScored) {
+            data.get(1).add(i);
+        }
+        data.get(2).add(park);
 
         return data;
     }
@@ -99,13 +119,12 @@ public class PostMatch extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.trapCheckbox.setOnClickListener(view1 ->{
-            if(binding.trapCheckbox.isChecked()) {
-                trapScored = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
-            }
-            else {
-                successfulHang = booleanFalseTimestamp;
-            }
+        binding.trapScoredButton.setOnClickListener(view1 ->{
+            trapScored.add(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
+            incrementTrap();
+        });
+        binding.subtractTrapButton.setOnClickListener(view1 -> {
+            decrementTrap();
         });
         binding.successfulHangCheckbox.setOnClickListener(view1 ->{
             if(binding.successfulHangCheckbox.isChecked()) {

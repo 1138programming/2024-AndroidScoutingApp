@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!--App Version-->
-    <string name="app_version">Pre Release 1.0.3</string>
+    <string name="app_version">Pre Release 1.1.0</string>
     <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
@@ -28,7 +28,8 @@
     <string name="team_color_blue">BLUE</string>
     <!--Starting Position Titles-->
     <string name="start_amp">Amp</string>
-    <string name="start_speaker">Speaker</string>
+    <string name="start_amp_speaker">Amp- Speaker</string>
+    <string name="start_source_speaker">Source- Speaker</string>
     <string name="start_source">Source</string>
     <!--Amp/Speaker counter titles-->
     <string name="amp_title_default">Amp</string>
@@ -56,7 +57,9 @@
     <string name="reset_form_title">Reset</string>
     <string name="endgame_title">Endgame / Misc.</string>
     <!--Title for pickup and amplify-->
-    <string name="pickup_note_title">Pickup: 0</string>
+    <string name="pickup_note_title">Pickup:</string>
+    <string name="pickup_source_title">Source: 0</string>
+    <string name="pickup_ground_title">Ground: 0</string>
     <string name="amplify_button_title">Amplify</string>
     <!--Back arrow for back button-->
     <string name="default_back_button_title">&#60;—</string>

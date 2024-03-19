@@ -109,33 +109,41 @@
             app:layout_constraintBottom_toBottomOf="@+id/ampMissed"
             app:layout_constraintEnd_toEndOf="@+id/speakerScored" />
 
-        <Button
-            android:id="@+id/pickupButton"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:backgroundTint="@color/chaminade_orange"
+        <TextView
+            android:id="@+id/pickupTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/pickup_note_title"
-            android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@+id/defensive_action_button"
-            app:layout_constraintEnd_toStartOf="@+id/nextButton"
-            app:layout_constraintHorizontal_bias="0.35"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hang_title" />
+            android:textColor="@color/off_white"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pickupSourceButton"
+            app:layout_constraintStart_toStartOf="@+id/missedTitle"
+            app:layout_constraintTop_toTopOf="@+id/pickupSourceButton" />
 
         <Button
-            android:id="@+id/amplifyButton"
-            android:layout_width="250dp"
+            android:id="@+id/pickupSourceButton"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
+            android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/pickup_source_title"
+            android:textColor="@color/cham_background_default"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pickupGroundButton"
+            app:layout_constraintEnd_toEndOf="@+id/ampMissed" />
+
+        <Button
+            android:id="@+id/pickupGroundButton"
+            android:layout_width="225dp"
             android:layout_height="100dp"
             android:background="@null"
             android:backgroundTint="@color/chaminade_orange"
-            android:text="@string/amplify_button_title"
+            android:text="@string/pickup_ground_title"
             android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pickupButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.65"
-            app:layout_constraintStart_toEndOf="@+id/returnToAuton" />
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@+id/endgame_title"
+            app:layout_constraintEnd_toEndOf="@+id/speakerMissed"
+            app:layout_constraintTop_toBottomOf="@+id/scorePickupDivide" />
+
         <TextView
             android:id="@+id/mainTitle"
             android:layout_width="wrap_content"
@@ -175,7 +183,7 @@
             android:id="@+id/scoredTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="50dp"
             android:text="@string/score_title_default"
             android:textColor="@color/off_white"
@@ -209,12 +217,22 @@
         <View
             android:id="@+id/view"
             android:layout_width="2sp"
-            android:layout_height="350sp"
+            android:layout_height="330sp"
             android:background="@color/off_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.59"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ampTitleTextBox" />
+
+        <View
+            android:id="@+id/scorePickupDivide"
+            android:layout_width="500sp"
+            android:layout_height="2sp"
+            android:layout_marginTop="25dp"
+            android:background="@color/off_white"
+            app:layout_constraintEnd_toEndOf="@+id/speakerMissed"
+            app:layout_constraintStart_toStartOf="@+id/pickupSourceButton"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <Button
             android:id="@+id/returnToAuton"
@@ -247,8 +265,10 @@
             android:text="@string/endgame_title"
             android:textColor="@color/off_white"
             android:textSize="80sp"
+            app:layout_constraintBottom_toTopOf="@+id/returnToAuton"
             app:layout_constraintStart_toStartOf="@+id/missedTitle"
-            app:layout_constraintTop_toBottomOf="@+id/ampMissed" />
+            app:layout_constraintTop_toBottomOf="@+id/ampMissed"
+            app:layout_constraintVertical_bias="0.35" />
 
         <TextView
             android:id="@+id/hang_title"
@@ -301,7 +321,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hangQuestionCheckBox"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

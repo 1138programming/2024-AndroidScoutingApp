@@ -151,7 +151,7 @@ public class ConfirmPopout extends Fragment{
             String[] preAutonData = preAuton.getDataAsArray();
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
             ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
-            String[] postMatchData = postMatch.getDataAsArray();
+            ArrayList<ArrayList<String>> postMatchData = postMatch.getDataAsArray();
             String booleanFalse = "00-00-0000 00:00:00";
             try {
                 JSONObject jsonFile = new JSONObject();
@@ -212,20 +212,20 @@ public class ConfirmPopout extends Fragment{
                     for(String j : teleopData.get(i)){
                         tempJson.put("datapointID", String.valueOf(i+7));
                         tempJson.put("DCValue", "true");
-                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),j));
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
                         jsonArr.put(tempJson);
                     }
                 }
 
                 // 12 = successful hang
                 tempJson.put("datapointID", String.valueOf(12));
-                if(postMatchData[0].equals(booleanFalse)) {
+                if(postMatchData.get(0).get(0).equals(booleanFalse)) {
                     tempJson.put("DCValue", "false");
                 }
                 else {
                     tempJson.put("DCValue", "true");
                 }
-                tempJson.put("DCTimestamp", postMatchData[0]);
+                tempJson.put("DCTimestamp", postMatchData.get(0).get(0));
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
@@ -237,30 +237,26 @@ public class ConfirmPopout extends Fragment{
                         tempJson.put("DCTimestamp", teleopData.get(5).get(0));
                     } else {
                         tempJson.put("DCValue", "true");
-                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),teleopData.get(5).get(0)));
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(5).get(0)));
                     }
                     jsonArr.put(tempJson);
                     tempJson = newJsonTemplate(preAutonData);
                 }
 
                 // 14 = trap
-                tempJson.put("datapointID", String.valueOf(14));
-                if(postMatchData[1].equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                    tempJson.put("DCTimestamp", postMatchData[1]);
-                }
-                else {
+                for(String i : postMatchData.get(1)) {
+                    tempJson.put("datapointID", String.valueOf(14));
                     tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),postMatchData[1]));
+                    tempJson.put("DCTimestamp", i);
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
                 }
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
 
                 // 15 = defense (start)
-                for(String j : teleopData.get(8)){
+                for(String j : teleopData.get(9)){
                     tempJson.put("datapointID", String.valueOf(15));
                     tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),j));
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
                     jsonArr.put(tempJson);
                     tempJson = newJsonTemplate(preAutonData);
                 }
@@ -269,11 +265,11 @@ public class ConfirmPopout extends Fragment{
                 tempJson.put("datapointID", String.valueOf(16));
                 if(teleopData.get(7).get(0).equals(booleanFalse)) {
                     tempJson.put("DCValue", "false");
-                    tempJson.put("DCTimestamp", teleopData.get(7).get(0));
+                    tempJson.put("DCTimestamp", teleopData.get(8).get(0));
                 }
                 else {
                     tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),teleopData.get(7).get(0)));
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(7).get(0)));
                 }
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
@@ -286,7 +282,53 @@ public class ConfirmPopout extends Fragment{
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
 
-                // 18 = no show
+
+                // 18 = auton start
+                tempJson = newJsonTemplate(preAutonData);
+                tempJson.put("datapointID", String.valueOf(18));
+                tempJson.put("DCValue", autonData.get(6).get(0));
+                tempJson.put("DCTimestamp", booleanFalse);
+                jsonArr.put(tempJson);
+                tempJson = newJsonTemplate(preAutonData);
+
+                //19 = teleop start
+                tempJson.put("datapointID", String.valueOf(19));
+                tempJson.put("DCValue", "true");
+                tempJson.put("DCTimestamp", teleopData.get(11).get(0));
+                jsonArr.put(tempJson);
+                tempJson = newJsonTemplate(preAutonData);
+
+                // 20 = pickup
+                for(String i : teleopData.get(6)) {
+                    tempJson.put("datapointID", String.valueOf(20));
+                    tempJson.put("DCValue", "true");
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),i));
+                    jsonArr.put(tempJson);
+                }
+                tempJson = newJsonTemplate(preAutonData);
+
+                // 21 = defense end
+                for(String j : teleopData.get(10)){
+                    tempJson.put("datapointID", String.valueOf(21));
+                    tempJson.put("DCValue", "true");
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+                }
+
+                // 22 = park
+                tempJson.put("datapointID", String.valueOf(22));
+                if(postMatchData.get(2).get(0).equals(booleanFalse)) {
+                    tempJson.put("DCValue", "false");
+                }
+                else {
+                    tempJson.put("DCValue", "true");
+                }
+                tempJson.put("DCTimestamp", postMatchData.get(2).get(0));
+                jsonArr.put(tempJson);
+                tempJson = newJsonTemplate(preAutonData);
+                
+                // 23 = no show
                 tempJson.put("datapointID", String.valueOf(18));
                 if(preAutonData[3].equals("noShow")) {
                     tempJson.put("DCValue", "true");
@@ -296,54 +338,17 @@ public class ConfirmPopout extends Fragment{
                 }
                 tempJson.put("DCTimestamp", preAutonData[3]);
                 jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
 
-                // 19 = auton start
-                tempJson = newJsonTemplate(preAutonData);
-                tempJson.put("datapointID", String.valueOf(19));
-                tempJson.put("DCValue", autonData.get(6).get(0));
-                tempJson.put("DCTimestamp", booleanFalse);
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                //20 = teleop start
-                tempJson.put("datapointID", String.valueOf(20));
-                tempJson.put("DCValue", "true");
-                tempJson.put("DCTimestamp", teleopData.get(10).get(0));
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 21 = pickup
-                for(String i : teleopData.get(6)) {
-                    tempJson.put("datapointID", String.valueOf(20));
+                // 24 = pickupFromGround
+                for(String i : teleopData.get(7)) {
+                    tempJson.put("datapointID", String.valueOf(24));
                     tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),i));
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),i));
                     jsonArr.put(tempJson);
                 }
                 tempJson = newJsonTemplate(preAutonData);
-
-                // 22 = defense end
-                for(String j : teleopData.get(9)){
-                    tempJson.put("datapointID", String.valueOf(22));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(10).get(0),j));
-                    jsonArr.put(tempJson);
-                    tempJson = newJsonTemplate(preAutonData);
-                }
-
-                // 23 = park
-                tempJson.put("datapointID", String.valueOf(23));
-                if(postMatchData[2].equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                }
-                tempJson.put("DCTimestamp", postMatchData[2]);
-                jsonArr.put(tempJson);
-
+                
                 jsonFile.put("scoutingData", jsonArr);
-
 //                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
 
                 String userString = jsonFile.toString();

@@ -116,16 +116,20 @@ public class TeleopFragment extends Fragment {
                 binding.hangQuestionCheckBox.setChecked(false);
                 break;
             case 6:
-                Toast.makeText(getContext(), "Undid Pickup", Toast.LENGTH_SHORT).show();
-                decrementPickup(binding.pickupButton);
+                Toast.makeText(getContext(), "Undid Source Pickup", Toast.LENGTH_SHORT).show();
+                decrementPickup(binding.pickupSourceButton);
                 break;
-            case 4:
-                Toast.makeText(getContext(), "Undid Amplification", Toast.LENGTH_SHORT).show();
-                if(currentlyAmplified) {
-                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
-                    binding.amplifyButton.setEnabled(true);
-                }
+            case 7:
+                Toast.makeText(getContext(), "Undid Ground Pickup", Toast.LENGTH_SHORT).show();
+                decrementPickup(binding.pickupGroundButton);
                 break;
+//            case 4:
+//                Toast.makeText(getContext(), "Undid Amplification", Toast.LENGTH_SHORT).show();
+//                if(currentlyAmplified) {
+//                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.chaminade_orange));
+//                    binding.amplifyButton.setEnabled(true);
+//                }
+//                break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
@@ -156,16 +160,20 @@ public class TeleopFragment extends Fragment {
                 binding.hangQuestionCheckBox.setChecked(true);
                 break;
             case 6:
-                Toast.makeText(getContext(), "Redid Pickup", Toast.LENGTH_SHORT).show();
-                incrementPickup(binding.pickupButton, false);
+                Toast.makeText(getContext(), "Redid Source Pickup", Toast.LENGTH_SHORT).show();
+                incrementPickup(binding.pickupSourceButton, false);
                 break;
-            case 4:
-                Toast.makeText(getContext(), "Redid Amplification", Toast.LENGTH_SHORT).show();
-                if(currentlyAmplified) {
-                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
-                    binding.amplifyButton.setEnabled(false);
-                }
+            case 7:
+                Toast.makeText(getContext(), "Redid Ground Pickup", Toast.LENGTH_SHORT).show();
+                incrementPickup(binding.pickupGroundButton, false);
                 break;
+//            case 4:
+//                Toast.makeText(getContext(), "Redid Amplification", Toast.LENGTH_SHORT).show();
+//                if(currentlyAmplified) {
+//                    binding.amplifyButton.setBackgroundColor(getResources().getColor(R.color.pressed_defense));
+//                    binding.amplifyButton.setEnabled(false);
+//                }
+//                break;
             default:
                 Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
@@ -224,9 +232,9 @@ public class TeleopFragment extends Fragment {
         }
     }
     public ArrayList<ArrayList<String>> getDataAsArray() {
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(11);
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(12);
         Stack<String> reversedTimestamps = new Stack<String>();
-        for(int i = 0; i<11; i++) {
+        for(int i = 0; i<12; i++) {
             data.add(i, new ArrayList<String>());
         }
         while(timestamps.size()>0){
@@ -237,14 +245,14 @@ public class TeleopFragment extends Fragment {
             data.get(i).add(reversedTimestamps.pop());
         }
         //robotBroke box
-        data.get(7).add(robotBroke);
+        data.get(8).add(robotBroke);
 
         //defense button timestamps
         for(TwoThings timestampPair : defenseTimestamps) {
-            data.get(8).add(timestampPair.start);
-            data.get(9).add(timestampPair.end);
+            data.get(9).add(timestampPair.start);
+            data.get(10).add(timestampPair.end);
         }
-        data.get(10).add(teleopStart);
+        data.get(11).add(teleopStart);
         return data;
     }
 
@@ -336,9 +344,16 @@ public class TeleopFragment extends Fragment {
             redoStack = new Stack<Integer>();
             binding.hangQuestionCheckBox.setEnabled(false);
         });
-        binding.pickupButton.setOnClickListener(view1 -> {
-            if(incrementPickup(binding.pickupButton, true)) {
+        binding.pickupSourceButton.setOnClickListener(view1 -> {
+            if(incrementPickup(binding.pickupSourceButton, true)) {
                 inputStack.push(6);
+                timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
+                redoStack = new Stack<Integer>();
+            }
+        });
+        binding.pickupGroundButton.setOnClickListener(view1 -> {
+            if(incrementPickup(binding.pickupGroundButton, true)) {
+                inputStack.push(7);
                 timestamps.push(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
                 redoStack = new Stack<Integer>();
             }

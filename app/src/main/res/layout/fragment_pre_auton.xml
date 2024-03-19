@@ -205,7 +205,7 @@
             android:id="@+id/startingLocation"
             android:layout_width="375dp"
             android:layout_height="70dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="50dp"
             android:background="@color/invisible"
             android:checkedButton="@+id/team_red"
             android:orientation="horizontal"
@@ -217,47 +217,62 @@
                 android:id="@+id/left_start"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="40sp"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:text="@string/start_source"
-                android:textColor="@color/red_text_toggle"
-                android:textSize="16sp"
                 android:background="@drawable/start_toggle_red"
                 android:button="@null"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="@string/start_source"
+                android:textColor="@color/red_text_toggle"
+                android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/middle_start"
+                android:id="@+id/middle_left_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="15sp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/start_source_speaker"
+                android:textColor="@color/red_text_toggle"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/middle_right_start"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:text="@string/start_speaker"
-                android:textColor="@color/red_text_toggle"
-                android:textSize="16sp"
                 android:background="@drawable/start_toggle_red"
                 android:button="@null"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/start_amp_speaker"
+                android:textColor="@color/red_text_toggle"
+                android:textSize="16sp" />
 
             <RadioButton
                 android:id="@+id/right_start"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="85dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:text="@string/start_amp"
-                android:textColor="@color/red_text_toggle"
-                android:textSize="16sp"
                 android:background="@drawable/start_toggle_red"
                 android:button="@null"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/start_amp"
+                android:textColor="@color/red_text_toggle"
+                android:textSize="16sp" />
         </RadioGroup>
         <Button
             android:id="@+id/nextButton"
