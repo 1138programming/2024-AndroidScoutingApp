@@ -48,7 +48,6 @@ public class ConfirmPopout extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public boolean btConnected = false;
     HashMap<Integer, String> jsonReference = new HashMap<>();
     public ConfirmPopout() {
         // Required empty public constructor
@@ -78,6 +77,8 @@ public class ConfirmPopout extends Fragment{
         datapointTemplate.put("scouterID", preAutonData[0]);
         datapointTemplate.put("matchID", preAutonData[1]);
         datapointTemplate.put("teamID", preAutonData[2]);
+        // red = 1
+        // blue = 2
         datapointTemplate.put("allianceID", preAutonData[4]);
         return datapointTemplate;
     }
@@ -152,7 +153,7 @@ public class ConfirmPopout extends Fragment{
             ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
             ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
             ArrayList<ArrayList<String>> postMatchData = postMatch.getDataAsArray();
-            String booleanFalse = "00-00-0000 00:00:00";
+            String booleanFalse = "0000-00-00 00:00:00";
             try {
                 JSONObject jsonFile = new JSONObject();
                 JSONArray jsonArr = new JSONArray();
@@ -213,6 +214,7 @@ public class ConfirmPopout extends Fragment{
                         tempJson.put("DCValue", "true");
                         tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
                         jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
                     }
                 }
 
@@ -268,7 +270,7 @@ public class ConfirmPopout extends Fragment{
                 }
                 else {
                     tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(7).get(0)));
+                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(8).get(0)));
                 }
                 jsonArr.put(tempJson);
                 tempJson = newJsonTemplate(preAutonData);
@@ -376,11 +378,12 @@ public class ConfirmPopout extends Fragment{
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 bufferedWriter.write(userString);
                 bufferedWriter.close();
-                if(btConnected) {
-                    MainActivity mainActivity = (MainActivity) (getActivity());
+                MainActivity mainActivity = (MainActivity)getActivity();
+                if(MainActivity.checkConnectivity()) {
                     mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
                 }
                 else {
+                    mainActivity.enableConnectBT();
                     Toast.makeText(this.getContext(), "data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
                 }
             }

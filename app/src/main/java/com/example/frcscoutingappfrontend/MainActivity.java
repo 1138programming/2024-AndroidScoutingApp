@@ -46,22 +46,21 @@ public class MainActivity extends AppCompatActivity {
     ArchiveFragment archiveFragment = new ArchiveFragment();
     BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+    BluetoothReceiver reciever;
     ConnectThread connectThread;
     ConnectedThread connectedThread;
+    /* common ones:
+    10:A5:1D:70:BB:B9
+    A0:51:0B:41:08:7E
+    98:8D:46:B7:E5:C5
+    14:4F:8A:CF:71:F4
+     */
     String macAddress = "A0:51:0B:41:08:7E";
     int port = 3;
+    public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
-    private Handler handler;
-    private interface MessageConstants {
-        public static final int MESSAGE_READ = 0;
-        public static final int MESSAGE_WRITE = 1;
-        public static final int MESSAGE_TOAST = 2;
-    }
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
-//    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
-    private static final String ExternalMACAddress = "A0:51:0B:41:08:7E";
-//    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -98,7 +97,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
         }
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        reciever = new BluetoothReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.registerReceiver(reciever, filter);
     }
     public void writeBTCode(byte[] bytes) {
         connectedThread.writeToTablet(bytes);
@@ -116,9 +119,17 @@ public class MainActivity extends AppCompatActivity {
     public int getPort() {
         return port;
     }
-    private void informBTConnChange(boolean btConnectivity) {
-        archiveFragment.btConnected = btConnectivity;
-        popoutFragment.btConnected = btConnectivity;
+    public static boolean checkConnectivity() {
+        return bluetoothConnectivity;
+    }
+    public static void setConnectivity(boolean connectivity, Context context) {
+        bluetoothConnectivity = connectivity;
+        if(connectivity) {
+            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
+        }
     }
     @Override
     public void onDestroy() {
@@ -126,21 +137,21 @@ public class MainActivity extends AppCompatActivity {
         connectThread.cancel();
         connectedThread.cancel();
     }
-    public void enableConnectBT() {
+    public boolean enableConnectBT() {
+        if(bluetoothConnectivity) return true;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         if (!adapter.isEnabled()) {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
             Toast.makeText(this, "Bluetooth enabled!", Toast.LENGTH_LONG).show();
-        } else {
-            connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
-            connectThread.start();
-            Toast.makeText(this, "Might have worked???", Toast.LENGTH_LONG).show();
         }
+        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
+        connectThread.start();
+        return bluetoothConnectivity;
     }
 
     // for connecting to central laptop
@@ -218,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         private final OutputStream mmOutStream;
         private byte[] mmBuffer;
         public ConnectedThread(BluetoothSocket socket) {
-            informBTConnChange(true);
+            bluetoothConnectivity = true;
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -290,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             write(bytes);
-            sendToast("hopefully submitted");
+            sendToast("successfully submitted");
         }
         public void cancel() {
             try {

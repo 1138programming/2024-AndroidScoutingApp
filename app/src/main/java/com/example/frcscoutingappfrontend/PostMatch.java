@@ -120,7 +120,7 @@ public class PostMatch extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.trapScoredButton.setOnClickListener(view1 ->{
-            trapScored.add(new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date()));
+            trapScored.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             incrementTrap();
         });
         binding.subtractTrapButton.setOnClickListener(view1 -> {
@@ -128,7 +128,7 @@ public class PostMatch extends Fragment {
         });
         binding.successfulHangCheckbox.setOnClickListener(view1 ->{
             if(binding.successfulHangCheckbox.isChecked()) {
-                successfulHang = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
+                successfulHang = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             }
             else {
                 successfulHang = booleanFalseTimestamp;
@@ -136,7 +136,7 @@ public class PostMatch extends Fragment {
         });
         binding.parkCheckbox.setOnClickListener(view1 ->{
             if(binding.successfulHangCheckbox.isChecked()) {
-                park = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
+                park = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             }
             else {
                 park = booleanFalseTimestamp;

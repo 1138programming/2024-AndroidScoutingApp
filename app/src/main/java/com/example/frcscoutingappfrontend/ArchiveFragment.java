@@ -101,7 +101,7 @@ public class ArchiveFragment extends Fragment {
         }
         finally {
             String contents = sb.toString();
-            // do something ???
+            ((MainActivity)getActivity()).writeBTCode(contents.getBytes(StandardCharsets.UTF_8));
         }
     }
     @Override
