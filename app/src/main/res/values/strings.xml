@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!--App Version-->
-    <string name="app_version">Pre Release 1.1.1</string>
+    <string name="app_version">Pre Release 1.1.4</string>
     <!--Fragment Titles-->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="auton_title">Auton</string>
@@ -80,6 +80,11 @@
     <string name="close_button">Close</string>
     <!--Bluetooth-->
     <string name="bluetooth_connect_button">Connect</string>
+    <string name="bluetooth_mac_button">Change MAC</string>
+    <string name="bluetooth_mac_title">MAC:</string>
+    <string name="bluetooth_port_title">Port:</string>
+    <string name="bluetooth_settings_title">Press save when completed</string>
+    <string name="save_button">Save</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -44,9 +44,12 @@ public class MainActivity extends AppCompatActivity {
     ConfirmPopout popoutFragment = new ConfirmPopout();
     PostMatch postMatch = new PostMatch();
     ArchiveFragment archiveFragment = new ArchiveFragment();
+    BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     ConnectThread connectThread;
     ConnectedThread connectedThread;
+    String macAddress = "A0:51:0B:41:08:7E";
+    int port = 3;
     public static final String TAG = "Team 1138 Scouting App: ";
     private Handler handler;
     private interface MessageConstants {
@@ -57,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
 //    private static final String ExternalMACAddress = "10:A5:1D:70:BB:B9";
-    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
+    private static final String ExternalMACAddress = "A0:51:0B:41:08:7E";
+//    private static final String ExternalMACAddress = "98:8D:46:B7:E5:C5";
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     @Override
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, confirmAutonStart, "E");
         ft.add(R.id.main_fragment, confirmTeleopStart, "F");
         ft.add(R.id.main_fragment, archiveFragment, "H");
+        ft.add(R.id.main_fragment, bluetoothSettingsFragment, "I");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         ft.hide(confirmTeleopStart);
         ft.hide(postMatch);
         ft.hide(archiveFragment);
+        ft.hide(bluetoothSettingsFragment);
         // Complete the changes added above
         ft.commit();
 
@@ -99,6 +105,16 @@ public class MainActivity extends AppCompatActivity {
     }
     private void sendToast(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+    public void setMacPort(String mac, int port) {
+        this.macAddress = mac;
+        this.port = port;
+    }
+    public String getMacAddress() {
+        return macAddress;
+    }
+    public int getPort() {
+        return port;
     }
     private void informBTConnChange(boolean btConnectivity) {
         archiveFragment.btConnected = btConnectivity;
@@ -121,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
             Toast.makeText(this, "Bluetooth enabled!", Toast.LENGTH_LONG).show();
         } else {
-            connectThread = new ConnectThread(adapter.getRemoteDevice(ExternalMACAddress));
+            connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
             connectThread.start();
             Toast.makeText(this, "Might have worked???", Toast.LENGTH_LONG).show();
         }
@@ -143,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
                     Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
-                    tmp = (BluetoothSocket) method.invoke(this.device, 4);
+                    tmp = (BluetoothSocket) method.invoke(device, port);
                     Toast.makeText(context, "???", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
@@ -264,19 +280,15 @@ public class MainActivity extends AppCompatActivity {
             if(!write(new byte[]{1})) {
                 return;
             }
-            sendToast("cp1");
             if(!read()) {
                 return;
             }
-            sendToast("cp2");
             if(!write(ByteBuffer.allocate(4).putInt(bytes.length).array())) {
                 return;
             }
-            sendToast("cp3");
             if(!read()) {
                 return;
             }
-            sendToast("cp4");
             write(bytes);
             sendToast("hopefully submitted");
         }

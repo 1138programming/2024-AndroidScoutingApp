@@ -176,7 +176,6 @@ public class ConfirmPopout extends Fragment{
 
                 // 5 = cross center line
                 tempJson.put("datapointID", String.valueOf(5));
-                Toast.makeText(this.getContext(), autonData.get(5).get(0)+" : "+booleanFalse, Toast.LENGTH_LONG).show();
                 if(autonData.get(5).get(0).equals(booleanFalse)) {
                     tempJson.put("DCValue", "false");
                     tempJson.put("DCTimestamp", autonData.get(5).get(0));
@@ -263,7 +262,7 @@ public class ConfirmPopout extends Fragment{
 
                 // 16 = break
                 tempJson.put("datapointID", String.valueOf(16));
-                if(teleopData.get(7).get(0).equals(booleanFalse)) {
+                if(teleopData.get(8).get(0).equals(booleanFalse)) {
                     tempJson.put("DCValue", "false");
                     tempJson.put("DCTimestamp", teleopData.get(8).get(0));
                 }
@@ -397,6 +396,7 @@ public class ConfirmPopout extends Fragment{
             ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
             ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
             ArchiveFragment archiveFragment = new ArchiveFragment();
+            BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
 
             ft.remove(preAuton);
             ft.remove(auton);
@@ -406,6 +406,7 @@ public class ConfirmPopout extends Fragment{
             ft.remove(confirmTeleopStart);
             ft.remove(postMatch);
             ft.remove(archiveFragment);
+            ft.remove(bluetoothSettingsFragment);
 
             ft.add(R.id.main_fragment, preAuton, "A");
             ft.add(R.id.main_fragment, auton, "B");
@@ -415,6 +416,7 @@ public class ConfirmPopout extends Fragment{
             ft.add(R.id.main_fragment, confirmAutonStart, "E");
             ft.add(R.id.main_fragment, confirmTeleopStart, "F");
             ft.add(R.id.main_fragment, archiveFragment, "H");
+            ft.add(R.id.main_fragment, bluetoothSettingsFragment, "I");
 
             ft.show(preAuton);
             ft.hide(auton);
@@ -424,6 +426,7 @@ public class ConfirmPopout extends Fragment{
             ft.hide(confirmTeleopStart);
             ft.hide(postMatch);
             ft.hide(archiveFragment);
+            ft.hide(bluetoothSettingsFragment);
             ft.commit();
         });
 

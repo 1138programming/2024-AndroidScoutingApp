@@ -144,5 +144,11 @@ public class ArchiveFragment extends Fragment {
         binding.bluetoothConnect.setOnClickListener(view1 -> {
             ((MainActivity)getActivity()).enableConnectBT();
         });
+        binding.inputMacButton.setOnClickListener(view1 -> {
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            Fragment btSettings = getParentFragmentManager().findFragmentByTag("I");
+            ft.show(btSettings);
+            ft.commit();
+        });
     }
 }
