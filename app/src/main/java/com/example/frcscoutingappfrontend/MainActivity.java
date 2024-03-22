@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     98:8D:46:B7:E5:C5
     14:4F:8A:CF:71:F4
      */
-    String macAddress = "A0:51:0B:41:08:7E";
+    String macAddress = "14:4F:8A:CF:71:F4";
     int port = 3;
     public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
@@ -102,17 +102,34 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         this.registerReceiver(reciever, filter);
+        Toast.makeText(this, getDeviceName(), Toast.LENGTH_LONG).show();
     }
+
+
+    public String getDeviceName() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return "NA";
+        }
+        return BluetoothAdapter.getDefaultAdapter().getName();
+    }
+
     public void writeBTCode(byte[] bytes) {
-        connectedThread.writeToTablet(bytes);
+        connectedThread.writeToTablet(bytes, (byte) 1);
     }
+
+    public void provideTabletInformation(byte[] bytes) {
+        if(bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
+    }
+
     private void sendToast(final String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+
     public void setMacPort(String mac, int port) {
         this.macAddress = mac;
         this.port = port;
     }
+
     public String getMacAddress() {
         return macAddress;
     }
@@ -122,13 +139,15 @@ public class MainActivity extends AppCompatActivity {
     public static boolean checkConnectivity() {
         return bluetoothConnectivity;
     }
-    public static void setConnectivity(boolean connectivity, Context context) {
+    public void setConnectivity(boolean connectivity, Context context) {
         bluetoothConnectivity = connectivity;
         if(connectivity) {
             Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+            startingFragment.setBtStatus(true);
         }
         else {
             Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
+            startingFragment.setBtStatus(false);
         }
     }
     @Override
@@ -287,8 +306,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-        public void writeToTablet(byte[] bytes) {
-            if(!write(new byte[]{1})) {
+        public void writeToTablet(byte[] bytes, byte code) {
+            if(!write(new byte[]{code})) {
                 return;
             }
             if(!read()) {

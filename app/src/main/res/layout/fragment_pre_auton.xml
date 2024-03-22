@@ -171,8 +171,8 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/team_color_blue"
-                android:textSize="20dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="20dp" />
 
             <RadioButton
                 android:id="@+id/team_red"
@@ -186,8 +186,8 @@
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/team_color_red"
-                android:textSize="20dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="20dp" />
         </RadioGroup>
 
         <ImageView
@@ -274,6 +274,7 @@
                 android:textColor="@color/red_text_toggle"
                 android:textSize="16sp" />
         </RadioGroup>
+
         <Button
             android:id="@+id/nextButton"
             android:layout_width="240sp"
@@ -298,6 +299,15 @@
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/btConnectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bluetooth_disconnected_status"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

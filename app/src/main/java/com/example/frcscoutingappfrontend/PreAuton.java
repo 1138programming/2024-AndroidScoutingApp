@@ -1,11 +1,14 @@
 package com.example.frcscoutingappfrontend;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.frcscoutingappfrontend.databinding.FragmentPreAutonBinding;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -44,21 +49,21 @@ public class PreAuton extends Fragment {
     LinkedHashMap<String, Integer> teamNumberIds = new LinkedHashMap<String, Integer>();
     LinkedHashMap<String, Integer> scouterNameIds = new LinkedHashMap<String, Integer>();
     LinearLayout.LayoutParams blueParamsR = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsMR = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsML = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams blueParamsL = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsR = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsMR = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsML = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     LinearLayout.LayoutParams redParamsL = new LinearLayout.LayoutParams(
-            97,LinearLayout.LayoutParams.MATCH_PARENT);
+            97, LinearLayout.LayoutParams.MATCH_PARENT);
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -103,11 +108,19 @@ public class PreAuton extends Fragment {
         Resources r = this.getContext().getResources();
         return ((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                (float)dp,
+                (float) dp,
                 r.getDisplayMetrics()
         ));
 
-    }  public String[] getDataAsArray() {
+    }
+
+    private void sendTabletInfo() {
+        MainActivity mainActivity = (MainActivity)getActivity();
+        String output = binding.scouterNameSpinner.getSelectedItem().toString()+": "+mainActivity.getDeviceName();
+        mainActivity.provideTabletInformation(output.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String[] getDataAsArray() {
         String[] data = new String[5];
 
         data[0] = Integer.toString(scouterNameIds.get(binding.scouterNameSpinner.getSelectedItem().toString()));
@@ -139,6 +152,14 @@ public class PreAuton extends Fragment {
         String title = binding.scouterNameSpinner.getSelectedItem().toString()
             + " Match #"+binding.matchNumberSpinner.getSelectedItem().toString();
         return title;
+    }
+    public void setBtStatus(boolean status) {
+        if(status) {
+            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_connected_status));
+        }
+        else {
+            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_disconnected_status));
+        }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -368,7 +389,18 @@ public class PreAuton extends Fragment {
                 binding.noShowCheckbox.setChecked(true);
             }
         });
-        //qr code button
+        binding.scouterNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                sendTabletInfo();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+        //bluetooth button
         binding.archiveButton.setOnClickListener(view1 -> {
             Fragment popup = getParentFragmentManager().findFragmentByTag("H");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
@@ -377,6 +409,7 @@ public class PreAuton extends Fragment {
         });
         // Fragment transaction on "Next" button
         binding.nextButton.setOnClickListener(view1 -> {
+            sendTabletInfo();
             Fragment self = getParentFragmentManager().findFragmentByTag("A");
             Fragment secondary = getParentFragmentManager().findFragmentByTag("B");
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
