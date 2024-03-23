@@ -48,6 +48,7 @@ public class ConfirmPopout extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean submitted = false;
     HashMap<Integer, String> jsonReference = new HashMap<>();
     public ConfirmPopout() {
         // Required empty public constructor
@@ -143,294 +144,290 @@ public class ConfirmPopout extends Fragment{
 
         //submits and saves as json
         binding.submitButton.setOnClickListener(view1 -> {
-            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            PreAuton preAuton = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
-            AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
-            TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
-            PostMatch postMatch = (PostMatch) getParentFragmentManager().findFragmentByTag("G");
-            //gets data from various fragments
-            String[] preAutonData = preAuton.getDataAsArray();
-            ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
-            ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
-            ArrayList<ArrayList<String>> postMatchData = postMatch.getDataAsArray();
-            String booleanFalse = "0000-00-00 00:00:00";
-            try {
-                JSONObject jsonFile = new JSONObject();
-                JSONArray jsonArr = new JSONArray();
-                JSONObject tempJson = newJsonTemplate(preAutonData);
+            if(!submitted) {
+                submitted = true;
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                PreAuton preAuton = (PreAuton) getParentFragmentManager().findFragmentByTag("A");
+                AutonFragment auton = (AutonFragment) getParentFragmentManager().findFragmentByTag("B");
+                TeleopFragment teleop = (TeleopFragment) getParentFragmentManager().findFragmentByTag("C");
+                PostMatch postMatch = (PostMatch) getParentFragmentManager().findFragmentByTag("G");
+                //gets data from various fragments
+                String[] preAutonData = preAuton.getDataAsArray();
+                ArrayList<ArrayList<String>> autonData = auton.getDataAsArray();
+                ArrayList<ArrayList<String>> teleopData = teleop.getDataAsArray();
+                ArrayList<ArrayList<String>> postMatchData = postMatch.getDataAsArray();
+                String booleanFalse = "0000-00-00 00:00:00";
+                try {
+                    JSONObject jsonFile = new JSONObject();
+                    JSONArray jsonArr = new JSONArray();
+                    JSONObject tempJson = newJsonTemplate(preAutonData);
 
-                /*auton scoring
-                * 1 = autonSpeakerScore
-                * 2 = autonAmpScore
-                * 3 = autonSpeakerMiss
-                * 4 = autonAmpMiss
-                * */
-                for(int i = 0; i<4; i++) {
-                    for(String j : autonData.get(i)){
-                        tempJson.put("datapointID", String.valueOf(i+1));
-                        tempJson.put("DCValue", "true");
-                        tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0),j));
-                        jsonArr.put(tempJson);
-                        tempJson = newJsonTemplate(preAutonData);
-                    }
-                }
-
-                // 5 = cross center line
-                tempJson.put("datapointID", String.valueOf(5));
-                if(autonData.get(5).get(0).equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                    tempJson.put("DCTimestamp", autonData.get(5).get(0));
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0),autonData.get(5).get(0)));
-                }
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 6 = taxi
-                tempJson.put("datapointID", String.valueOf(6));
-                if(autonData.get(4).get(0).equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                    tempJson.put("DCTimestamp", autonData.get(4).get(0));
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0),autonData.get(4).get(0)));
-                }
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                /* teleop scores/misses and amplify
-                * 7 = teleopSpeakerScore
-                * 8 = teleopAmpScore
-                * 9 = teleopSpeakerMiss
-                * 10 = teleopAmpMiss
-                * 11 = teleopAmplify (no longer on tablets)
-                * */
-                for(int i = 0; i<5; i++) {
-                    for(String j : teleopData.get(i)){
-                        tempJson.put("datapointID", String.valueOf(i+7));
-                        tempJson.put("DCValue", "true");
-                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
-                        jsonArr.put(tempJson);
-                        tempJson = newJsonTemplate(preAutonData);
-                    }
-                }
-
-                // 12 = successful hang
-                tempJson.put("datapointID", String.valueOf(12));
-                if(postMatchData.get(0).get(0).equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                }
-                tempJson.put("DCTimestamp", postMatchData.get(0).get(0));
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 13 = hang start
-                if(teleopData.get(5).size() != 0) {
-                    tempJson.put("datapointID", String.valueOf(13));
-                    if (teleopData.get(5).get(0).equals(booleanFalse)) {
-                        tempJson.put("DCValue", "false");
-                        tempJson.put("DCTimestamp", teleopData.get(5).get(0));
-                    } else {
-                        tempJson.put("DCValue", "true");
-                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(5).get(0)));
-                    }
-                    jsonArr.put(tempJson);
-                    tempJson = newJsonTemplate(preAutonData);
-                }
-
-                // 14 = trap
-                for(String i : postMatchData.get(1)) {
-                    tempJson.put("datapointID", String.valueOf(14));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", i);
-                    jsonArr.put(tempJson);
-                    tempJson = newJsonTemplate(preAutonData);
-                }
-
-                // 15 = defense (start)
-                for(String j : teleopData.get(9)){
-                    tempJson.put("datapointID", String.valueOf(15));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
-                    jsonArr.put(tempJson);
-                    tempJson = newJsonTemplate(preAutonData);
-                }
-
-                // 16 = break
-                tempJson.put("datapointID", String.valueOf(16));
-                if(teleopData.get(8).get(0).equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                    tempJson.put("DCTimestamp", teleopData.get(8).get(0));
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),teleopData.get(8).get(0)));
-                }
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 17 = position on field
-                tempJson = newJsonTemplate(preAutonData);
-                tempJson.put("datapointID", String.valueOf(17));
-                tempJson.put("DCValue", preAutonData[3]);
-                tempJson.put("DCTimestamp", booleanFalse);
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-
-                // 18 = auton start
-                tempJson = newJsonTemplate(preAutonData);
-                tempJson.put("datapointID", String.valueOf(18));
-                tempJson.put("DCValue", "true");
-                tempJson.put("DCTimestamp", autonData.get(6).get(0));
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                //19 = teleop start
-                tempJson.put("datapointID", String.valueOf(19));
-                tempJson.put("DCValue", "true");
-                tempJson.put("DCTimestamp", teleopData.get(11).get(0));
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 20 = pickup
-                for(String i : teleopData.get(6)) {
-                    tempJson.put("datapointID", String.valueOf(20));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),i));
-                    jsonArr.put(tempJson);
-                }
-                tempJson = newJsonTemplate(preAutonData);
-
-                // 21 = defense end
-                for(String j : teleopData.get(10)){
-                    tempJson.put("datapointID", String.valueOf(21));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),j));
-                    jsonArr.put(tempJson);
-                    tempJson = newJsonTemplate(preAutonData);
-                }
-
-                // 22 = park
-                tempJson.put("datapointID", String.valueOf(22));
-                if(postMatchData.get(2).get(0).equals(booleanFalse)) {
-                    tempJson.put("DCValue", "false");
-                }
-                else {
-                    tempJson.put("DCValue", "true");
-                }
-                tempJson.put("DCTimestamp", postMatchData.get(2).get(0));
-                jsonArr.put(tempJson);
-                tempJson = newJsonTemplate(preAutonData);
-                
-                // 23 = no show
-                tempJson.put("datapointID", String.valueOf(18));
-                if(preAutonData[3].equals("noShow")) {
-                    tempJson.put("DCValue", "true");
-                }
-                else {
-                    tempJson.put("DCValue", "false");
-                }
-                tempJson.put("DCTimestamp", preAutonData[3]);
-                jsonArr.put(tempJson);
-
-                // 24 = pickupFromGround
-                for(String i : teleopData.get(7)) {
-                    tempJson.put("datapointID", String.valueOf(24));
-                    tempJson.put("DCValue", "true");
-                    tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0),i));
-                    jsonArr.put(tempJson);
-                }
-                tempJson = newJsonTemplate(preAutonData);
-                
-                jsonFile.put("scoutingData", jsonArr);
-//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
-
-                String userString = jsonFile.toString();
-                File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
-                //creates the directory if it doesn't exist
-                if(!folderDir.isDirectory()) {
-                    if(!folderDir.mkdir()) {
-                        Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
-                    }
-                }
-                boolean fileExists = true;
-                String temp = preAuton.getFileTitle();
-                File scoutingFile = new File(folderDir, temp+".json");
-                for(int i = 1; fileExists; i++) {
-
-                    fileExists = false;
-                    for(File j : Objects.requireNonNull(folderDir.listFiles())) {
-                        if(scoutingFile.getName().equals(j.getName())) {
-                            fileExists = true;
+                    /*auton scoring
+                     * 1 = autonSpeakerScore
+                     * 2 = autonAmpScore
+                     * 3 = autonSpeakerMiss
+                     * 4 = autonAmpMiss
+                     * */
+                    for (int i = 0; i < 4; i++) {
+                        for (String j : autonData.get(i)) {
+                            tempJson.put("datapointID", String.valueOf(i + 1));
+                            tempJson.put("DCValue", "true");
+                            tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0), j));
+                            jsonArr.put(tempJson);
+                            tempJson = newJsonTemplate(preAutonData);
                         }
                     }
-                    if(fileExists)
-                        scoutingFile = new File(folderDir, temp+"("+i+").json");
+
+                    // 5 = cross center line
+                    tempJson.put("datapointID", String.valueOf(5));
+                    if (autonData.get(5).get(0).equals(booleanFalse)) {
+                        tempJson.put("DCValue", "false");
+                        tempJson.put("DCTimestamp", autonData.get(5).get(0));
+                    } else {
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0), autonData.get(5).get(0)));
+                    }
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 6 = taxi
+                    tempJson.put("datapointID", String.valueOf(6));
+                    if (autonData.get(4).get(0).equals(booleanFalse)) {
+                        tempJson.put("DCValue", "false");
+                        tempJson.put("DCTimestamp", autonData.get(4).get(0));
+                    } else {
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(autonData.get(6).get(0), autonData.get(4).get(0)));
+                    }
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    /* teleop scores/misses and amplify
+                     * 7 = teleopSpeakerScore
+                     * 8 = teleopAmpScore
+                     * 9 = teleopSpeakerMiss
+                     * 10 = teleopAmpMiss
+                     * 11 = teleopAmplify (no longer on tablets)
+                     * */
+                    for (int i = 0; i < 5; i++) {
+                        for (String j : teleopData.get(i)) {
+                            tempJson.put("datapointID", String.valueOf(i + 7));
+                            tempJson.put("DCValue", "true");
+                            tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), j));
+                            jsonArr.put(tempJson);
+                            tempJson = newJsonTemplate(preAutonData);
+                        }
+                    }
+
+                    // 12 = successful hang
+                    tempJson.put("datapointID", String.valueOf(12));
+                    if (postMatchData.get(0).get(0).equals(booleanFalse)) {
+                        tempJson.put("DCValue", "false");
+                    } else {
+                        tempJson.put("DCValue", "true");
+                    }
+                    tempJson.put("DCTimestamp", postMatchData.get(0).get(0));
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 13 = hang start
+                    if (teleopData.get(5).size() != 0) {
+                        tempJson.put("datapointID", String.valueOf(13));
+                        if (teleopData.get(5).get(0).equals(booleanFalse)) {
+                            tempJson.put("DCValue", "false");
+                            tempJson.put("DCTimestamp", teleopData.get(5).get(0));
+                        } else {
+                            tempJson.put("DCValue", "true");
+                            tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), teleopData.get(5).get(0)));
+                        }
+                        jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
+                    }
+
+                    // 14 = trap
+                    for (String i : postMatchData.get(1)) {
+                        tempJson.put("datapointID", String.valueOf(14));
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", i);
+                        jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
+                    }
+
+                    // 15 = defense (start)
+                    for (String j : teleopData.get(9)) {
+                        tempJson.put("datapointID", String.valueOf(15));
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), j));
+                        jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
+                    }
+
+                    // 16 = break
+                    tempJson.put("datapointID", String.valueOf(16));
+                    if (teleopData.get(8).get(0).equals(booleanFalse)) {
+                        tempJson.put("DCValue", "false");
+                        tempJson.put("DCTimestamp", teleopData.get(8).get(0));
+                    } else {
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), teleopData.get(8).get(0)));
+                    }
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 17 = position on field
+                    tempJson = newJsonTemplate(preAutonData);
+                    tempJson.put("datapointID", String.valueOf(17));
+                    tempJson.put("DCValue", preAutonData[3]);
+                    tempJson.put("DCTimestamp", booleanFalse);
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 18 = auton start
+                    tempJson = newJsonTemplate(preAutonData);
+                    tempJson.put("datapointID", String.valueOf(18));
+                    tempJson.put("DCValue", "true");
+                    tempJson.put("DCTimestamp", autonData.get(6).get(0));
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    //19 = teleop start
+                    tempJson.put("datapointID", String.valueOf(19));
+                    tempJson.put("DCValue", "true");
+                    tempJson.put("DCTimestamp", teleopData.get(11).get(0));
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 20 = pickup
+                    for (String i : teleopData.get(6)) {
+                        tempJson.put("datapointID", String.valueOf(20));
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), i));
+                        jsonArr.put(tempJson);
+                    }
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 21 = defense end
+                    for (String j : teleopData.get(10)) {
+                        tempJson.put("datapointID", String.valueOf(21));
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), j));
+                        jsonArr.put(tempJson);
+                        tempJson = newJsonTemplate(preAutonData);
+                    }
+
+                    // 22 = park
+                    tempJson.put("datapointID", String.valueOf(22));
+                    if (postMatchData.get(2).get(0).equals(booleanFalse)) {
+                        tempJson.put("DCValue", "false");
+                    } else {
+                        tempJson.put("DCValue", "true");
+                    }
+                    tempJson.put("DCTimestamp", postMatchData.get(2).get(0));
+                    jsonArr.put(tempJson);
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    // 23 = no show
+                    tempJson.put("datapointID", String.valueOf(23));
+                    if (preAutonData[3].equals("noShow")) {
+                        tempJson.put("DCValue", "true");
+                    } else {
+                        tempJson.put("DCValue", "false");
+                    }
+                    tempJson.put("DCTimestamp", booleanFalse);
+                    jsonArr.put(tempJson);
+
+                    // 24 = pickupFromGround
+                    for (String i : teleopData.get(7)) {
+                        tempJson.put("datapointID", String.valueOf(24));
+                        tempJson.put("DCValue", "true");
+                        tempJson.put("DCTimestamp", normalizeTimestamps(teleopData.get(11).get(0), i));
+                        jsonArr.put(tempJson);
+                    }
+                    tempJson = newJsonTemplate(preAutonData);
+
+                    jsonFile.put("scoutingData", jsonArr);
+//                Toast.makeText(getActivity(), Calendar.getInstance().getTime().toString(), Toast.LENGTH_LONG).show();
+
+                    String userString = jsonFile.toString();
+                    File folderDir = new File("/data/data/com.example.frcscoutingappfrontend/files/scoutingData");
+                    //creates the directory if it doesn't exist
+                    if (!folderDir.isDirectory()) {
+                        if (!folderDir.mkdir()) {
+                            Toast.makeText(this.getContext(), "Files Broke", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    boolean fileExists = true;
+                    String temp = preAuton.getFileTitle();
+                    File scoutingFile = new File(folderDir, temp + ".json");
+                    for (int i = 1; fileExists; i++) {
+
+                        fileExists = false;
+                        for (File j : Objects.requireNonNull(folderDir.listFiles())) {
+                            if (scoutingFile.getName().equals(j.getName())) {
+                                fileExists = true;
+                            }
+                        }
+                        if (fileExists)
+                            scoutingFile = new File(folderDir, temp + "(" + i + ").json");
+                    }
+                    FileWriter fileWriter = new FileWriter(scoutingFile, false);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    bufferedWriter.write(userString);
+                    bufferedWriter.close();
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    if (MainActivity.checkConnectivity()) {
+                        mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
+                    }
+                    else Toast.makeText(this.getContext(), "data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
                 }
-                FileWriter fileWriter = new FileWriter(scoutingFile, false);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                bufferedWriter.write(userString);
-                bufferedWriter.close();
-                MainActivity mainActivity = (MainActivity)getActivity();
-                if(MainActivity.checkConnectivity()) {
-                    mainActivity.writeBTCode(userString.getBytes(StandardCharsets.UTF_8));
-                }
-                else {
-                    mainActivity.enableConnectBT();
-                    Toast.makeText(this.getContext(), "data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
-                }
+
+                preAuton = new PreAuton();
+                auton = new AutonFragment();
+                teleop = new TeleopFragment();
+                postMatch = new PostMatch();
+                ConfirmPopout confirmPopout = new ConfirmPopout();
+                ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
+                ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
+                ArchiveFragment archiveFragment = new ArchiveFragment();
+                BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
+                ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
+
+                ft.remove(preAuton);
+                ft.remove(auton);
+                ft.remove(teleop);
+                ft.remove(confirmPopout);
+                ft.remove(confirmAutonStart);
+                ft.remove(confirmTeleopStart);
+                ft.remove(postMatch);
+                ft.remove(archiveFragment);
+                ft.remove(bluetoothSettingsFragment);
+                ft.remove(archiveConfirmFragment);
+
+                ft.add(R.id.main_fragment, preAuton, "A");
+                ft.add(R.id.main_fragment, auton, "B");
+                ft.add(R.id.main_fragment, teleop, "C");
+                ft.add(R.id.main_fragment, postMatch, "G");
+                ft.add(R.id.main_fragment, confirmPopout, "D");
+                ft.add(R.id.main_fragment, confirmAutonStart, "E");
+                ft.add(R.id.main_fragment, confirmTeleopStart, "F");
+                ft.add(R.id.main_fragment, archiveFragment, "H");
+                ft.add(R.id.main_fragment, bluetoothSettingsFragment, "I");
+                ft.add(R.id.main_fragment, archiveConfirmFragment, "J");
+
+                ft.show(preAuton);
+                ft.hide(auton);
+                ft.hide(teleop);
+                ft.hide(confirmPopout);
+                ft.hide(confirmAutonStart);
+                ft.hide(confirmTeleopStart);
+                ft.hide(postMatch);
+                ft.hide(archiveFragment);
+                ft.hide(bluetoothSettingsFragment);
+                ft.hide(archiveConfirmFragment);
+                ft.commit();
             }
-            catch (JSONException | IOException e) {
-                e.printStackTrace();
-            }
-
-            preAuton = new PreAuton();
-            auton = new  AutonFragment();
-            teleop = new TeleopFragment();
-            postMatch = new PostMatch();
-            ConfirmPopout confirmPopout = new ConfirmPopout();
-            ConfirmAutonStart confirmAutonStart = new ConfirmAutonStart();
-            ConfirmTeleopStart confirmTeleopStart = new ConfirmTeleopStart();
-            ArchiveFragment archiveFragment = new ArchiveFragment();
-            BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
-
-            ft.remove(preAuton);
-            ft.remove(auton);
-            ft.remove(teleop);
-            ft.remove(confirmPopout);
-            ft.remove(confirmAutonStart);
-            ft.remove(confirmTeleopStart);
-            ft.remove(postMatch);
-            ft.remove(archiveFragment);
-            ft.remove(bluetoothSettingsFragment);
-
-            ft.add(R.id.main_fragment, preAuton, "A");
-            ft.add(R.id.main_fragment, auton, "B");
-            ft.add(R.id.main_fragment, teleop, "C");
-            ft.add(R.id.main_fragment, postMatch, "G");
-            ft.add(R.id.main_fragment, confirmPopout, "D");
-            ft.add(R.id.main_fragment, confirmAutonStart, "E");
-            ft.add(R.id.main_fragment, confirmTeleopStart, "F");
-            ft.add(R.id.main_fragment, archiveFragment, "H");
-            ft.add(R.id.main_fragment, bluetoothSettingsFragment, "I");
-
-            ft.show(preAuton);
-            ft.hide(auton);
-            ft.hide(teleop);
-            ft.hide(confirmPopout);
-            ft.hide(confirmAutonStart);
-            ft.hide(confirmTeleopStart);
-            ft.hide(postMatch);
-            ft.hide(archiveFragment);
-            ft.hide(bluetoothSettingsFragment);
-            ft.commit();
         });
 
     }

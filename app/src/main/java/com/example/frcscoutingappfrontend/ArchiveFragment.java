@@ -77,7 +77,7 @@ public class ArchiveFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void sendViaBT(String fileName) {
+    public void sendViaBT(String fileName) {
         Toast.makeText(this.getContext(), "Opening: "+fileName, Toast.LENGTH_SHORT).show();
         File file = new File(filePath, fileName);
         FileInputStream fis = null;
@@ -131,7 +131,11 @@ public class ArchiveFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
 
-                    sendViaBT(binding.submissionList.getItemAtPosition(position).toString());
+                    ArchiveConfirmFragment archiveConfirmFragment = (ArchiveConfirmFragment)getParentFragmentManager().findFragmentByTag("J");
+                    archiveConfirmFragment.setFileName(binding.submissionList.getItemAtPosition(position).toString());
+                    FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                    ft.show(archiveConfirmFragment);
+                    ft.commit();
                 }
             });
         }

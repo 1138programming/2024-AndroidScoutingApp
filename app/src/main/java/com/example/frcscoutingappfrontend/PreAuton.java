@@ -114,9 +114,10 @@ public class PreAuton extends Fragment {
 
     }
 
-    private void sendTabletInfo() {
+    public void sendTabletInfo() {
+        if(!MainActivity.checkConnectivity()) return;
         MainActivity mainActivity = (MainActivity)getActivity();
-        String output = binding.scouterNameSpinner.getSelectedItem().toString()+": "+mainActivity.getDeviceName();
+        String output = binding.scouterNameSpinner.getSelectedItem().toString()+" "+binding.matchNumberSpinner.getSelectedItem().toString()+": "+mainActivity.getDeviceName();
         mainActivity.provideTabletInformation(output.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -156,9 +157,11 @@ public class PreAuton extends Fragment {
     public void setBtStatus(boolean status) {
         if(status) {
             binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_connected_status));
+            Toast.makeText(this.getContext(), "connected", Toast.LENGTH_LONG).show();
         }
         else {
             binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_disconnected_status));
+            Toast.makeText(this.getContext(), "disconnected", Toast.LENGTH_LONG).show();
         }
     }
     @Override
@@ -171,6 +174,10 @@ public class PreAuton extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //sets connectivity based on connection after submitted
+        if(MainActivity.checkConnectivity()) {
+            setBtStatus(true);
+        }
         //sorry
         teamNumberIds.put("0",-1);
         teamNumberIds.put("8",1);
@@ -396,9 +403,16 @@ public class PreAuton extends Fragment {
                 sendTabletInfo();
             }
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
+            public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+        binding.matchNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       final int position, long id) {
+                sendTabletInfo();
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {}
         });
         //bluetooth button
         binding.archiveButton.setOnClickListener(view1 -> {

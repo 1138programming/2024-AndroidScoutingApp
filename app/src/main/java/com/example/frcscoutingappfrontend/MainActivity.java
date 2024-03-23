@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
     PostMatch postMatch = new PostMatch();
     ArchiveFragment archiveFragment = new ArchiveFragment();
     BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
+    ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-    BluetoothReceiver reciever;
+    BluetoothReceiver receiver;
     ConnectThread connectThread;
     ConnectedThread connectedThread;
     /* common ones:
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     98:8D:46:B7:E5:C5
     14:4F:8A:CF:71:F4
      */
-    String macAddress = "14:4F:8A:CF:71:F4";
+    String macAddress = "A0:51:0B:41:08:7E";
     int port = 3;
     public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.main_fragment, confirmTeleopStart, "F");
         ft.add(R.id.main_fragment, archiveFragment, "H");
         ft.add(R.id.main_fragment, bluetoothSettingsFragment, "I");
+        ft.add(R.id.main_fragment, archiveConfirmFragment, "J");
         ft.show(startingFragment);
         ft.hide(autonFragment);
         ft.hide(teleopFragment);
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         ft.hide(postMatch);
         ft.hide(archiveFragment);
         ft.hide(bluetoothSettingsFragment);
+        ft.hide(archiveConfirmFragment);
         // Complete the changes added above
         ft.commit();
 
@@ -97,14 +100,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
         }
-        reciever = new BluetoothReceiver();
+        receiver = new BluetoothReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        this.registerReceiver(reciever, filter);
-        Toast.makeText(this, getDeviceName(), Toast.LENGTH_LONG).show();
+        this.registerReceiver(receiver, filter);
     }
-
 
     public String getDeviceName() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
@@ -142,11 +143,17 @@ public class MainActivity extends AppCompatActivity {
     public void setConnectivity(boolean connectivity, Context context) {
         bluetoothConnectivity = connectivity;
         if(connectivity) {
-            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
             startingFragment.setBtStatus(true);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            startingFragment.sendTabletInfo();
         }
         else {
-            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
             startingFragment.setBtStatus(false);
         }
     }
@@ -190,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
                     Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
                     tmp = (BluetoothSocket) method.invoke(device, port);
-                    Toast.makeText(context, "???", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "connecting", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
                 Toast.makeText(context, "couldn't create server", Toast.LENGTH_LONG).show();
