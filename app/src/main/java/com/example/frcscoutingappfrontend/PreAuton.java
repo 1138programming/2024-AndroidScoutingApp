@@ -123,7 +123,6 @@ public class PreAuton extends Fragment {
 
     public String[] getDataAsArray() {
         String[] data = new String[5];
-
         data[0] = Integer.toString(scouterNameIds.get(binding.scouterNameSpinner.getSelectedItem().toString()));
         data[1] = Integer.toString(matchNumbers.indexOf(binding.matchNumberSpinner.getSelectedItem().toString())+1);
         data[2] = Integer.toString(teamNumberIds.get(binding.teamNumberInput.getSelectedItem().toString()));
@@ -156,11 +155,11 @@ public class PreAuton extends Fragment {
     }
     public void setBtStatus(boolean status) {
         if(status) {
-            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_connected_status));
+            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_connected_status), TextView.BufferType.NORMAL);
             Toast.makeText(this.getContext(), "connected", Toast.LENGTH_LONG).show();
         }
         else {
-            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_disconnected_status));
+            binding.btConnectionStatus.setText(getResources().getString(R.string.bluetooth_disconnected_status), TextView.BufferType.NORMAL);
             Toast.makeText(this.getContext(), "disconnected", Toast.LENGTH_LONG).show();
         }
     }
