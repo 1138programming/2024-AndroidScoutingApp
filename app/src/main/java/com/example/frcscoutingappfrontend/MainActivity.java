@@ -140,23 +140,27 @@ public class MainActivity extends AppCompatActivity {
     public static boolean checkConnectivity() {
         return bluetoothConnectivity;
     }
-    public void setConnectivity(boolean connectivity, Context context) {
-        bluetoothConnectivity = connectivity;
-        if(connectivity) {
-//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
-            startingFragment.setBtStatus(true);
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            startingFragment.sendTabletInfo();
-        }
-        else {
-//            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
-            startingFragment.setBtStatus(false);
-        }
+    public void setDisconnected(Context context) {
+        bluetoothConnectivity = false;
+        startingFragment.setBtStatus(false);
     }
+//    public void setConnectivity(boolean connected, Context context) {
+//        bluetoothConnectivity = connected;
+//        if(connected) {
+////            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+//            startingFragment.setBtStatus(true);
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            startingFragment.sendTabletInfo();
+//        }
+//        else {
+////            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
+//            startingFragment.setBtStatus(false);
+//        }
+//    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -235,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
-            Log.d(TAG, "Connecting");
             connectedThread = new ConnectedThread(socket);
         }
 
@@ -275,6 +278,13 @@ public class MainActivity extends AppCompatActivity {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startingFragment.setBtStatus(true);
+                }
+            });
+            startingFragment.sendTabletInfo();
         }
 
         private boolean read() {
