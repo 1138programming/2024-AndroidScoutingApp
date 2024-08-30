@@ -1,5 +1,7 @@
 package com.example.frcscoutingappfrontend;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,6 +36,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
+import android.Manifest;
 
 public class MainActivity extends AppCompatActivity {
     PreAuton startingFragment = new PreAuton();
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ArchiveFragment archiveFragment = new ArchiveFragment();
     BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
-    BluetoothAdapter adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+    BluetoothAdapter adapter = null;
     BluetoothReceiver receiver;
     ConnectThread connectThread;
     ConnectedThread connectedThread;
@@ -64,12 +67,21 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
-    protected void printPairedBT() {
-        Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getBondedDevices();
+    private ActivityResultLauncher<String> bluetoothPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        // can do some logic here to make sure we are connected later... (https://developer.android.com/training/permissions/requesting#java)
+    });
+
+    protected void kindlyAskForBluetoothPerms() {
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_CONNECT);
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        kindlyAskForBluetoothPerms();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Begin the transaction
