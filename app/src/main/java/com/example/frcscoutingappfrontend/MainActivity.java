@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     ArchiveFragment archiveFragment = new ArchiveFragment();
     BluetoothSettingsFragment bluetoothSettingsFragment = new BluetoothSettingsFragment();
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
-    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+    BluetoothAdapter adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
     BluetoothReceiver receiver;
     ConnectThread connectThread;
     ConnectedThread connectedThread;
@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+
+    protected void printPairedBT() {
+        Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getBondedDevices();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
