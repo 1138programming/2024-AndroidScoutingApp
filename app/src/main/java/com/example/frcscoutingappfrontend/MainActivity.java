@@ -76,11 +76,21 @@ public class MainActivity extends AppCompatActivity {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_CONNECT);
         }
     }
+    protected void printAllPairedDevices() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
+            for (BluetoothDevice device : pairedDevices) {
+                Log.i(TAG, device.getName());
+            }
+            Log.i(TAG, "All devices printed");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
         kindlyAskForBluetoothPerms();
+        printAllPairedDevices();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
