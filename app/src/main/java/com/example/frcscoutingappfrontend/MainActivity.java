@@ -119,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void provideTabletInformation(byte[] bytes) {
+        int timeWaiting = 0;
+        while (connectedThread == null && timeWaiting < 6000) {
+            try {
+                Thread.sleep(10);
+                timeWaiting += 10;
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+        }
         if(bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
     }
 
@@ -144,23 +153,23 @@ public class MainActivity extends AppCompatActivity {
         bluetoothConnectivity = false;
         startingFragment.setBtStatus(false);
     }
-//    public void setConnectivity(boolean connected, Context context) {
-//        bluetoothConnectivity = connected;
-//        if(connected) {
-////            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
-//            startingFragment.setBtStatus(true);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            startingFragment.sendTabletInfo();
-//        }
-//        else {
-////            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
-//            startingFragment.setBtStatus(false);
-//        }
-//    }
+    public void setConnectivity(boolean connected, Context context) {
+        bluetoothConnectivity = connected;
+        if(connected) {
+//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+            startingFragment.setBtStatus(true);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            startingFragment.sendTabletInfo();
+        }
+        else {
+//            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
+            startingFragment.setBtStatus(false);
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -278,6 +287,8 @@ public class MainActivity extends AppCompatActivity {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+        }
+        public void init() {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -286,7 +297,6 @@ public class MainActivity extends AppCompatActivity {
             });
             startingFragment.sendTabletInfo();
         }
-
         private boolean read() {
             mmBuffer = new byte[1024];
             int numBytes = 0;
