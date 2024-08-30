@@ -71,16 +71,23 @@ public class MainActivity extends AppCompatActivity {
         // can do some logic here to make sure we are connected later... (https://developer.android.com/training/permissions/requesting#java)
     });
 
+    // WIP: WILL PROB. BREAK SOME THINGS!!!!
     protected void kindlyAskForBluetoothPerms() {
         if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_CONNECT);
         }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_SCAN);
+        }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            bluetoothPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
     }
     protected void printAllPairedDevices() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
-                Log.i(TAG, device.getName());
+                Log.i(TAG, device.getAddress());
             }
             Log.i(TAG, "All devices printed");
         }
@@ -130,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(receiver, filter);
+        //adapter.startDiscovery();
     }
 
     public String getDeviceName() {
