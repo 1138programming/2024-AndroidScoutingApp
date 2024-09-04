@@ -90,8 +90,10 @@ public class BluetoothSettingsFragment extends Fragment {
             ft.commit();
         });
         binding.saveButton.setOnClickListener(view1 -> {
-            currentMac = binding.macInput.getText().toString();
-            currentPort = Integer.parseInt(binding.portInput.getText().toString());
+            String tempMac = binding.macInput.getText().toString();
+            String tempPort = binding.portInput.getText().toString();
+            if(!tempMac.equals("")) currentMac = tempMac;
+            if(!tempPort.equals("")) currentPort = Integer.parseInt(tempPort);
             saveInfo();
             updateHints();
         });

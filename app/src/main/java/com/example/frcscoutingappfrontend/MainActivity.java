@@ -21,6 +21,7 @@ import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelUuid;
 import android.util.Log;
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+            bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH);
+        }
     }
     protected void printAllPairedDevices() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
         kindlyAskForBluetoothPerms();
-        printAllPairedDevices();
+//        printAllPairedDevices();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(receiver, filter);
         //adapter.startDiscovery();
+        enableConnectBT();
     }
 
     public String getDeviceName() {
@@ -211,40 +216,36 @@ public class MainActivity extends AppCompatActivity {
         connectThread.cancel();
         connectedThread.cancel();
     }
-    public boolean enableConnectBT() {
-        if(bluetoothConnectivity) return true;
+    public void enableConnectBT() {
+        if(bluetoothConnectivity) return;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        if (!adapter.isEnabled()) {
-            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
-            Toast.makeText(this, "Bluetooth enabled!", Toast.LENGTH_LONG).show();
+            return;
         }
         connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
         connectThread.start();
-        return bluetoothConnectivity;
     }
 
     // for connecting to central laptop
     private class ConnectThread extends Thread {
-        private final BluetoothSocket socket;
+        private BluetoothSocket socket;
         private final BluetoothDevice device;
         private final Context context;
 
         public ConnectThread(BluetoothDevice device) {
             // Use a temporary object that is later assigned to mmSocket
             // because mmSocket is final.
-            BluetoothSocket tmp = null;
             this.device = device;
             this.context = getBaseContext();
+        }
+        private void init() {
+            BluetoothSocket tmp = null;
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
                     Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
                     tmp = (BluetoothSocket) method.invoke(device, port);
+                    Looper.prepare();
                     Toast.makeText(context, "connecting", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
@@ -254,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
             }
             socket = tmp;
         }
-
         @Override
         public void run() {
+            init();
             // Cancel discovery because it otherwise slows down the connection.
             if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 Log.e(TAG, "Socket's create() method failed");
