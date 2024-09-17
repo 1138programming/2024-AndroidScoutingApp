@@ -121,6 +121,12 @@ public class PreAuton extends Fragment {
         mainActivity.provideTabletInformation(output.getBytes(StandardCharsets.UTF_8));
     }
 
+    public void sendDatabaseType(Integer type) {
+        if(!MainActivity.checkConnectivity()) return;
+        MainActivity mainActivity = (MainActivity)getActivity();
+        mainActivity.provideTabletInformation(new byte[type.byteValue()]);
+    }
+
     public String[] getDataAsArray() {
         String[] data = new String[5];
         data[0] = Integer.toString(scouterNameIds.get(binding.scouterNameSpinner.getSelectedItem().toString()));

@@ -59,9 +59,11 @@ public class MainActivity extends AppCompatActivity {
     A0:51:0B:41:08:7E
     98:8D:46:B7:E5:C5
     14:4F:8A:CF:71:F4
+    14:7D:DA:8B:38:18
      */
-    String macAddress = "A0:51:0B:41:08:7E";
-    int port = 3;
+    String macAddress = "14:7D:DA:8B:38:18";
+    int port = 4;
+    int databaseType = 0;
     public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
     //Broadcast Receiver for Bluetooth
@@ -323,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+            init();
         }
         public void init() {
             runOnUiThread(new Runnable() {
@@ -331,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
                     startingFragment.setBtStatus(true);
                 }
             });
+            startingFragment.sendDatabaseType(databaseType);
             startingFragment.sendTabletInfo();
         }
         private boolean read() {
