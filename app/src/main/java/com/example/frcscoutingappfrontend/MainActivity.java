@@ -181,7 +181,10 @@ public class MainActivity extends AppCompatActivity {
         this.macAddress = mac;
         this.port = port;
     }
-
+    public void sendDatabaseType(Integer type) {
+        if(!MainActivity.checkConnectivity()) return;
+        provideTabletInformation(new byte[type.byteValue()]);
+    }
     public String getMacAddress() {
         return macAddress;
     }
@@ -334,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     startingFragment.setBtStatus(true);
                 }
             });
-            startingFragment.sendDatabaseType(databaseType);
+            sendDatabaseType(databaseType);
             startingFragment.sendTabletInfo();
         }
         private boolean read() {
