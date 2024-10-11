@@ -34,6 +34,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -52,17 +54,22 @@ public class MainActivity extends AppCompatActivity {
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
     BluetoothAdapter adapter = null;
     BluetoothReceiver receiver;
-    ConnectThread connectThread;
+    ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
     ConnectedThread connectedThread;
+    boolean unsuccessfulConnect = false;
     /* common ones:
-    10:A5:1D:70:BB:B9
-    A0:51:0B:41:08:7E
-    98:8D:46:B7:E5:C5
-    14:4F:8A:CF:71:F4
-    14:7D:DA:8B:38:18
+    "10:A5:1D:70:BB:B9",
+    "A0:51:0B:41:08:7E",
+    "98:8D:46:B7:E5:C5",
+    "14:4F:8A:CF:71:F4",
+    "14:7D:DA:8B:38:18",
      */
-    String macAddress = "14:7D:DA:8B:38:18";
-    int port = 4;
+    ArrayList<String> macAddress = new ArrayList<String>(Arrays.asList(
+        "10:A5:1D:70:BB:B9","A0:51:0B:41:08:7E",
+        "98:8D:46:B7:E5:C5","14:4F:8A:CF:71:F4",
+        "14:7D:DA:8B:38:18"));
+    int connectedMacAddress = -1;
+    int port = 3;
     int databaseType = 0;
     public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
@@ -104,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
         kindlyAskForBluetoothPerms();
 //        printAllPairedDevices();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Begin the transaction
@@ -178,7 +184,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setMacPort(String mac, int port) {
-        this.macAddress = mac;
+//        ArrayList<String> temp = new ArrayList<>();
+//        temp.set(0,mac);
+        macAddress.add(mac);
         this.port = port;
     }
     public void sendDatabaseType(Integer type) {
@@ -186,7 +194,10 @@ public class MainActivity extends AppCompatActivity {
         provideTabletInformation(new byte[type.byteValue()]);
     }
     public String getMacAddress() {
-        return macAddress;
+        if(connectedMacAddress == -1) {
+            return "";
+        }
+        return macAddress.get(connectedMacAddress);
     }
     public int getPort() {
         return port;
@@ -218,7 +229,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        connectThread.cancel();
+        for(ConnectThread i : connectThreads) {
+            i.cancel();
+        }
         connectedThread.cancel();
     }
     public void enableConnectBT() {
@@ -227,8 +240,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
             return;
         }
-        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
-        connectThread.start();
+        for(int i = 0; i < macAddress.size(); i++) {
+            connectThreads.add(new ConnectThread(adapter.getRemoteDevice(macAddress.get(i))));
+            connectThreads.get(i).start();
+        }
     }
 
     // for connecting to central laptop
@@ -248,17 +263,26 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
-                    Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[] {int.class});
-                    tmp = (BluetoothSocket) method.invoke(device, port);
                     Looper.prepare();
                     Toast.makeText(context, "connecting", Toast.LENGTH_LONG).show();
                 }
             } catch (IOException e) {
                 Toast.makeText(context, "couldn't create server", Toast.LENGTH_LONG).show();
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
             }
             socket = tmp;
+        }
+        private boolean backupInit() {
+            Log.e(TAG, "Backup Strats D:");
+            BluetoothSocket tmp = null;
+            try {
+                Method method = this.device.getClass().getMethod("createInsecureRfcommSocket", new Class[]{int.class});
+                tmp = (BluetoothSocket) method.invoke(device, port);
+                socket = tmp;
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+                return false;
+            }
+            return true;
         }
         @Override
         public void run() {
@@ -268,23 +292,34 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Socket's create() method failed");
                 return;
             }
-            adapter.cancelDiscovery();
+//            adapter.cancelDiscovery();
             try {
                 // Connect to the remote device through the socket. This call blocks
                 // until it succeeds or throws an exception.
                 Log.e(TAG, "badlet?");
                 socket.connect();
                 Log.e(TAG, "ROBERTBADLETTTTT");
-            } catch (IOException e) {
-                Log.e(TAG, "Timed out/error");
-                // Unable to connect; close the socket and return.
+            }
+            catch (IOException e) {
                 try {
-                    socket.close();
-                    Log.e(TAG, "socket closed");
-                } catch (IOException closeException) {
-                    Log.e(TAG, "couldn't close", closeException);
+                    if(backupInit()) {
+                        socket.connect();
+                    } else {
+                        throw new IOException("Oh boy something went really wrong like it's so over");
+                    }
+
                 }
-                return;
+                catch(IOException er){
+                    Log.e(TAG, "Timed out/error");
+                    // Unable to connect; close the socket and return.
+                    try {
+                        socket.close();
+                        Log.e(TAG, "socket closed");
+                    } catch (IOException closeException) {
+                        Log.e(TAG, "couldn't close", closeException);
+                    }
+                    return;
+                }
             }
 
             // The connection attempt succeeded. Perform work associated with
