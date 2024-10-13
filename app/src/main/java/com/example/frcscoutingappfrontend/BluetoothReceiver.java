@@ -16,10 +16,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice.class);
         if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
-            ((MainActivity)context).setConnectivity(true, context);
+            ((MainActivity)context).setConnectivity(true);
         }
         else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-            ((MainActivity)context).setDisconnected(context);
+            ((MainActivity)context).setConnectivity(false);
         }
         else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
             Log.d(TAG, "Device Found:");

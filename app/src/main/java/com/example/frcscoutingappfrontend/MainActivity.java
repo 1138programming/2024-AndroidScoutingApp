@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
     BluetoothAdapter adapter = null;
     BluetoothReceiver receiver;
+//    ConnectThread connectThread;
     ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
     ConnectedThread connectedThread;
     boolean unsuccessfulConnect = false;
@@ -65,9 +66,12 @@ public class MainActivity extends AppCompatActivity {
     "14:7D:DA:8B:38:18",
      */
     ArrayList<String> macAddress = new ArrayList<String>(Arrays.asList(
-        "10:A5:1D:70:BB:B9","A0:51:0B:41:08:7E",
-        "98:8D:46:B7:E5:C5","14:4F:8A:CF:71:F4",
-        "14:7D:DA:8B:38:18"));
+        "10:A5:1D:70:BB:B9"
+        ,"98:8D:46:B7:E5:C5"
+        ,"A0:51:0B:41:08:7E"
+        ,"14:4F:8A:CF:71:F4"
+        ,"14:7D:DA:8B:38:18"
+        ));
     int connectedMacAddress = -1;
     int port = 3;
     int databaseType = 0;
@@ -140,11 +144,11 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
 
         //makes sure bluetooth exists
-        if (adapter == null) {
-            Toast.makeText(this, "Bluetooth no workie :(", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
-        }
+//        if (adapter == null) {
+//            Toast.makeText(this, "Bluetooth no workie :(", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
+//        }
         receiver = new BluetoothReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -168,19 +172,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void provideTabletInformation(byte[] bytes) {
         int timeWaiting = 0;
-        while (connectedThread == null && timeWaiting < 6000) {
+        while (connectedThread == null/* && timeWaiting < 10000*/) {
             try {
                 Thread.sleep(10);
                 timeWaiting += 10;
             } catch (InterruptedException e) {
-                Log.e(TAG, e.toString());
+                Log.e(TAG, "PIT // "+ e.toString());
             }
         }
         if(bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
-    }
-
-    private void sendToast(final String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     public void setMacPort(String mac, int port) {
@@ -205,25 +205,20 @@ public class MainActivity extends AppCompatActivity {
     public static boolean checkConnectivity() {
         return bluetoothConnectivity;
     }
-    public void setDisconnected(Context context) {
+    public void setConnected() {
+        bluetoothConnectivity = true;
+        startingFragment.setBtStatus(true);
+        startingFragment.sendTabletInfo();
+    }
+    public void setDisconnected() {
         bluetoothConnectivity = false;
         startingFragment.setBtStatus(false);
     }
-    public void setConnectivity(boolean connected, Context context) {
+    public void setConnectivity(boolean connected) {
         bluetoothConnectivity = connected;
+        startingFragment.setBtStatus(connected);
         if(connected) {
-//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
-            startingFragment.setBtStatus(true);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             startingFragment.sendTabletInfo();
-        }
-        else {
-//            Toast.makeText(context, "disconnected", Toast.LENGTH_LONG).show();
-            startingFragment.setBtStatus(false);
         }
     }
     @Override
@@ -232,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         for(ConnectThread i : connectThreads) {
             i.cancel();
         }
+//        connectThread.cancel();
         connectedThread.cancel();
     }
     public void enableConnectBT() {
@@ -244,6 +240,8 @@ public class MainActivity extends AppCompatActivity {
             connectThreads.add(new ConnectThread(adapter.getRemoteDevice(macAddress.get(i))));
             connectThreads.get(i).start();
         }
+//        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress.get(0)));
+//        connectThread.start();
     }
 
     // for connecting to central laptop
@@ -262,12 +260,12 @@ public class MainActivity extends AppCompatActivity {
             BluetoothSocket tmp = null;
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                    tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
-                    Looper.prepare();
-                    Toast.makeText(context, "connecting", Toast.LENGTH_LONG).show();
+                    adapter.cancelDiscovery();
+                    tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    Log.e(TAG, "attempting to connect to "+device.getAddress());
                 }
             } catch (IOException e) {
-                Toast.makeText(context, "couldn't create server", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "couldn't connect to "+device.getAddress());
             }
             socket = tmp;
         }
@@ -279,9 +277,10 @@ public class MainActivity extends AppCompatActivity {
                 tmp = (BluetoothSocket) method.invoke(device, port);
                 socket = tmp;
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+                Log.wtf(TAG,"backup jank connect method went wrong",e);
                 return false;
             }
+            Log.e(TAG, "Successful backup");
             return true;
         }
         @Override
@@ -301,13 +300,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "ROBERTBADLETTTTT");
             }
             catch (IOException e) {
+                Log.e(TAG, "Unsuccessful basic connect");
+                // Unable to connect; close the socket and return.
+                try {
+                    socket.close();
+                    Log.e(TAG, "socket closed");
+                } catch (IOException closeException) {
+                    Log.e(TAG, "couldn't close", closeException);
+                    return;
+                }
                 try {
                     if(backupInit()) {
+                        Log.e(TAG, "badlet?");
                         socket.connect();
+                        Log.e(TAG, "ROBERTBADLETTTTT");
                     } else {
                         throw new IOException("Oh boy something went really wrong like it's so over");
                     }
-
                 }
                 catch(IOException er){
                     Log.e(TAG, "Timed out/error");
@@ -332,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 socket.close();
             } catch (IOException e) {
-                sendToast("couldn't close client BT socket, "+e.toString());
+                Log.e(TAG,"couldn't close BT socket",e);
             }
         }
     }
@@ -347,7 +356,6 @@ public class MainActivity extends AppCompatActivity {
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
-
             try {
                 tmpIn = socket.getInputStream();
             }
@@ -363,16 +371,16 @@ public class MainActivity extends AppCompatActivity {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
-            init();
+//            init();
         }
         public void init() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    startingFragment.setBtStatus(true);
-                }
-            });
-            sendDatabaseType(databaseType);
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    startingFragment.setBtStatus(true);
+//                }
+//            });
+//            sendDatabaseType(databaseType);
             startingFragment.sendTabletInfo();
         }
         private boolean read() {
@@ -383,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     numBytes = mmInStream.read(mmBuffer);
                 } catch (IOException e) {
-                    sendToast("IDK"+e);
+                    Log.e(TAG, "failed to read data from central computer", e);
                     break;
                 }
             }
@@ -397,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else{
-                sendToast("Failed to respond (try again)");
+                Log.e(TAG, "received nack or something other than an ack");
                 return false;
             }
         }
@@ -406,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                 mmOutStream.write(bytes);
             }
             catch(IOException e) {
-                sendToast("Error: "+e);
+                Log.e(TAG,"Write error", e);
                 return false;
             }
             return true;
@@ -425,7 +433,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             write(bytes);
-            sendToast("successfully submitted");
         }
         public void cancel() {
             try {
@@ -433,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                 mmSocket.close();
             }
             catch(IOException e) {
-                Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "couldn't close and flush socket properly", e);
             }
         }
     }
