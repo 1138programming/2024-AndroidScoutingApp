@@ -118,7 +118,7 @@ public class PreAuton extends Fragment {
         if(!MainActivity.checkConnectivity()) return;
         MainActivity mainActivity = (MainActivity)getActivity();
         String output = binding.scouterNameSpinner.getSelectedItem().toString()+" "+binding.matchNumberSpinner.getSelectedItem().toString()+": "+mainActivity.getDeviceName();
-        mainActivity.provideTabletInformation(output.getBytes(StandardCharsets.UTF_8));
+//        mainActivity.provideTabletInformation(output.getBytes(StandardCharsets.UTF_8));
     }
 
     public String[] getDataAsArray() {

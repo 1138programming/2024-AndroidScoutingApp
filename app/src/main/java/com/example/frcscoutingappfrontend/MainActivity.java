@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
+
 import android.Manifest;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
     BluetoothAdapter adapter = null;
     BluetoothReceiver receiver;
-//    ConnectThread connectThread;
-    ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
+    ConnectThread connectThread;
+    //    ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
     ConnectedThread connectedThread;
     boolean unsuccessfulConnect = false;
     /* common ones:
@@ -65,41 +66,41 @@ public class MainActivity extends AppCompatActivity {
     "14:4F:8A:CF:71:F4",
     "14:7D:DA:8B:38:18",
      */
-    ArrayList<String> macAddress = new ArrayList<String>(Arrays.asList(
-        "10:A5:1D:70:BB:B9"
-        ,"98:8D:46:B7:E5:C5"
-        ,"A0:51:0B:41:08:7E"
-        ,"14:4F:8A:CF:71:F4"
-        ,"14:7D:DA:8B:38:18"
-        ));
-    int connectedMacAddress = -1;
-    int port = 3;
+    String macAddress =
+//        "10:A5:1D:70:BB:B9"
+//        "98:8D:46:B7:E5:C5"
+//        "A0:51:0B:41:08:7E"
+//        "14:4F:8A:CF:71:F4"
+            "14:7D:DA:8B:38:18";
+    //    int connectedMacAddress = -1;
+    int port = 4;
     int databaseType = 0;
     public static boolean bluetoothConnectivity = false;
     public static final String TAG = "Team 1138 Scouting App: ";
     //Broadcast Receiver for Bluetooth
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-
+    private static UUID OTHER_UUID;
     private ActivityResultLauncher<String> bluetoothPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         // can do some logic here to make sure we are connected later... (https://developer.android.com/training/permissions/requesting#java)
     });
 
     // WIP: WILL PROB. BREAK SOME THINGS!!!!
     protected void kindlyAskForBluetoothPerms() {
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_CONNECT);
         }
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH_SCAN);
         }
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH);
         }
     }
+
     protected void printAllPairedDevices() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        adapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
         kindlyAskForBluetoothPerms();
 //        printAllPairedDevices();
         super.onCreate(savedInstanceState);
@@ -154,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_UUID);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(receiver, filter);
         //adapter.startDiscovery();
         enableConnectBT();
@@ -177,57 +180,71 @@ public class MainActivity extends AppCompatActivity {
                 Thread.sleep(10);
                 timeWaiting += 10;
             } catch (InterruptedException e) {
-                Log.e(TAG, "PIT // "+ e.toString());
+                Log.e(TAG, "PIT // " + e.toString());
             }
         }
-        if(bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
+        if (bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
     }
 
     public void setMacPort(String mac, int port) {
 //        ArrayList<String> temp = new ArrayList<>();
 //        temp.set(0,mac);
-        macAddress.add(mac);
+        macAddress = mac;
         this.port = port;
     }
+
     public void sendDatabaseType(Integer type) {
-        if(!MainActivity.checkConnectivity()) return;
+        if (!MainActivity.checkConnectivity()) return;
         provideTabletInformation(new byte[type.byteValue()]);
     }
+
     public String getMacAddress() {
-        if(connectedMacAddress == -1) {
-            return "";
-        }
-        return macAddress.get(connectedMacAddress);
+//        if(connectedMacAddress == -1) {
+//            return "";
+//        }
+        return macAddress;
     }
+
     public int getPort() {
         return port;
     }
+
     public static boolean checkConnectivity() {
         return bluetoothConnectivity;
     }
+
     public void setConnected() {
         bluetoothConnectivity = true;
         startingFragment.setBtStatus(true);
         startingFragment.sendTabletInfo();
     }
+
     public void setDisconnected() {
         bluetoothConnectivity = false;
         startingFragment.setBtStatus(false);
     }
+
     public void setConnectivity(boolean connected) {
         bluetoothConnectivity = connected;
         startingFragment.setBtStatus(connected);
-        if(connected) {
+        if (connected) {
             startingFragment.sendTabletInfo();
         }
+    }
+
+    public void getUuid() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        adapter.getRemoteDevice(macAddress).fetchUuidsWithSdp();
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for(ConnectThread i : connectThreads) {
-            i.cancel();
-        }
-//        connectThread.cancel();
+//        for(ConnectThread i : connectThreads) {
+//            i.cancel();
+//        }
+        connectThread.cancel();
         connectedThread.cancel();
     }
     public void enableConnectBT() {
@@ -236,12 +253,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
             return;
         }
-        for(int i = 0; i < macAddress.size(); i++) {
-            connectThreads.add(new ConnectThread(adapter.getRemoteDevice(macAddress.get(i))));
-            connectThreads.get(i).start();
-        }
-//        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress.get(0)));
-//        connectThread.start();
+//        for(int i = 0; i < macAddress.size(); i++) {
+//            connectThreads.add(new ConnectThread(adapter.getRemoteDevice(macAddress.get(i))));
+//            connectThreads.get(i).start();
+//        }
+        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
+        connectThread.start();
     }
 
     // for connecting to central laptop
@@ -261,7 +278,22 @@ public class MainActivity extends AppCompatActivity {
             try {
                 if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     adapter.cancelDiscovery();
-                    tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    if (!device.fetchUuidsWithSdp()) {
+                        Log.e(TAG, "ILOVEBLUETOOTHILOVEBLUETOOTHILOVEBLUETOOTHILOVEBLUETOOTH");
+                    }
+                    try {
+                        Thread.sleep(10000);
+                    }
+                    catch (InterruptedException e) {
+                        Log.e(TAG, "gay bowser");
+                    }
+                    tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID);
+                    try {
+                        Thread.sleep(5000);
+                    }
+                    catch (InterruptedException e) {
+                        Log.e(TAG, "gay bowser");
+                    }
                     Log.e(TAG, "attempting to connect to "+device.getAddress());
                 }
             } catch (IOException e) {
@@ -286,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             init();
-            // Cancel discovery because it otherwise slows down the connection.
             if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 Log.e(TAG, "Socket's create() method failed");
                 return;
@@ -300,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "ROBERTBADLETTTTT");
             }
             catch (IOException e) {
-                Log.e(TAG, "Unsuccessful basic connect");
+                Log.e(TAG, "Unsuccessful basic connect", e);
                 // Unable to connect; close the socket and return.
                 try {
                     socket.close();
@@ -309,26 +340,26 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, "couldn't close", closeException);
                     return;
                 }
-                try {
-                    if(backupInit()) {
-                        Log.e(TAG, "badlet?");
-                        socket.connect();
-                        Log.e(TAG, "ROBERTBADLETTTTT");
-                    } else {
-                        throw new IOException("Oh boy something went really wrong like it's so over");
-                    }
-                }
-                catch(IOException er){
-                    Log.e(TAG, "Timed out/error");
-                    // Unable to connect; close the socket and return.
-                    try {
-                        socket.close();
-                        Log.e(TAG, "socket closed");
-                    } catch (IOException closeException) {
-                        Log.e(TAG, "couldn't close", closeException);
-                    }
-                    return;
-                }
+//                try {
+//                    if(backupInit()) {
+//                        Log.e(TAG, "badlet?");
+//                        socket.connect();
+//                        Log.e(TAG, "ROBERTBADLETTTTT");
+//                    } else {
+//                        throw new IOException("Oh boy something went really wrong like it's so over");
+//                    }
+//                }
+//                catch(IOException er){
+//                    Log.e(TAG, "Timed out/error");
+//                    // Unable to connect; close the socket and return.
+//                    try {
+//                        socket.close();
+//                        Log.e(TAG, "socket closed");
+//                    } catch (IOException closeException) {
+//                        Log.e(TAG, "couldn't close", closeException);
+//                    }
+//                    return;
+//                }
             }
 
             // The connection attempt succeeded. Perform work associated with

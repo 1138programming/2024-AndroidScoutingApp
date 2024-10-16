@@ -26,5 +26,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
             String deviceName = device.getAddress() == null ? "" : device.getAddress();
             Log.d(TAG, deviceName);
         }
+//        else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+//            ((MainActivity)context).getUuid();
+//        }
     }
 }
