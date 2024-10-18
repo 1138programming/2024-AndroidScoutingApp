@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     ArchiveConfirmFragment archiveConfirmFragment = new ArchiveConfirmFragment();
     BluetoothAdapter adapter = null;
     BluetoothReceiver receiver;
-//    ConnectThread connectThread;
-    ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
+    ConnectThread connectThread;
+//    ArrayList<ConnectThread> connectThreads = new ArrayList<ConnectThread>();
     ConnectedThread connectedThread;
     boolean unsuccessfulConnect = false;
     /* common ones:
@@ -65,14 +65,13 @@ public class MainActivity extends AppCompatActivity {
     "14:4F:8A:CF:71:F4",
     "14:7D:DA:8B:38:18",
      */
-    ArrayList<String> macAddress = new ArrayList<String>(Arrays.asList(
-        "10:A5:1D:70:BB:B9"
-        ,"98:8D:46:B7:E5:C5"
-        ,"A0:51:0B:41:08:7E"
-        ,"14:4F:8A:CF:71:F4"
-        ,"14:7D:DA:8B:38:18"
-        ));
-    int connectedMacAddress = -1;
+    String macAddress =
+//        "10:A5:1D:70:BB:B9"
+//        "98:8D:46:B7:E5:C5"
+        "A0:51:0B:41:08:7E"
+//        "14:4F:8A:CF:71:F4"
+//        "14:7D:DA:8B:38:18"
+        ;
     int port = 3;
     int databaseType = 0;
     public static boolean bluetoothConnectivity = false;
@@ -156,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BluetoothDevice.ACTION_FOUND);
         this.registerReceiver(receiver, filter);
         //adapter.startDiscovery();
-        enableConnectBT();
+        //enableConnectBT();
     }
 
     public String getDeviceName() {
@@ -177,16 +176,14 @@ public class MainActivity extends AppCompatActivity {
                 Thread.sleep(10);
                 timeWaiting += 10;
             } catch (InterruptedException e) {
-                Log.e(TAG, "PIT // "+ e.toString());
+                Log.e(TAG, "PTI // "+ e.toString());
             }
         }
         if(bluetoothConnectivity) connectedThread.writeToTablet(bytes, (byte) 2);
     }
 
     public void setMacPort(String mac, int port) {
-//        ArrayList<String> temp = new ArrayList<>();
-//        temp.set(0,mac);
-        macAddress.add(mac);
+        macAddress = mac;
         this.port = port;
     }
     public void sendDatabaseType(Integer type) {
@@ -194,10 +191,7 @@ public class MainActivity extends AppCompatActivity {
         provideTabletInformation(new byte[type.byteValue()]);
     }
     public String getMacAddress() {
-        if(connectedMacAddress == -1) {
-            return "";
-        }
-        return macAddress.get(connectedMacAddress);
+        return macAddress;
     }
     public int getPort() {
         return port;
@@ -224,11 +218,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for(ConnectThread i : connectThreads) {
-            i.cancel();
-        }
-//        connectThread.cancel();
-        connectedThread.cancel();
+        connectThread.cancel();
     }
     public void enableConnectBT() {
         if(bluetoothConnectivity) return;
@@ -236,12 +226,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Bluetooth not allowed :(", Toast.LENGTH_LONG).show();
             return;
         }
-        for(int i = 0; i < macAddress.size(); i++) {
-            connectThreads.add(new ConnectThread(adapter.getRemoteDevice(macAddress.get(i))));
-            connectThreads.get(i).start();
-        }
-//        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress.get(0)));
-//        connectThread.start();
+        connectThread = new ConnectThread(adapter.getRemoteDevice(macAddress));
+        connectThread.start();
     }
 
     // for connecting to central laptop
@@ -285,30 +271,30 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         public void run() {
-            init();
+//            init();
             // Cancel discovery because it otherwise slows down the connection.
             if (ActivityCompat.checkSelfPermission(getBaseContext(), android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 Log.e(TAG, "Socket's create() method failed");
                 return;
             }
 //            adapter.cancelDiscovery();
-            try {
-                // Connect to the remote device through the socket. This call blocks
-                // until it succeeds or throws an exception.
-                Log.e(TAG, "badlet?");
-                socket.connect();
-                Log.e(TAG, "ROBERTBADLETTTTT");
-            }
-            catch (IOException e) {
-                Log.e(TAG, "Unsuccessful basic connect");
-                // Unable to connect; close the socket and return.
-                try {
-                    socket.close();
-                    Log.e(TAG, "socket closed");
-                } catch (IOException closeException) {
-                    Log.e(TAG, "couldn't close", closeException);
-                    return;
-                }
+//            try {
+//                // Connect to the remote device through the socket. This call blocks
+//                // until it succeeds or throws an exception.
+//                Log.e(TAG, "badlet?");
+//                socket.connect();
+//                Log.e(TAG, "ROBERTBADLETTTTT");
+//            }
+//            catch (IOException e) {
+//                Log.e(TAG, "Unsuccessful basic connect");
+//                // Unable to connect; close the socket and return.
+//                try {
+//                    socket.close();
+//                    Log.e(TAG, "socket closed");
+//                } catch (IOException closeException) {
+//                    Log.e(TAG, "couldn't close", closeException);
+//                    return;
+//                }
                 try {
                     if(backupInit()) {
                         Log.e(TAG, "badlet?");
@@ -329,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return;
                 }
-            }
+//            }
 
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
