@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
@@ -37,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import android.Manifest;
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BLUETOOTH = 2;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
+    private BluetoothSocket connectedSock;
+
     private ActivityResultLauncher<String> bluetoothPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
         // can do some logic here to make sure we are connected later... (https://developer.android.com/training/permissions/requesting#java)
     });
@@ -99,14 +103,37 @@ public class MainActivity extends AppCompatActivity {
             bluetoothPermissionRequest.launch(Manifest.permission.BLUETOOTH);
         }
     }
-    protected void printAllPairedDevices() {
+    protected Optional<BluetoothDevice> BTFindCachedConnect() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
-                Log.i(TAG, device.getAddress());
+                // finds if something has a requested UUID locally
+                Optional<ParcelUuid> result = Arrays.stream(device.getUuids()).filter(w -> w.getUuid() == MY_UUID).findAny();
+                if (result.isPresent()) {
+                    return Optional.of(device);
+                }
             }
-            Log.i(TAG, "All devices printed");
         }
+
+        return Optional.empty();
+    }
+    protected boolean BTAttemptCachedConnect() {
+        Optional<BluetoothDevice> connectCantidate = BTFindCachedConnect();
+        if (connectCantidate.isPresent()) {
+            BluetoothDevice targetDevice = connectCantidate.get();
+            try {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    targetDevice.createRfcommSocketToServiceRecord(MY_UUID);
+                    Method method = targetDevice.getClass().getMethod("createInsecureRfcommSocket", new Class[]{int.class});
+                    this.connectedSock = (BluetoothSocket) method.invoke(targetDevice, port);
+                    return true;
+                }
+            }
+            catch (IOException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                Log.e(TAG, "Attempted to connect to cached device, error:" + e);
+            }
+        }
+        return false;
     }
 
     @Override
@@ -148,6 +175,12 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
 //        }
+        if (BTAttemptCachedConnect()) {
+            Log.i(TAG, "SIIIIII");
+        }
+        else {
+            Log.i(TAG, "NONIONDIOSNAIONDIOIO");
+        }
         receiver = new BluetoothReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
