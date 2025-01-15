@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
+                Log.i(TAG, "Local device:" + device.getAddress());
                 // finds if something has a requested UUID locally
-                Optional<ParcelUuid> result = Arrays.stream(device.getUuids()).filter(w -> w.getUuid() == MY_UUID).findAny();
+                Optional<ParcelUuid> result = Arrays.stream(device.getUuids()).filter(w -> w.getUuid() == MY_UUID).findFirst();
                 if (result.isPresent()) {
                     return Optional.of(device);
                 }
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         if (connectCantidate.isPresent()) {
             BluetoothDevice targetDevice = connectCantidate.get();
             try {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     targetDevice.createRfcommSocketToServiceRecord(MY_UUID);
                     Method method = targetDevice.getClass().getMethod("createInsecureRfcommSocket", new Class[]{int.class});
                     this.connectedSock = (BluetoothSocket) method.invoke(targetDevice, port);
@@ -186,9 +187,16 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_UUID);
+
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         this.registerReceiver(receiver, filter);
-        //adapter.startDiscovery();
-        //enableConnectBT();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+            adapter.cancelDiscovery();
+            adapter.startDiscovery();
+        }
+//        enableConnectBT();
     }
 
     public String getDeviceName() {
