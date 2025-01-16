@@ -47,7 +47,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
         else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
             Log.d(TAG, "Device Found: " + deviceAddress);
             if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                device.fetchUuidsWithSdp();
+                    while(!device.fetchUuidsWithSdp()) { 
+                        Log.i(TAG, "SDP init failed for device" + deviceAddress + "- Retrying");
+                        //keep trying until android succeeds in *ATTEMPTING* to get UUIDs
+                    }
             }
         }
         else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals((action))) {
