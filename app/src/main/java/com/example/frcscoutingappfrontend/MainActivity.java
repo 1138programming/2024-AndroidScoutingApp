@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             Set<BluetoothDevice> pairedDevices = adapter.getBondedDevices();
             for (BluetoothDevice device : pairedDevices) {
-                Log.i(TAG, "Local device:" + device.getAddress());
+                Log.i(TAG, "Local device: " + device.getAddress());
                 // finds if something has a requested UUID locally
                 Optional<ParcelUuid> result = Arrays.stream(device.getUuids()).filter(w -> w.getUuid() == MY_UUID).findFirst();
                 if (result.isPresent()) {
@@ -124,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
             BluetoothDevice targetDevice = connectCantidate.get();
             try {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                    targetDevice.createRfcommSocketToServiceRecord(MY_UUID);
+//                    targetDevice.createRfcommSocketToServiceRecord(MY_UUID);
                     Method method = targetDevice.getClass().getMethod("createInsecureRfcommSocket", new Class[]{int.class});
                     this.connectedSock = (BluetoothSocket) method.invoke(targetDevice, port);
                     return true;
                 }
             }
-            catch (IOException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                 Log.e(TAG, "Attempted to connect to cached device, error:" + e);
             }
         }
@@ -140,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         adapter = ((BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        if (adapter == null) {
+            Log.e(TAG, "no BT adapter");
+        }
         kindlyAskForBluetoothPerms();
 //        printAllPairedDevices();
         super.onCreate(savedInstanceState);
@@ -176,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            Toast.makeText(this, "Bluetooth workie!!", Toast.LENGTH_LONG).show();
 //        }
-        if (BTAttemptCachedConnect()) {
-            Log.i(TAG, "SIIIIII");
-        }
-        else {
-            Log.i(TAG, "NONIONDIOSNAIONDIOIO");
-        }
+//        if (BTAttemptCachedConnect()) {
+//            Log.i(TAG, "SIIIIII");
+//        }
+//        else {
+//            Log.i(TAG, "NONIONDIOSNAIONDIOIO");
+//        }
         receiver = new BluetoothReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -191,7 +194,9 @@ public class MainActivity extends AppCompatActivity {
 
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+
         this.registerReceiver(receiver, filter);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             adapter.cancelDiscovery();
             adapter.startDiscovery();
@@ -258,8 +263,8 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onDestroy() {
-        super.onDestroy();
         connectThread.cancel();
+        super.onDestroy();
     }
     public void enableConnectBT() {
         if(bluetoothConnectivity) return;
