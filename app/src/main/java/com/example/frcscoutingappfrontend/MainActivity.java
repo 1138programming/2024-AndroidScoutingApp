@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        filter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
 
         this.registerReceiver(receiver, filter);
 
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         }
 //        enableConnectBT();
     }
+
 
     public String getDeviceName() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
