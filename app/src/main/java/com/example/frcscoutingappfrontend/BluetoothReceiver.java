@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class BluetoothReceiver extends BroadcastReceiver {
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    private static final UUID MY_UUID = UUID.fromString("0007EA11-1138-1000-5465-616d31313338");
     BluetoothSocket sock;
 
     ArrayList<BluetoothDevice> devicesList = new ArrayList<BluetoothDevice>();
@@ -56,9 +56,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
 //            currentDevice = 0;
         }
         else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-            Log.d(TAG, "Device Found: " + deviceAddress + " (Name: " + deviceName + ")");
-
-            device.fetchUuidsWithSdp();
+            if (!deviceName.equals("None")) {
+                Log.d(TAG, "Device Found: " + deviceAddress + " (Name: " + deviceName + ")");
+                device.fetchUuidsWithSdp();
+            }
 //            devicesList.add(device);
         }
         else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals((action))) {
