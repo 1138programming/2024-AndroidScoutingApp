@@ -14,6 +14,7 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 public class BluetoothReceiver extends BroadcastReceiver {
 
-    private static final UUID MY_UUID = UUID.fromString("0007EA11-1138-1000-5465-616d31313338");
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");;//UUID.fromString("0007EA11-1138-1000-5465-616d31313338");
     BluetoothSocket sock;
 
     ArrayList<BluetoothDevice> devicesList = new ArrayList<BluetoothDevice>();
@@ -77,40 +78,40 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
             Parcelable[] UUIDs = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
             if (UUIDs != null) {
-                for (int i = 0; i < UUIDs.length; i++) {
-                    UUID curr = UUID.fromString(UUIDs[i].toString());
+                for (Parcelable UUIDString : UUIDs) {
+                    UUID curr = UUID.fromString(UUIDString.toString());
                     Log.i(TAG, "UUID: " + curr.toString());
 
                     if (curr.equals(MY_UUID)) {
                         Log.e(TAG, "FOUND IT!");
-                        Method method = null;
-                        try {
-                            method = device.getClass().getMethod("createInsecureRfcommSocket", new Class[]{int.class});
-                        } catch (NoSuchMethodException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            sock = (BluetoothSocket) method.invoke(device, 4);
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
-                        } catch (InvocationTargetException e) {
-                            throw new RuntimeException(e);
-                        }
+
+                        //device.createBond();
+//                        if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+                            try {
+                                sock = device.createRfcommSocketToServiceRecord(MY_UUID);
+                                sock.connect();
+                            } catch (IOException e) {
+                                Log.e(TAG, e.toString());
+                            }
+//                        }
                     }
                 }
             }
             else {
                 Log.i(TAG, "No UUIDs");
             }
-//            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-//                if (currentDevice != devicesList.size()) {
-//                    while(!devicesList.get(currentDevice).fetchUuidsWithSdp()) {
-//                        Log.i(TAG, "SDP init failed for device" + deviceAddress + "- Retrying");
-//                        //keep trying until android succeeds in *ATTEMPTING* to get UUIDs
-//                    }
-//                    currentDevice++;
-//                }
-//            }
+        }
+        else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
+            int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
+            Log.i(TAG, "Bond State: " + bondState);
+            if (bondState == BluetoothDevice.BOND_BONDED) {
+                try {
+                    sock = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    sock.connect();
+                } catch (IOException e) {
+                    Log.e(TAG, e.toString());
+                }
+            }
         }
     }
 }
