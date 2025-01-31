@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.registerReceiver(receiver, filter);
 
+        Log.isLoggable("TAG", Log.VERBOSE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
             adapter.cancelDiscovery();
             adapter.startDiscovery();

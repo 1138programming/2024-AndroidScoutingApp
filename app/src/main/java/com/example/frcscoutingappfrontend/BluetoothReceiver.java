@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class BluetoothReceiver extends BroadcastReceiver {
 
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");;//UUID.fromString("0007EA11-1138-1000-5465-616d31313338");
+    private static final UUID MY_UUID = /*UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");;*/ UUID.fromString("0007EA11-1138-1000-5465-616d31313338");
     BluetoothSocket sock;
 
     ArrayList<BluetoothDevice> devicesList = new ArrayList<BluetoothDevice>();
@@ -91,6 +91,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
                                 sock = device.createRfcommSocketToServiceRecord(MY_UUID);
                                 sock.connect();
                             } catch (IOException e) {
+                                //throw new RuntimeException();
                                 Log.e(TAG, e.toString());
                             }
 //                        }
