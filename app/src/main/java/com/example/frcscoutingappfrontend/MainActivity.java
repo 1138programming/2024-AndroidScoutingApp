@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.cancelDiscovery();
             adapter.startDiscovery();
         }
-//        enableConnectBT();
+        enableConnectBT();
     }
 
 
