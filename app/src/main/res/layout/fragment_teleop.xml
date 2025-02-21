@@ -9,7 +9,6 @@
     tools:context=".TeleopFragment">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/undo_title"
             android:textColor="@color/chaminade_orange"
-            android:textSize="24sp"
+            android:textSize="24dp"
             app:layout_constraintEnd_toEndOf="@+id/undoButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/undoButton" />
@@ -54,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/redo_title"
             android:textColor="@color/chaminade_orange"
-            android:textSize="24sp"
+            android:textSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/redoButton"
             app:layout_constraintTop_toBottomOf="@+id/redoButton" />
@@ -66,7 +65,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/plus_minus_default"
             android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/scoredTitle"
             app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintStart_toEndOf="@+id/scoredTitle"
@@ -79,7 +78,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/plus_minus_default"
             android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/missedTitle"
             app:layout_constraintStart_toStartOf="@+id/ampScored"
             app:layout_constraintTop_toTopOf="@+id/missedTitle"
@@ -92,7 +91,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/plus_minus_default"
             android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/ampScored"
             app:layout_constraintEnd_toEndOf="@+id/speakerTitleTextBox"
             app:layout_constraintStart_toStartOf="@+id/speakerTitleTextBox"
@@ -105,7 +104,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/plus_minus_default"
             android:textColor="@color/cham_background_default"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/ampMissed"
             app:layout_constraintEnd_toEndOf="@+id/speakerScored" />
 
@@ -115,7 +114,7 @@
             android:layout_height="wrap_content"
             android:text="@string/pickup_note_title"
             android:textColor="@color/off_white"
-            android:textSize="34sp"
+            android:textSize="34dp"
             app:layout_constraintBottom_toBottomOf="@+id/pickupSourceButton"
             app:layout_constraintStart_toStartOf="@+id/missedTitle"
             app:layout_constraintTop_toTopOf="@+id/pickupSourceButton" />
@@ -127,7 +126,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/pickup_source_title"
             android:textColor="@color/cham_background_default"
-            android:textSize="36sp"
+            android:textSize="36dp"
             app:layout_constraintBottom_toBottomOf="@+id/pickupGroundButton"
             app:layout_constraintEnd_toEndOf="@+id/ampMissed" />
 
@@ -139,7 +138,7 @@
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/pickup_ground_title"
             android:textColor="@color/cham_background_default"
-            android:textSize="36sp"
+            android:textSize="36dp"
             app:layout_constraintBottom_toTopOf="@+id/endgame_title"
             app:layout_constraintEnd_toEndOf="@+id/speakerMissed"
             app:layout_constraintTop_toBottomOf="@+id/scorePickupDivide" />
@@ -150,7 +149,7 @@
             android:layout_height="wrap_content"
             android:text="@string/teleop_title"
             android:textColor="@color/off_white"
-            android:textSize="96sp"
+            android:textSize="96dp"
             android:textStyle="normal|bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +162,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/amp_title_default"
             android:textColor="@color/off_white"
-            android:textSize="60sp"
+            android:textSize="60dp"
             app:layout_constraintEnd_toEndOf="@+id/ampScored"
             app:layout_constraintStart_toStartOf="@+id/ampScored"
             app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
@@ -174,7 +173,7 @@
             android:layout_height="wrap_content"
             android:text="@string/speaker_title_default"
             android:textColor="@color/off_white"
-            android:textSize="60sp"
+            android:textSize="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/ampTitleTextBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view" />
@@ -187,7 +186,7 @@
             android:layout_marginTop="50dp"
             android:text="@string/score_title_default"
             android:textColor="@color/off_white"
-            android:textSize="34sp"
+            android:textSize="34dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ampTitleTextBox" />
 
@@ -198,14 +197,14 @@
             android:layout_marginTop="64dp"
             android:text="@string/miss_title_default"
             android:textColor="@color/off_white"
-            android:textSize="34sp"
+            android:textSize="34dp"
             app:layout_constraintStart_toStartOf="@+id/scoredTitle"
             app:layout_constraintTop_toBottomOf="@+id/scoredTitle" />
 
         <CheckBox
             android:id="@+id/hangQuestionCheckBox"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="15dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
@@ -216,8 +215,8 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="2sp"
-            android:layout_height="330sp"
+            android:layout_width="2dp"
+            android:layout_height="330dp"
             android:background="@color/off_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.59"
@@ -226,8 +225,8 @@
 
         <View
             android:id="@+id/scorePickupDivide"
-            android:layout_width="500sp"
-            android:layout_height="2sp"
+            android:layout_width="500dp"
+            android:layout_height="2dp"
             android:layout_marginTop="25dp"
             android:background="@color/off_white"
             app:layout_constraintEnd_toEndOf="@+id/speakerMissed"
@@ -236,23 +235,23 @@
 
         <Button
             android:id="@+id/returnToAuton"
-            android:layout_width="300sp"
-            android:layout_height="120sp"
-            android:text="@string/default_back_button_title"
-            android:textSize="48sp"
-            android:textColor="@color/cham_background_default"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/default_back_button_title"
+            android:textColor="@color/cham_background_default"
+            android:textSize="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/nextButton"
-            android:layout_width="300sp"
-            android:layout_height="120sp"
-            android:text="@string/next_button_title_default"
-            android:textSize="48sp"
-            android:textColor="@color/cham_background_default"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/next_button_title_default"
+            android:textColor="@color/cham_background_default"
+            android:textSize="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -264,7 +263,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/endgame_title"
             android:textColor="@color/off_white"
-            android:textSize="80sp"
+            android:textSize="80dp"
             app:layout_constraintBottom_toTopOf="@+id/returnToAuton"
             app:layout_constraintStart_toStartOf="@+id/missedTitle"
             app:layout_constraintTop_toBottomOf="@+id/ampMissed"
@@ -277,7 +276,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/hang_title"
             android:textColor="@color/off_white"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/hangQuestionCheckBox"
             app:layout_constraintStart_toStartOf="@+id/endgame_title"
             app:layout_constraintTop_toTopOf="@+id/hangQuestionCheckBox" />
@@ -288,7 +287,7 @@
             android:layout_height="wrap_content"
             android:text="@string/robot_break_check"
             android:textColor="@color/off_white"
-            android:textSize="40sp"
+            android:textSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/hang_title"
             app:layout_constraintEnd_toStartOf="@+id/robotBreakCheckbox"
             app:layout_constraintStart_toEndOf="@+id/hangQuestionCheckBox"
@@ -297,8 +296,8 @@
 
         <CheckBox
             android:id="@+id/robotBreakCheckbox"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginEnd="10dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
@@ -313,7 +312,7 @@
             android:background="@drawable/defense_button"
             android:text="@string/defensive_action_text"
             android:textColor="@color/cham_background_default"
-            android:textSize="60sp"
+            android:textSize="60dp"
             app:backgroundTint="@null"
             app:cornerRadius="0dp"
             app:layout_constraintBottom_toTopOf="@+id/returnToAuton"

@@ -102,17 +102,17 @@ public class BluetoothReceiver extends BroadcastReceiver {
                 Log.i(TAG, "No UUIDs");
             }
         }
-        else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
-            int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
-            Log.i(TAG, "Bond State: " + bondState);
-            if (bondState == BluetoothDevice.BOND_BONDED) {
-                try {
-                    sock = device.createRfcommSocketToServiceRecord(MY_UUID);
-                    sock.connect();
-                } catch (IOException e) {
-                    Log.e(TAG, e.toString());
-                }
-            }
-        }
+//        else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
+//            int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
+//            Log.i(TAG, "Bond State: " + bondState);
+//            if (bondState == BluetoothDevice.BOND_BONDED) {
+//                try {
+//                    sock = device.createRfcommSocketToServiceRecord(MY_UUID);
+//                    sock.connect();
+//                } catch (IOException e) {
+//                    Log.e(TAG, e.toString());
+//                }
+//            }
+//        }
     }
 }

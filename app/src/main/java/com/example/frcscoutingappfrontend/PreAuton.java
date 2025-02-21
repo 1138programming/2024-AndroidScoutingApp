@@ -36,7 +36,7 @@ import java.util.Objects;
  * Use the {@link PreAuton#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PreAuton extends Fragment {
+public class  PreAuton extends Fragment {
 
     FragmentPreAutonBinding binding;
     ArrayList<CharSequence> matchNumbers = new ArrayList<>();

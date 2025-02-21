@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Stack;
 
 /**
@@ -49,7 +52,7 @@ public class TeleopFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // TODO: Rename and change types of parameter
     private String mParam1;
     private String mParam2;
     /*
@@ -354,7 +357,7 @@ public class TeleopFragment extends Fragment {
         binding.pickupGroundButton.setOnClickListener(view1 -> {
             if(incrementPickup(binding.pickupGroundButton, true)) {
                 inputStack.push(7);
-                timestamps.push(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                timestamps.push(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date()));
                 redoStack = new Stack<Integer>();
             }
         });
